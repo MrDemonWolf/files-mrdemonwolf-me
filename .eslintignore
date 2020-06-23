@@ -1,8 +1,0 @@
-# Dependency directory
-node_modules
-bower_components
-
-# Docs
-docs
-src/public/assets/js
-src/public/sw.js

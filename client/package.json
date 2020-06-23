@@ -1,6 +1,6 @@
 {
-  "name": "share",
-  "version": "1.0.0",
+  "name": "share-client",
+  "version": "5.0.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",

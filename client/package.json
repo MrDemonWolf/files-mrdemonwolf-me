@@ -20,20 +20,20 @@
     "serve": "nuxt serve",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js",
-    "test": "jest",
-    "server": "node server/index.js",
-    "server-dev": "nodemon server/index.js"
+    "test": "jest"
   },
   "dependencies": {
+    "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.11.0",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
-    "nodemon": "^2.0.4",
-    "nuxt": "^2.13.0"
+    "@nuxtjs/tailwindcss": "^2.0.0",
+    "node-sass": "^4.14.1",
+    "nuxt": "^2.13.0",
+    "sass-loader": "^8.0.2"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.0.0",
     "@nuxtjs/eslint-module": "^2.0.0",
-    "@nuxtjs/tailwindcss": "^2.0.0",
     "@vue/test-utils": "^1.0.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",

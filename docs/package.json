@@ -1,13 +1,13 @@
 {
   "name": "share",
   "version": "0.0.1",
-  "description": "Simple yet advanced NodeJS, MongoDB and Express based uploader. Allows users to upload files,images, and text with moderation tools for admins. Can be used for friends and family or just for you.",
+  "description": "Simple yet advanced NodeJS, MongoDB and Express based uploader. Allows users to upload files,images, and text with moderation tools for admins. Plus users can see uploads for there account and simple remove ones. Admins can view all and remove ones that don&#39;t follow the rules. Can be used for friends and family or just for you. Built for ShareX at the moment but more uploaders will be supported.",
   "main": "index.js",
   "authors": {
     "name": "Nathan Henniges",
-    "email": "demonwolf@demonwolfdev.com"
+    "email": "webmaster@mrdemonwolf.me"
   },
-  "repository": "github.com/MrDemonWolf/share/share",
+  "repository": "https://github.com/MrDemonWolf/share/share",
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs"

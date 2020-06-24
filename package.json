@@ -1,6 +1,6 @@
 {
   "name": "share",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "description": "Advanced custom uploader with web front-end.  Allows uploads for  images, files, and text. Built with ShareX in mind.",
   "keywords": [
     "sharex",

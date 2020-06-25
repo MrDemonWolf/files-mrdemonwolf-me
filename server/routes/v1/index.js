@@ -3,22 +3,12 @@ const express = require('express');
 const router = express.Router();
 
 /**
- * Limiters - this is rate limiters per API or other requests.
- */
-
-/**
- * Load middlewares
- */
-
-/**
- * Load vaildation middleware
- */
-
-/**
  * Routes
  */
 const authRoutes = require('./auth');
+const userRoutes = require('./user');
 
 router.use('/auth', authRoutes);
+router.use('/user', userRoutes);
 
 module.exports = router;

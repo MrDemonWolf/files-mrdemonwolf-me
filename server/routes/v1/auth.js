@@ -15,10 +15,6 @@ const urlFriendyAlphabet =
 const User = require('../../models/User');
 
 /**
- * Require authentication middleware.
- */
-const requireAuth = passport.authenticate('jwt', { session: false });
-/**
  * Load input validators.
  */
 const validateRegisterInput = require('../../validation/v1/register');
@@ -127,7 +123,8 @@ router.post('/login', async (req, res) => {
      * Create the JWT payload
      */
     const payload = {
-      id: user.id
+      id: user.id,
+      audience: process.env.FULL_DOMAIN
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {

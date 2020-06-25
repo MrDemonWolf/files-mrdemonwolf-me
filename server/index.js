@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const lusca = require('lusca');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 /**
  * Load environment variables from the .env file, where API keys and passwords are stored.
@@ -62,6 +63,12 @@ switch (process.env.NODE_ENV) {
  * Learn more at https://helmetjs.github.io/
  */
 app.use(helmet());
+
+/**
+ * Passport middleware configuration.
+ */
+app.use(passport.initialize());
+require('./config/passport')(passport);
 
 /**
  *  Add routes.

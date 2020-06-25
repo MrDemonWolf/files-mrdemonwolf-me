@@ -26,7 +26,7 @@ mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useUnifiedTopology', true);
 mongoose.connect(process.env.DATABASE_URI, {
-  useNewUrlParser: true,
+  useNewUrlParser: true
 });
 const db = mongoose.connection;
 
@@ -38,9 +38,11 @@ app.set('port', process.env.PORT || 5050);
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 lusca.referrerPolicy('same-origin');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: process.env.FULL_DOMAIN,
+  origin: process.env.FULL_DOMAIN
 };
 
 switch (process.env.NODE_ENV) {
@@ -62,21 +64,11 @@ switch (process.env.NODE_ENV) {
 app.use(helmet());
 
 /**
- * Limiters - this is rate limiters per API or other requests.
+ *  Add routes.
  */
+const routes = require('./routes');
 
-/**
- * Load middlewares
- */
-
-/**
- * Load vaildation middleware
- */
-
-/**
- * Primary app routes.
- */
-
+app.use(routes);
 
 /**
  * Handle 404 errors
@@ -85,7 +77,7 @@ app.use((req, res, next) => {
   res.status(404);
   res.status(404).json({
     code: 404,
-    error: 'Whoops, this resource or route could not be found',
+    error: 'Whoops, this resource or route could not be found'
   });
 });
 

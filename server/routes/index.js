@@ -2,8 +2,13 @@ const express = require('express');
 
 const router = express.Router();
 
-const v1Routes = require('./v1');
+/**
+ * Routes
+ */
+const authRoutes = require('./auth');
+const userRoutes = require('./user');
 
-router.use('/v1', v1Routes);
+router.use('/auth', authRoutes);
+router.use('/user', userRoutes);
 
 module.exports = router;

@@ -41,6 +41,7 @@ app.use(lusca.xssProtection(true));
 lusca.referrerPolicy('same-origin');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.set('etag', false);
 
 const corsOptions = {
   origin: process.env.FULL_DOMAIN
@@ -71,11 +72,13 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 /**
- *  Add routes.
+ * Primary app routes.
  */
-const routes = require('./routes');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 
-app.use(routes);
+app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
 
 /**
  * Handle 404 errors

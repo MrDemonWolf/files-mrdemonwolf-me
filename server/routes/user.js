@@ -6,20 +6,27 @@ const router = express.Router();
 /**
  * Load MongoDB models.
  */
-const User = require('../../models/User');
+const User = require('../models/User');
+
+/**
+ * Load middlewares
+ */
+const isSessionValid = require('../middleware/isSessionValid');
 
 /**
  * Require authentication middleware.
  */
-const requireAuth = passport.authenticate('jwt', { session: false });
+const requireAuth = passport.authenticate('jwt', {
+  session: false
+});
 
 /**
- * @route /v1/user/current
+ * @route /user/current
  * @method GET
  * @description Allows a logged in user to get there data.
  * @access Private
  */
-router.get('/current', requireAuth, async (req, res) => {
+router.get('/current', requireAuth, isSessionValid, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password -__v');
 
@@ -31,21 +38,21 @@ router.get('/current', requireAuth, async (req, res) => {
 });
 
 /**
- * @route /v1/user/update
+ * @route /user/update
  * @method PUT
  * @description Allows a logged in user to update their account details
  * @access Private
  */
 
 /**
- * @route /v1/user/delete
+ * @route /user/delete
  * @method DELETE
  * @description Allows a logged in user to delete their account and all releated infomation.
  * @access Private
  */
 
 /**
- * @route /v1/user/email-change/:token
+ * @route /user/email-change/:token
  * @method POST
  * @description Allows a logged in user to comfirm their email with the token send to it.
  * @access Private

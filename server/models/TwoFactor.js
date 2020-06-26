@@ -3,11 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const sessionSchema = new Schema({
-  tokenHash: {
-    type: String,
-    required: true
-  },
-  refreshTokenHash: {
+  token: {
     type: String,
     required: true
   },
@@ -15,10 +11,6 @@ const sessionSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'User',
     required: true
-  },
-  isRevoked: {
-    type: Boolean,
-    default: false
   },
   expireAt: {
     type: Date,

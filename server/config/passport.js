@@ -1,5 +1,9 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const { ExtractJwt } = require('passport-jwt');
+
+/**
+ * Load MongoDB models.
+ */
 const User = require('../models/User');
 
 const opts = {};
@@ -9,7 +13,7 @@ opts.secretOrKey = process.env.JWT_SECRET;
 
 module.exports = passport => {
   passport.use(
-    new JwtStrategy(opts, async (jwtPayload, done) => {
+    new JwtStrategy(opts, async (jwtPayload, done, req) => {
       try {
         const user = await User.findById(jwtPayload.id).select(
           '-password -__v'

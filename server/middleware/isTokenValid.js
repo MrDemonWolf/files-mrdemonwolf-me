@@ -1,29 +1,24 @@
 const moment = require('moment');
 const sha512 = require('js-sha512');
-const Session = require('../models/Session');
+const Token = require('../models/Token');
 
 module.exports = async (req, res, next) => {
   try {
-    // Get the token from the headers and make it readblae
     const { authorization } = req.headers;
 
     const token = authorization
       .split(' ')
       .slice(1)
       .toString();
-
-    // Hash the token to check in the database if it's still valid
     const tokenHash = sha512(token);
 
-    const tokenValid = await Session.findOne({
+    const tokenValid = await Token.findOne({
       tokenHash,
       expireAt: {
         $gt: moment()
       },
       isRevoked: { $ne: true }
     });
-
-    // If it's not valid then return Unauthorized
     if (!tokenValid) {
       return res.status(401).send('Unauthorized');
     }

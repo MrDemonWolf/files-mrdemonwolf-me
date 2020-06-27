@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const sessionSchema = new Schema({
-  ticket: {
+const tokenSchema = new Schema({
+  tokenHash: {
     type: String,
     required: true
   },
@@ -12,6 +12,10 @@ const sessionSchema = new Schema({
     ref: 'User',
     required: true
   },
+  isRevoked: {
+    type: Boolean,
+    default: false
+  },
   expireAt: {
     type: Date,
     required: true,
@@ -19,4 +23,4 @@ const sessionSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Session', sessionSchema);
+module.exports = mongoose.model('Token', tokenSchema);

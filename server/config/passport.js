@@ -13,7 +13,7 @@ opts.secretOrKey = process.env.JWT_SECRET;
 
 module.exports = passport => {
   passport.use(
-    new JwtStrategy(opts, async (jwtPayload, done, req) => {
+    new JwtStrategy(opts, async (jwtPayload, done) => {
       try {
         const user = await User.findById(jwtPayload.id).select(
           '-password -__v'

@@ -76,9 +76,11 @@ require('./config/passport')(passport);
  */
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const adminRoutes = require('./routes/admin');
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/admin', adminRoutes);
 
 /**
  * Handle 404 errors

@@ -28,6 +28,7 @@ const requireAuth = passport.authenticate('jwt', {
  */
 router.get('/current', requireAuth, isSessionValid, async (req, res) => {
   try {
+    // Get the current user data and remove sensitive data
     const user = await User.findById(req.user.id).select('-password -__v');
 
     res.status(200).json({ code: 200, user });

@@ -36,6 +36,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3",
     "helmet": "^3.23.2",
     "js-sha512": "^0.8.0",
     "jsonwebtoken": "^8.5.1",

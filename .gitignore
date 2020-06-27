@@ -52,4 +52,7 @@ lib-cov
 pids
 logs
 results
-tmp/*
+
+# Express-FileUpload
+server/tmp/*
+server/uploads

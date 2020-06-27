@@ -164,7 +164,7 @@ router.post('/login', async (req, res) => {
 
 /**
  * @route /auth/logout
- * @method delete
+ * @method DELETE
  * @description Allows a user logout of their account
  * @access Private
  */

@@ -22,15 +22,20 @@ const uploadSchema = new Schema({
     type: String,
     required: true
   },
-  storge: {
-    type: String,
-    enum: ['local'],
-    default: 'local'
+  hashes: {
+    md5: String,
+    sha256: String,
+    sha512: String
   },
   fileType: {
     type: String,
     enum: ['file', 'image', 'text'],
     default: 'file'
+  },
+  storage: {
+    type: String,
+    enum: ['local'],
+    default: 'local'
   },
   tags: [{ type: String }],
   deleteToken: {

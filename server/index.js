@@ -74,10 +74,12 @@ require('./config/passport')(passport);
 /**
  * Primary app routes.
  */
+const clientRoutes = require('./routes/client');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const adminRoutes = require('./routes/admin');
 
+app.use('/client', clientRoutes);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);

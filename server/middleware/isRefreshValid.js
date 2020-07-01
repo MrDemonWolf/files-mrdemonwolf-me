@@ -1,19 +1,26 @@
 const moment = require('moment');
 const sha512 = require('js-sha512');
-const Token = require('../models/Token');
+const Session = require('../models/Session');
 
 module.exports = async (req, res, next) => {
   try {
+    /**
+     * Get the refresh token from the headers and make it readblae
+     */
     const { authorization } = req.headers;
 
-    const token = authorization
+    const refreshToken = authorization
       .split(' ')
       .slice(1)
       .toString();
-    const tokenHash = sha512(token);
 
-    const tokenValid = await Token.findOne({
-      tokenHash,
+    /**
+     * Hash the token to check in the database if it's still valid
+     */
+    const refreshTokenHash = sha512(refreshToken);
+
+    const refreshTokenValid = await Session.findOne({
+      refreshTokenHash,
       expireAt: {
         $gt: moment()
       },
@@ -23,7 +30,7 @@ module.exports = async (req, res, next) => {
     /**
      * If it's valid then move on.
      */
-    if (tokenValid) {
+    if (refreshTokenValid) {
       return next();
     }
     res.status(401).send('Unauthorized');

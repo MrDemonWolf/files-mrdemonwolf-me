@@ -28,11 +28,12 @@ module.exports = async (req, res, next) => {
     });
 
     /**
-     * If it's not valid then return Unauthorized
+     * If it's valid then move on.
      */
-    if (!tokenValid) {
-      return res.status(401).send('Unauthorized');
+    if (tokenValid) {
+      return next();
     }
+    res.status(401).send('Unauthorized');
     next();
   } catch (err) {
     console.log(err);

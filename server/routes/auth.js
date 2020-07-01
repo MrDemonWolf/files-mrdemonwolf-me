@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const { customAlphabet } = require('nanoid');
 const moment = require('moment');
 const sha512 = require('js-sha512');
@@ -19,6 +20,14 @@ const Session = require('../models/Session');
  * Load middlewares
  */
 const isSessionValid = require('../middleware/isSessionValid');
+const isRefreshValid = require('../middleware/isRefreshValid');
+
+/**
+ * Require authentication middleware.
+ */
+const requireAuth = passport.authenticate('jwt', {
+  session: false
+});
 
 /**
  * Load input validators.
@@ -168,17 +177,40 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/refresh', async (req, res) => {
+router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
   try {
+    const user = await User.findById(req.user.id);
     /**
-     * Get the token from the headers and make it readblae
+     * Create the JWT payload
      */
-    const { authorization } = req.headers;
+    const payload = {
+      sub: user.id,
+      iss: process.env.FULL_DOMAIN
+    };
 
-    const token = authorization
-      .split(' ')
-      .slice(1)
-      .toString();
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: '30m'
+    });
+    const tokenHash = sha512(token);
+
+    const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: '24h'
+    });
+    const refreshTokenHash = sha512(refreshToken);
+
+    const session = new Session({
+      tokenHash,
+      refreshTokenHash,
+      user: user.id,
+      expireAt: moment().add('24', 'h')
+    });
+    await session.save();
+    res.json({
+      code: 200,
+      token,
+      refreshToken,
+      twoFactor: false
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ code: 500, error: 'Internal Server Error' });

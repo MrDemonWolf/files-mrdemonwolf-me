@@ -9,13 +9,12 @@ const User = require('../models/User');
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.JWT_SECRET;
-// opts.audience = process.env.FULL_DOMAIN;
 
 module.exports = passport => {
   passport.use(
     new JwtStrategy(opts, async (jwtPayload, done) => {
       try {
-        const user = await User.findById(jwtPayload.id).select(
+        const user = await User.findById(jwtPayload.sub).select(
           '-password -__v'
         );
         if (user) {

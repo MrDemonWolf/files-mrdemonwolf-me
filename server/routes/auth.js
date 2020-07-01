@@ -38,7 +38,9 @@ const validateLoginInput = require('../validation/v1/login');
  */
 router.post('/register', async (req, res) => {
   try {
-    // Validdate the user important for username,email,password
+    /**
+     * Validdate the user important for username,email,password
+     */
     const { errors, isValid } = validateRegisterInput(req.body);
 
     if (!isValid) {
@@ -74,7 +76,9 @@ router.post('/register', async (req, res) => {
     newUser.emailVerificationToken = emailVerificationToken();
     newUser.emailVerificationTokenExpire = moment().add('3', 'h'); // Sets the token to expire in 3 hours.
 
-    // TODO send email verification token to the email.
+    /**
+     * TODO send email verification token to the email.
+     */
 
     await newUser.save();
 
@@ -99,7 +103,9 @@ router.post('/register', async (req, res) => {
  */
 router.post('/login', async (req, res) => {
   try {
-    // Validdate the user important for email,password
+    /**
+     * Validdate the user important for email,password
+     */
     const { errors, isValid } = validateLoginInput(req.body);
 
     if (!isValid) {
@@ -129,8 +135,8 @@ router.post('/login', async (req, res) => {
      * Create the JWT payload
      */
     const payload = {
-      id: user.id,
-      audience: process.env.FULL_DOMAIN
+      sub: user.id,
+      iss: process.env.FULL_DOMAIN
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -156,6 +162,23 @@ router.post('/login', async (req, res) => {
       refreshToken,
       twoFactor: false
     });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ code: 500, error: 'Internal Server Error' });
+  }
+});
+
+router.post('/refresh', async (req, res) => {
+  try {
+    /**
+     * Get the token from the headers and make it readblae
+     */
+    const { authorization } = req.headers;
+
+    const token = authorization
+      .split(' ')
+      .slice(1)
+      .toString();
   } catch (err) {
     console.log(err);
     res.status(500).json({ code: 500, error: 'Internal Server Error' });

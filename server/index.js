@@ -76,12 +76,12 @@ require('./config/passport')(passport);
  */
 const clientRoutes = require('./routes/client');
 const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
+const accountRoutes = require('./routes/account');
 const adminRoutes = require('./routes/admin');
 
 app.use('/client', clientRoutes);
 app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
+app.use('/account', accountRoutes);
 app.use('/admin', adminRoutes);
 
 /**
@@ -106,7 +106,9 @@ db.on('error', () => {
 
 db.once('open', () => {
   app.listen(app.get('port'), () => {
-    // Log infomation after everything is started.
+    /**
+     *  Log infomation after everything is started.
+     */
     consola.log('----------------------------------------');
     consola.info(`Environment: ${app.get('env')}`);
     consola.info(`App URL: http://localhost:${app.get('port')}`);
@@ -114,7 +116,9 @@ db.once('open', () => {
   });
 });
 
-// Cloes connection to mongodb on exit.
+/**
+ * Cloes connection to mongodb on exit.
+ */
 process.on('SIGINT', () => {
   mongoose.connection.close(() => {
     consola.success(

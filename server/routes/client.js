@@ -23,11 +23,6 @@ const { upload } = require('../config/multer');
 const Uploads = require('../models/Uploads');
 
 /**
- * Load middlewares
- */
-const isSessionValid = require('../middleware/isSessionValid');
-
-/**
  * Require authentication middleware.
  */
 const requireAuth = passport.authenticate('jwt', {
@@ -68,7 +63,10 @@ router.post('/upload', requireAuth, async (req, res) => {
         return res.json(error);
       }
       if (!req.file) {
-        return res.status(422).json({ code: 422, error: 'File is required.' });
+        return res.status(422).json({
+          code: 422,
+          error: 'File is required.'
+        });
       }
 
       // eslint-disable-next-line object-curly-newline
@@ -84,10 +82,14 @@ router.post('/upload', requireAuth, async (req, res) => {
         sha256: sha256(buffer),
         sha512: sha512(buffer)
       };
+
+      console.log(req.file);
       // const isImage = mineTypes.images.includes(fileMineType);
       // const isText = mineTypes.text.includes(fileMineType);
 
-      // // Sets type based on above.
+      /**
+       * Sets type based on above.
+       */
       // const type = isImage ? 'image' : isText ? 'text' : 'file';
       const newUpload = new Uploads({
         uploader: req.user.id,

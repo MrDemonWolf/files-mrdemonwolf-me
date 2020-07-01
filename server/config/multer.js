@@ -19,6 +19,11 @@ module.exports.upload = multer({
   }),
   fileFilter: (req, file, cb) => {
     const ext = path.extname(file.originalname);
+    /**
+     * TODO Add file filter just to lable the file as a image , text and or file.
+     */
+    // file.filetype = 'test';
+
     if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
       return cb(
         {
@@ -29,6 +34,7 @@ module.exports.upload = multer({
         false
       );
     }
+
     cb(null, true);
   },
   limits: {

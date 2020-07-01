@@ -3,8 +3,9 @@ const moment = require('moment');
 module.exports = async (req, res, next) => {
   try {
     const { role } = req.user;
-
-    // If user role is admin or owner move on.
+    /**
+     * If user role is admin or owner move on.
+     */
     if (role === 'admin' || role === 'owner') {
       return next();
     }

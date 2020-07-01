@@ -4,7 +4,9 @@ const Session = require('../models/Session');
 
 module.exports = async (req, res, next) => {
   try {
-    // Get the token from the headers and make it readblae
+    /**
+     * Get the token from the headers and make it readblae
+     */
     const { authorization } = req.headers;
 
     const token = authorization
@@ -12,7 +14,9 @@ module.exports = async (req, res, next) => {
       .slice(1)
       .toString();
 
-    // Hash the token to check in the database if it's still valid
+    /**
+     * Hash the token to check in the database if it's still valid
+     */
     const tokenHash = sha512(token);
 
     const tokenValid = await Session.findOne({
@@ -23,7 +27,9 @@ module.exports = async (req, res, next) => {
       isRevoked: { $ne: true }
     });
 
-    // If it's not valid then return Unauthorized
+    /**
+     * If it's not valid then return Unauthorized
+     */
     if (!tokenValid) {
       return res.status(401).send('Unauthorized');
     }

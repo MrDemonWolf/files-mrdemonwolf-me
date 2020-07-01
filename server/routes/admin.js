@@ -34,8 +34,9 @@ router.get(
   isAdmin,
   async (req, res) => {
     try {
-      // Return all the uploads
-      // TODO add limit,from,to, and more.
+      /**
+       * TODO add limit,from,to, and more.
+       */
       const uploads = await Uploads.find({});
       res.status(200).json({ code: 200, uploads });
       module.exports = router;
@@ -59,7 +60,9 @@ router.get(
   isAdmin,
   async (req, res) => {
     try {
-      // Finds a single upload by it's id.
+      /**
+       * Finds a single upload by it's id.
+       */
       const upload = await Uploads.findById(req.params.upload_id);
       if (!upload) {
         return res.status(404).json({

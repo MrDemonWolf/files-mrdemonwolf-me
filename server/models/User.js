@@ -9,12 +9,12 @@ const userSchema = new Schema(
     username: {
       type: String,
       unique: true,
-      required: true,
+      required: true
     },
     slug: {
       type: String,
       lowercase: true,
-      unique: true,
+      unique: true
     },
     email: {
       type: String,
@@ -22,36 +22,36 @@ const userSchema = new Schema(
       unique: true,
       trim: true,
       lowercase: true,
-      required: true,
+      required: true
     },
     password: {
       type: String,
-      required: true,
+      required: true
     },
     emailVerificationToken: String,
     emailVerificationTokenExpire: Date,
     emailVerified: {
       type: Boolean,
-      default: false,
+      default: false
     },
     newEmail: {
       type: String,
       match: /^\S+@\S+\.\S+$/,
       trim: true,
-      lowercase: true,
+      lowercase: true
     },
-    mfaSecret: String,
-    mfa: {
+    twoFactorSecret: String,
+    twoFactor: {
       type: Boolean,
-      default: false,
+      default: false
     },
     isBanned: {
       type: Boolean,
-      default: false,
+      default: false
     },
     isSuspended: {
       type: Boolean,
-      default: false,
+      default: false
     },
     suspendedExpire: Date,
     suspendedReason: String,
@@ -60,22 +60,22 @@ const userSchema = new Schema(
     passwordResetTokenExpire: Date,
     streamerMode: {
       type: Boolean,
-      default: false,
+      default: false
     },
     role: {
       type: String,
       enum: ['owner', 'admin', 'user'],
-      default: 'user',
+      default: 'user'
     },
     isVerified: {
       type: Boolean,
-      default: false,
+      default: false
     },
     lastLogin: Date,
-    lastLoginIP: String,
+    lastLoginIP: String
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 
@@ -111,7 +111,7 @@ userSchema.pre('save', function save(next) {
   }
   user.slug = slugify(user.username, {
     remove: /[*+~.()'"!:@]/g,
-    lower: true,
+    lower: true
   });
   next();
 });

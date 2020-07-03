@@ -109,10 +109,12 @@ db.once('open', () => {
     /**
      *  Log infomation after everything is started.
      */
-    consola.log('----------------------------------------');
-    consola.info(`Environment: ${app.get('env')}`);
-    consola.info(`App URL: http://localhost:${app.get('port')}`);
-    consola.log('----------------------------------------');
+    if (process.env.NODE_ENV !== 'test') {
+      consola.log('----------------------------------------');
+      consola.info(`Environment: ${app.get('env')}`);
+      consola.info(`App URL: http://localhost:${app.get('port')}`);
+      consola.log('----------------------------------------');
+    }
   });
 });
 
@@ -127,3 +129,5 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
+
+module.exports = app;

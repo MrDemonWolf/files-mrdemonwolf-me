@@ -17,7 +17,7 @@
     "dev": "nodemon index.js",
     "lint": "eslint . --ext .js --fix",
     "format": "prettier-eslint --write $PWD/'src/**/*.{js,json}'",
-    "test": "NODE_ENV=test mocha --exit"
+    "test": "cross-env NODE_ENV=test jest --forceExit"
   },
   "repository": {
     "type": "git",
@@ -55,11 +55,15 @@
     "validator": "^13.1.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "eslint": "^7.3.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jest": "^23.17.1",
     "eslint-plugin-promise": "^4.2.1",
+    "jest": "^26.1.0",
     "nodemon": "^2.0.4",
-    "prettier-eslint-cli": "^5.0.0"
+    "prettier-eslint-cli": "^5.0.0",
+    "supertest": "^4.0.2"
   }
 }

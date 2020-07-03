@@ -181,7 +181,7 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     /**
-     * Create the JWT payload
+     * Create the JWT payloadMrDem
      */
     const payload = {
       sub: user.id,

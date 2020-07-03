@@ -65,8 +65,8 @@ router.post('/register', async (req, res) => {
     });
 
     if (alreadyAccount) {
-      return res.status(403).json({
-        code: 403,
+      return res.status(409).json({
+        code: 409,
         error: 'The email you are attempting to sign up with is already in use.'
       });
     }
@@ -219,11 +219,11 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
 
 /**
  * @route /auth/logout
- * @method DELETE
+ * @method POST
  * @description Allows a user logout of their account
  * @access Private
  */
-router.delete('/logout', isSessionValid, async (req, res) => {
+router.post('/logout', isSessionValid, async (req, res) => {
   try {
     const { authorization } = req.headers;
 

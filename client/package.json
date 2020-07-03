@@ -26,7 +26,7 @@
     "@nuxtjs/axios": "^5.11.0",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "@nuxtjs/tailwindcss": "^2.0.0",
-    "nuxt": "^2.13.0"
+    "nuxt": "^2.13.3"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.0.0",
@@ -34,13 +34,13 @@
     "@vue/test-utils": "^1.0.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.0.1",
-    "eslint": "^7.2.0",
+    "babel-jest": "^26.1.0",
+    "eslint": "^7.4.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-nuxt": "^1.0.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.0.1",
+    "jest": "^26.1.0",
     "prettier": "^2.0.5",
-    "vue-jest": "^3.0.4"
+    "vue-jest": "^3.0.6"
   }
 }

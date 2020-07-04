@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const tokenSchema = new Schema({
+const TokenSchema = new Schema({
   tokenHash: {
     type: String,
     required: true
@@ -23,4 +23,4 @@ const tokenSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Token', tokenSchema);
+module.exports = mongoose.model('Token', TokenSchema);

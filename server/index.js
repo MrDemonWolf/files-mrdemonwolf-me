@@ -42,6 +42,7 @@ lusca.referrerPolicy('same-origin');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('etag', false);
+app.use(helmet());
 
 const corsOptions = {
   origin: process.env.FULL_DOMAIN
@@ -58,12 +59,6 @@ switch (process.env.NODE_ENV) {
   default:
     app.use(logger('dev'));
 }
-
-/**
- * Helmet - security for HTTP headers
- * Learn more at https://helmetjs.github.io/
- */
-app.use(helmet());
 
 /**
  * Passport middleware configuration.

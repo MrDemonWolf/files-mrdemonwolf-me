@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const sessionSchema = new Schema({
+const TwoFactorSchema = new Schema({
   ticket: {
     type: String,
     required: true
@@ -19,4 +19,4 @@ const sessionSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Session', sessionSchema);
+module.exports = mongoose.model('TwoFactor', TwoFactorSchema);

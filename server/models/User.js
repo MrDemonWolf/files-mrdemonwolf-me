@@ -4,7 +4,7 @@ const slugify = require('slugify');
 
 const { Schema } = mongoose;
 
-const userSchema = new Schema(
+const UserSchema = new Schema(
   {
     username: {
       type: String,
@@ -82,7 +82,7 @@ const userSchema = new Schema(
 /**
  * Password hash middleware.
  */
-userSchema.pre('save', function save(next) {
+UserSchema.pre('save', function save(next) {
   const user = this;
   if (!user.isModified('password')) {
     return next();
@@ -104,7 +104,7 @@ userSchema.pre('save', function save(next) {
 /**
  * Username to slug.
  */
-userSchema.pre('save', function save(next) {
+UserSchema.pre('save', function save(next) {
   const user = this;
   if (!user.isModified('username')) {
     return next();
@@ -119,7 +119,7 @@ userSchema.pre('save', function save(next) {
 /**
  * Helper method for validating user's password.
  */
-userSchema.methods.verifyPassword = async function verifyPassword(
+UserSchema.methods.verifyPassword = async function verifyPassword(
   candidatePassword
 ) {
   const isMatch = await bcrypt.compare(candidatePassword, this.password);
@@ -129,9 +129,9 @@ userSchema.methods.verifyPassword = async function verifyPassword(
   return true;
 };
 
-userSchema.index(
+UserSchema.index(
   { username: 'text', email: 'text' },
   { weights: { username: 1, email: 2 } }
 );
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', UserSchema);

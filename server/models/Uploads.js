@@ -3,7 +3,7 @@ const moment = require('moment');
 
 const { Schema } = mongoose;
 
-const uploadSchema = new Schema({
+const UploadSchema = new Schema({
   uploader: {
     type: mongoose.Types.ObjectId,
     ref: 'User',
@@ -52,9 +52,9 @@ const uploadSchema = new Schema({
   }
 });
 
-uploadSchema.index(
+UploadSchema.index(
   { tags: 'text', name: 'text', fileName: 'text' },
   { weights: { tags: 1, name: 2, fileName: 3 } }
 );
 
-module.exports = mongoose.model('Upload', uploadSchema);
+module.exports = mongoose.model('Upload', UploadSchema);

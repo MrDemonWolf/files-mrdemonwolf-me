@@ -59,13 +59,12 @@ before_install:
   - echo "SIGNUP_TERMS=$SIGNUP_TERMS" >> ./.env
 after_script:
   - rm ./.env
-
+-
 install:
-  - npm install
+  - if [ "$TO_TEST" = "FRONTEND" ]; then cd clietn && npm install; fi
+  - if [ "$TO_TEST" = "BACKEND" ]; then cd server && npm install; fi
+
 
 script:
-  - npm run test
-
-script:
-  - if [ "$TO_TEST" = "FRONTEND" ]; then cd server && npm run test; fi
-  - if [ "$TO_TEST" = "BACKEND" ]; then cd client && npm run test; fi
+  - if [ "$TO_TEST" = "FRONTEND" ]; then cd client && npm run test; fi
+  - if [ "$TO_TEST" = "BACKEND" ]; then cd server && npm run test; fi

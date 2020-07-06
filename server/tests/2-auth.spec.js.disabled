@@ -75,6 +75,7 @@ describe('🔐 Auth:', () => {
             user.emailVerified = true;
             user.emailVerificationToken = undefined;
             user.emailVerificationTokenExpire = undefined;
+            user.role = 'admin';
             await user.save();
             done();
           } catch (err) {
@@ -102,6 +103,7 @@ describe('🔐 Auth:', () => {
             user.emailVerified = true;
             user.emailVerificationToken = undefined;
             user.emailVerificationTokenExpire = undefined;
+            user.role = 'owner';
             await user.save();
             done();
           } catch (err) {

@@ -34,7 +34,6 @@ module.exports = async (req, res, next) => {
       return next();
     }
     res.status(401).send('Unauthorized');
-    next();
   } catch (err) {
     console.log(err);
     res.status(500).send('Server error');

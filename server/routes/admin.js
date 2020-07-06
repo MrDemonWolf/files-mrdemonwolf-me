@@ -7,7 +7,7 @@ const router = express.Router();
  * Load MongoDB models.
  */
 const Users = require('../models/User');
-const Uploads = require('../models/Uploads');
+const Upload = require('../models/Upload');
 const Links = require('../models/Links');
 
 /**
@@ -58,7 +58,7 @@ router.get(
       /**
        * TODO add limit,from,to, and more.
        */
-      const uploads = await Uploads.find({});
+      const uploads = await Upload.find({});
       res.status(200).json({ code: 200, uploads });
     } catch (err) {
       console.log(err);

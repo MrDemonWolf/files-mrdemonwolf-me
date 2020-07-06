@@ -5,7 +5,7 @@ const { customAlphabet } = require('nanoid');
 const urlFriendyAlphabet =
   '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
-module.exports.upload = multer({
+module.exports.clientUpload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, path.join(__dirname, '../uploads/'));

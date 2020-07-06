@@ -16,11 +16,11 @@ const urlFriendyAlphabet =
 /**
  * Load Multer configs
  */
-const { upload } = require('../config/multer');
+const { clientUpload } = require('../config/multer');
 /**
  * Load MongoDB models.
  */
-const Uploads = require('../models/Uploads');
+const Upload = require('../models/Upload');
 
 /**
  * Require authentication middleware.
@@ -37,7 +37,7 @@ const requireAuth = passport.authenticate('jwt', {
  */
 router.post('/upload', requireAuth, async (req, res) => {
   try {
-    await upload.single('file')(req, res, async error => {
+    await clientUpload.single('file')(req, res, async error => {
       if (error) {
         if (error.code) {
           switch (error.code) {
@@ -91,7 +91,7 @@ router.post('/upload', requireAuth, async (req, res) => {
        * Sets type based on above.
        */
       // const type = isImage ? 'image' : isText ? 'text' : 'file';
-      const newUpload = new Uploads({
+      const newUpload = new Upload({
         uploader: req.user.id,
         name: fileName,
         fileName,

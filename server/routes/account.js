@@ -92,16 +92,16 @@ router.post('/update/email', async (req, res) => {
 });
 
 /**
- * @route /account/update/twofactor/:boolean
+ * @route /account/update/two-factor/:boolean
  * @method PUT
- * @description Allows a logged in user to update their account details
+ * @description Allows a logged in user to update their two factor status.
  * @access Private
  *
  * @param (params) {boolean} true/false Enable or disable two factor.
  * @param (body) {String} username New Username for the current account
  */
 router.put(
-  '/update/twofactor/:boolean',
+  '/update/two-factor/:boolean',
   requireAuth,
   isSessionValid,
   async (req, res) => {
@@ -115,7 +115,10 @@ router.put(
          * Create authenticator sercet
          */
         const secret = authenticator.generateSecret();
-        console.log(secret);
+        user.twofactor = false;
+        user.twoFactorSecret = secret;
+
+        await user.save();
         return res.json({
           code: 200,
           secret,
@@ -135,6 +138,7 @@ router.put(
 
       user.twofactor = false;
       user.twoFactorSecret = undefined;
+      await user.save();
       res.json({ code: 200, message: 'Two factor has been disabled.' });
     } catch (err) {
       console.log(err);
@@ -144,21 +148,50 @@ router.put(
 );
 
 /**
- * @route /account/verify/twofactor/:token
- * @method PUT
- * @description Allows a logged in user to update their account details
+ * @route /account/verify/two-factor/:token
+ * @method POST
+ * @description Allows a logged in user verify two factor before enabling.
  * @access Private
  *
  * @param (body) {String} username New Username for the current account
  */
-router.put('/verify/twofactor/:token', async (req, res) => {
-  try {
-    res.json({ code: 200, message: 'Updated user profile.' });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ code: 500, error: 'Internal Server Error' });
+router.post(
+  '/verify/two-factor/:code',
+  requireAuth,
+  isSessionValid,
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+
+      if (!user.twoFactor && user.twoFactorSecret) {
+        const isValid = authenticator.check(
+          req.params.code,
+          user.twoFactorSecret
+        );
+        if (!isValid) {
+          return res.status(401).json({
+            code: 401,
+            message:
+              'Unable to enable two factor due to invaild code.  Please try again.'
+          });
+        }
+        user.twoFactor = true;
+        await user.save();
+        return res.json({
+          code: 200,
+          message: 'Verifyed.  Two Factor has been enabled.'
+        });
+      }
+      res.status(400).json({
+        code: 400,
+        error: 'You start the two factor process before verifying.'
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ code: 500, error: 'Internal Server Error' });
+    }
   }
-});
+);
 
 /**
  * @route /account/verify/email/:token

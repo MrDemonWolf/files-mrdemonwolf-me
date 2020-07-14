@@ -4,6 +4,7 @@ const { customAlphabet } = require('nanoid');
 const moment = require('moment');
 const sha512 = require('js-sha512');
 const jwt = require('jsonwebtoken');
+const { authenticator } = require('otplib');
 
 const router = express.Router();
 
@@ -15,13 +16,13 @@ const urlFriendyAlphabet =
  */
 const User = require('../models/User');
 const Session = require('../models/Session');
+const TwoFactor = require('../models/TwoFactor');
 
 /**
  * Load middlewares
  */
 const isSessionValid = require('../middleware/isSessionValid');
 const isRefreshValid = require('../middleware/isRefreshValid');
-const isTwoFactorTokenValid = require('../middleware/isTwoFactorTokenValid');
 
 /**
  * Require authentication middleware.
@@ -141,6 +142,24 @@ router.post('/login', async (req, res) => {
       });
     }
 
+    if (user.twoFactor) {
+      const twoFactorTicket = customAlphabet(urlFriendyAlphabet, 32);
+
+      const newTwoFactor = new TwoFactor({
+        ticket: twoFactorTicket(),
+        user: user.id,
+        expireAt: moment().add('30', 'm')
+      });
+
+      await newTwoFactor.save();
+
+      return res.json({
+        code: 200,
+        twoFactor: true,
+        ticket: newTwoFactor.ticket,
+        message: 'Enter your verification code.'
+      });
+    }
     /**
      * Create the JWT payload
      */
@@ -232,11 +251,66 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
  * @description Allows a user logout of their account
  * @access Public
  *
- * @param (body) {String} token Two factor ticket which is used to verify.
+ * @param (body) {String} ticket Two factor ticket which is used to verify.
  * @param (body) {String} code Two Factor code from users app.
  */
-router.post('/two-factor', isTwoFactorTokenValid, async (req, res) => {
+router.post('/two-factor', async (req, res) => {
   try {
+    const { ticket, code } = req.body;
+
+    const twoFactor = await TwoFactor.findOne({
+      ticket,
+      expireAt: {
+        $gt: moment()
+      }
+    }).populate({
+      path: 'user',
+      select: 'twoFactor twoFactorSecret'
+    });
+
+    if (!twoFactor) {
+      return res.status(401).send('Unauthorized');
+    }
+
+    const isValid = authenticator.check(code, twoFactor.user.twoFactorSecret);
+    if (!isValid) {
+      return res
+        .status(400)
+        .json({ code: 400, error: 'Invalid Two Factor code.' });
+    }
+    /**
+     * Create the JWT payload
+     */
+    const payload = {
+      sub: twoFactor.user.id,
+      iss: process.env.FULL_DOMAIN
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: '30m'
+    });
+    const tokenHash = sha512(token);
+
+    const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: '24h'
+    });
+    const refreshTokenHash = sha512(refreshToken);
+
+    const session = new Session({
+      tokenHash,
+      refreshTokenHash,
+      user: twoFactor.user.id,
+      expireAt: moment().add('24', 'h')
+    });
+    await session.save();
+
+    await twoFactor.remove();
+    res.json({
+      code: 200,
+      token,
+      refreshToken,
+      twoFactor: true
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ code: 500, error: 'Internal Server Error' });

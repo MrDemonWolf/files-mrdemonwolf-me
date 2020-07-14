@@ -52,6 +52,10 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
 router.put('/update', async (req, res) => {
   try {
     const { username } = req.body;
+
+    /**
+     * Updates the user by the user id
+     */
     await User.findByIdAndUpdate(
       req.user.id,
       {
@@ -80,9 +84,13 @@ router.put('/update', async (req, res) => {
 router.post('/update/email', async (req, res) => {
   try {
     const { newEmail } = req.body;
-    const user = await User.findById(req.user.id);
 
+    /**
+     * Finds the user and adds the newEmail to the dataase
+     */
+    const user = await User.findById(req.user.id);
     user.newEmail = newEmail;
+
     await user.save();
     res.status(200).json({ code: 200, message: '' });
   } catch (err) {
@@ -127,6 +135,10 @@ router.put(
             'You must verify your two factor code before it will be enabled.'
         });
       }
+
+      /**
+       * Check if Two Factor code is valid.
+       */
       const isValid = authenticator.check(req.body.code, user.twoFactorSecret);
       if (!isValid) {
         return res.status(401).json({
@@ -163,7 +175,13 @@ router.post(
     try {
       const user = await User.findById(req.user.id);
 
+      /**
+       * Check if user has initialized Two Factor setup
+       */
       if (!user.twoFactor && user.twoFactorSecret) {
+        /**
+         * Check if Two Factor code is valid
+         */
         const isValid = authenticator.check(
           req.params.code,
           user.twoFactorSecret

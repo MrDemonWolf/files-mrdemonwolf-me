@@ -24,9 +24,6 @@ module.exports.clientUpload = multer({
   }),
   fileFilter: (req, file, cb) => {
     /**
-     * TODO Add file filter just to lable the file as a image , text and or file.
-     */
-    /**
      * Check file minetype to see what file type it is and if it's allowed.
      */
     const { mimetype } = file;
@@ -55,6 +52,6 @@ module.exports.clientUpload = multer({
     cb(null, true);
   },
   limits: {
-    fileSize: process.env.UPLOAD_LIMIT
+    fileSize: process.env.UPLOAD_LIMIT || 104857600
   }
 });

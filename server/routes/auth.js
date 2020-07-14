@@ -21,6 +21,7 @@ const Session = require('../models/Session');
  */
 const isSessionValid = require('../middleware/isSessionValid');
 const isRefreshValid = require('../middleware/isRefreshValid');
+const isTwoFactorTokenValid = require('../middleware/isTwoFactorTokenValid');
 
 /**
  * Require authentication middleware.
@@ -177,6 +178,14 @@ router.post('/login', async (req, res) => {
   }
 });
 
+/**
+ * @route /auth/refresh
+ * @method POST
+ * @description Allows a user to refresh their login token with a new one
+ * @access Private
+ *
+ * @param (header) {String} authorization JWT Token for the account
+ */
 router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -218,10 +227,29 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
 });
 
 /**
+ * @route /auth/twofactor
+ * @method POST
+ * @description Allows a user logout of their account
+ * @access Public
+ *
+ * @param (body) {String} token Two factor ticket which is used to verify.
+ * @param (body) {String} code Two Factor code from users app.
+ */
+router.post('/two-factor', isTwoFactorTokenValid, async (req, res) => {
+  try {
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ code: 500, error: 'Internal Server Error' });
+  }
+});
+
+/**
  * @route /auth/logout
  * @method POST
  * @description Allows a user logout of their account
  * @access Private
+ *
+ * @param (header) {String} authorization JWT Token for the account
  */
 router.post('/logout', isSessionValid, async (req, res) => {
   try {

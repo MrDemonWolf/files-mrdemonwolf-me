@@ -70,11 +70,12 @@ router.post('/upload', requireAuth, async (req, res) => {
       }
 
       // eslint-disable-next-line object-curly-newline
-      const { originalname, mimetype, size } = req.file;
+      const { originalname, mimetype, size, type } = req.file;
       const deleteToken = customAlphabet(urlFriendyAlphabet, 32);
       const fileExtension = path.extname(originalname);
       const fileName = originalname;
-      const fileMineType = mimetype;
+      const fileMimeType = mimetype;
+      const fileType = type;
       const fileSize = size;
       const buffer = await fs.readFile(req.file.path);
       const hashes = {
@@ -82,21 +83,16 @@ router.post('/upload', requireAuth, async (req, res) => {
         sha256: sha256(buffer),
         sha512: sha512(buffer)
       };
-
-      console.log(req.file);
-      // const isImage = mineTypes.images.includes(fileMineType);
-      // const isText = mineTypes.text.includes(fileMineType);
-
       /**
        * Sets type based on above.
        */
-      // const type = isImage ? 'image' : isText ? 'text' : 'file';
       const newUpload = new Upload({
         uploader: req.user.id,
         name: fileName,
         fileName,
         fileExtension,
-        fileMineType,
+        fileMimeType,
+        fileType,
         fileSize,
         hashes,
         deleteToken: deleteToken()

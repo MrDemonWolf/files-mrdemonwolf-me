@@ -1,5 +1,6 @@
 const express = require('express');
 const passport = require('passport');
+const { authenticator } = require('otplib');
 
 const router = express.Router();
 
@@ -96,16 +97,51 @@ router.post('/update/email', async (req, res) => {
  * @description Allows a logged in user to update their account details
  * @access Private
  *
+ * @param (params) {boolean} true/false Enable or disable two factor.
  * @param (body) {String} username New Username for the current account
  */
-router.put('/update/twofactor/:boolean', async (req, res) => {
-  try {
-    res.status(200).json({ code: 200, message: 'Updated user profile.' });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ code: 500, error: 'Internal Server Error' });
+router.put(
+  '/update/twofactor/:boolean',
+  requireAuth,
+  isSessionValid,
+  async (req, res) => {
+    try {
+      // TODO Add validation
+      const twofactor = req.params.boolean === 'true';
+      const user = await User.findById(req.user.id);
+
+      if (twofactor) {
+        /**
+         * Create authenticator sercet
+         */
+        const secret = authenticator.generateSecret();
+        console.log(secret);
+        return res.json({
+          code: 200,
+          secret,
+          qrCode: '',
+          message:
+            'You must verify your two factor code before it will be enabled.'
+        });
+      }
+      const isValid = authenticator.check(req.body.code, user.twoFactorSecret);
+      if (!isValid) {
+        return res.status(401).json({
+          code: 401,
+          message:
+            'Unable to disable two factor due to invaild code.  Please try again.'
+        });
+      }
+
+      user.twofactor = false;
+      user.twoFactorSecret = undefined;
+      res.json({ code: 200, message: 'Two factor has been disabled.' });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ code: 500, error: 'Internal Server Error' });
+    }
   }
-});
+);
 
 /**
  * @route /account/verify/twofactor/:token
@@ -117,7 +153,7 @@ router.put('/update/twofactor/:boolean', async (req, res) => {
  */
 router.put('/verify/twofactor/:token', async (req, res) => {
   try {
-    res.status(200).json({ code: 200, message: 'Updated user profile.' });
+    res.json({ code: 200, message: 'Updated user profile.' });
   } catch (err) {
     console.log(err);
     res.status(500).json({ code: 500, error: 'Internal Server Error' });

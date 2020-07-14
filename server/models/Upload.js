@@ -18,7 +18,7 @@ const UploadSchema = new Schema({
     type: String,
     required: true
   },
-  fileMineType: {
+  fileMimeType: {
     type: String,
     required: true
   },

@@ -5,6 +5,11 @@ const { customAlphabet } = require('nanoid');
 const urlFriendyAlphabet =
   '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
+/**
+ * Load Minetype config
+ */
+const mimeType = require('../config/mimetype');
+
 module.exports.clientUpload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
@@ -18,18 +23,30 @@ module.exports.clientUpload = multer({
     }
   }),
   fileFilter: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
     /**
      * TODO Add file filter just to lable the file as a image , text and or file.
      */
-    // file.filetype = 'test';
+    /**
+     * Check file minetype to see what file type it is and if it's allowed.
+     */
+    const { mimetype } = file;
+    const isImage = mimeType.images.includes(mimetype);
+    const isText = mimeType.text.includes(mimetype);
 
-    if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+    file.type = isImage ? 'image' : isText ? 'text' : 'file';
+
+    const allowemimeType = mimeType.files.concat(
+      mimeType.images.concat(mimeType.text)
+    );
+
+    const isAllowedFile = allowemimeType.includes(mimetype);
+
+    if (!isAllowedFile) {
       return cb(
         {
           code: 'FILE_NOT_PERMITTED',
           error: 'This File Type Is Not Permitted.',
-          ext
+          mimetype
         },
         false
       );

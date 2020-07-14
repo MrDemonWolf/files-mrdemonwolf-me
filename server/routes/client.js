@@ -17,6 +17,7 @@ const urlFriendyAlphabet =
  * Load Multer configs
  */
 const { clientUpload } = require('../config/multer');
+
 /**
  * Load MongoDB models.
  */
@@ -37,6 +38,9 @@ const requireAuth = passport.authenticate('jwt', {
  */
 router.post('/upload', requireAuth, async (req, res) => {
   try {
+    /**
+     * Multer setup for returning errors and etc.
+     */
     await clientUpload.single('file')(req, res, async error => {
       if (error) {
         if (error.code) {
@@ -62,6 +66,9 @@ router.post('/upload', requireAuth, async (req, res) => {
         }
         return res.json(error);
       }
+      /**
+       * If no file then should fail
+       */
       if (!req.file) {
         return res.status(422).json({
           code: 422,
@@ -69,6 +76,9 @@ router.post('/upload', requireAuth, async (req, res) => {
         });
       }
 
+      /**
+       * Setup file metdata for database
+       */
       const { originalname, mimetype, size, type } = req.file;
       const deleteToken = customAlphabet(urlFriendyAlphabet, 32);
       const fileExtension = path.extname(originalname);
@@ -98,7 +108,7 @@ router.post('/upload', requireAuth, async (req, res) => {
         deleteToken: deleteToken()
       });
 
-      // await newUpload.save();
+      await newUpload.save();
 
       res.json({
         success: true,
@@ -114,6 +124,20 @@ router.post('/upload', requireAuth, async (req, res) => {
   }
 });
 
+/**
+ * @route /client/upload/delete
+ * @method DELETE
+ * @description Allow a admin to get a list uploads.
+ * @access Private
+ */
+router.delete('/upload/delete', async (req, res) => {
+  try {
+    const { token } = req.body;
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ code: 500, error: 'Internal Server Error' });
+  }
+});
 /**
  * @route /client/link
  * @method POST

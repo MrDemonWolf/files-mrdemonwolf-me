@@ -255,7 +255,7 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
 });
 
 /**
- * @route /auth/twofactor
+ * @route /auth/two-factor
  * @method POST
  * @description Allows a user logout of their account
  * @access Public

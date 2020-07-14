@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const TwoFactorSchema = new Schema({
-  ticket: {
+  token: {
     type: String,
     required: true
   },

@@ -146,10 +146,10 @@ router.post('/login', async (req, res) => {
      * Check if the user has Two Factor
      */
     if (user.twoFactor) {
-      const twoFactorTicket = customAlphabet(urlFriendyAlphabet, 32);
+      const twoFactorToken = customAlphabet(urlFriendyAlphabet, 32);
 
       const newTwoFactor = new TwoFactor({
-        ticket: twoFactorTicket(),
+        token: twoFactorToken(),
         user: user.id,
         expireAt: moment().add('15', 'm')
       });
@@ -159,7 +159,7 @@ router.post('/login', async (req, res) => {
       return res.json({
         code: 200,
         twoFactor: true,
-        ticket: newTwoFactor.ticket,
+        token: newTwoFactor.token,
         message: 'Enter your verification code.'
       });
     }
@@ -260,18 +260,18 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
  * @description Allows a user logout of their account
  * @access Public
  *
- * @param (body) {String} ticket Two factor ticket which is used to verify.
+ * @param (body) {String} token Two factor token which is used to verify.
  * @param (body) {String} code Two Factor code from users app.
  */
 router.post('/two-factor', async (req, res) => {
   try {
-    const { ticket, code } = req.body;
+    const { code } = req.body;
 
     /**
-     * Check if the Two Factor ticket is valid
+     * Check if the Two Factor token is valid
      */
     const twoFactor = await TwoFactor.findOne({
-      ticket,
+      token: req.body.token,
       expireAt: {
         $gt: moment()
       }
@@ -323,7 +323,7 @@ router.post('/two-factor', async (req, res) => {
     await session.save();
 
     /**
-     * Remove the TwoFactor ticket and return tokens
+     * Remove the TwoFactor token and login jwt
      */
     await twoFactor.remove();
     res.json({

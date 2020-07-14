@@ -45,7 +45,7 @@ app.set('etag', false);
 app.use(helmet());
 
 const corsOptions = {
-  origin: process.env.FULL_DOMAIN
+  origin: process.env.WEB_URI
 };
 
 switch (process.env.NODE_ENV) {

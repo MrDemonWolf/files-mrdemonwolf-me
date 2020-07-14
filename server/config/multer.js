@@ -10,6 +10,11 @@ const urlFriendyAlphabet =
  */
 const mimeType = require('../config/mimetype');
 
+/**
+ * Process.env
+ */
+const fileCheck = process.env.FILE_CHECK === 'true';
+
 module.exports.clientUpload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
@@ -32,21 +37,23 @@ module.exports.clientUpload = multer({
 
     file.type = isImage ? 'image' : isText ? 'text' : 'file';
 
-    const allowemimeType = mimeType.files.concat(
-      mimeType.images.concat(mimeType.text)
-    );
-
-    const isAllowedFile = allowemimeType.includes(mimetype);
-
-    if (!isAllowedFile) {
-      return cb(
-        {
-          code: 'FILE_NOT_PERMITTED',
-          error: 'This File Type Is Not Permitted.',
-          mimetype
-        },
-        false
+    if (fileCheck) {
+      const allowemimeType = mimeType.files.concat(
+        mimeType.images.concat(mimeType.text)
       );
+
+      const isAllowedFile = allowemimeType.includes(mimetype);
+
+      if (!isAllowedFile) {
+        return cb(
+          {
+            code: 'FILE_NOT_PERMITTED',
+            error: 'This File Type Is Not Permitted.',
+            mimetype
+          },
+          false
+        );
+      }
     }
 
     cb(null, true);

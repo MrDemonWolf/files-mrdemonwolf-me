@@ -168,7 +168,7 @@ router.post('/login', async (req, res) => {
      */
     const payload = {
       sub: user.id,
-      iss: process.env.FULL_DOMAIN
+      iss: process.env.WEB_URI
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -219,7 +219,7 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
      */
     const payload = {
       sub: user.id,
-      iss: process.env.FULL_DOMAIN
+      iss: process.env.WEB_URI
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -298,7 +298,7 @@ router.post('/two-factor', async (req, res) => {
      */
     const payload = {
       sub: twoFactor.user.id,
-      iss: process.env.FULL_DOMAIN
+      iss: process.env.WEB_URI
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {

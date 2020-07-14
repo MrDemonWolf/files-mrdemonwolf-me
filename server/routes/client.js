@@ -69,7 +69,6 @@ router.post('/upload', requireAuth, async (req, res) => {
         });
       }
 
-      // eslint-disable-next-line object-curly-newline
       const { originalname, mimetype, size, type } = req.file;
       const deleteToken = customAlphabet(urlFriendyAlphabet, 32);
       const fileExtension = path.extname(originalname);
@@ -83,6 +82,7 @@ router.post('/upload', requireAuth, async (req, res) => {
         sha256: sha256(buffer),
         sha512: sha512(buffer)
       };
+
       /**
        * Sets type based on above.
        */
@@ -103,7 +103,9 @@ router.post('/upload', requireAuth, async (req, res) => {
       res.json({
         success: true,
         message: 'File uploaded successfully!',
-        upload: newUpload
+        upload: newUpload,
+        url: `${process.env.WEB_URI}/u/`,
+        deleteUrl: `${process.env.API_URI}/client/delete/token=${newUpload.deleteToken}`
       });
     });
   } catch (err) {

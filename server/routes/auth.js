@@ -75,7 +75,7 @@ router.post('/register', async (req, res) => {
 
     /**
      * Create the user with the data provided
-     * Send them a email with the email verification token
+     * Send them a email with the email verification token.
      */
     const newUser = new User({
       username,
@@ -85,7 +85,7 @@ router.post('/register', async (req, res) => {
     const emailVerificationToken = customAlphabet(urlFriendyAlphabet, 32);
 
     newUser.emailVerificationToken = emailVerificationToken();
-    newUser.emailVerificationTokenExpire = moment().add('3', 'h'); // Sets the token to expire in 3 hours.
+    newUser.emailVerificationTokenExpire = moment().add('3', 'h');
 
     /**
      * TODO send email verification token to the email.
@@ -115,7 +115,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     /**
-     * Validdate the user important for email,password
+     * Validdate the user important for email,password.
      */
     const { errors, isValid } = validateLoginInput(req.body);
 
@@ -142,13 +142,16 @@ router.post('/login', async (req, res) => {
       });
     }
 
+    /**
+     * Check if the user has Two Factor
+     */
     if (user.twoFactor) {
       const twoFactorTicket = customAlphabet(urlFriendyAlphabet, 32);
 
       const newTwoFactor = new TwoFactor({
         ticket: twoFactorTicket(),
         user: user.id,
-        expireAt: moment().add('30', 'm')
+        expireAt: moment().add('15', 'm')
       });
 
       await newTwoFactor.save();
@@ -178,6 +181,9 @@ router.post('/login', async (req, res) => {
     });
     const refreshTokenHash = sha512(refreshToken);
 
+    /**
+     * Create the session in the database
+     */
     const session = new Session({
       tokenHash,
       refreshTokenHash,
@@ -209,7 +215,7 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     /**
-     * Create the JWT payloadMrDem
+     * Create new JWT payload
      */
     const payload = {
       sub: user.id,
@@ -226,6 +232,9 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
     });
     const refreshTokenHash = sha512(refreshToken);
 
+    /**
+     * Create the new session in the database
+     */
     const session = new Session({
       tokenHash,
       refreshTokenHash,
@@ -258,6 +267,9 @@ router.post('/two-factor', async (req, res) => {
   try {
     const { ticket, code } = req.body;
 
+    /**
+     * Check if the Two Factor ticket is valid
+     */
     const twoFactor = await TwoFactor.findOne({
       ticket,
       expireAt: {
@@ -272,6 +284,9 @@ router.post('/two-factor', async (req, res) => {
       return res.status(401).send('Unauthorized');
     }
 
+    /**
+     * Check if the Two Factor code is valid
+     */
     const isValid = authenticator.check(code, twoFactor.user.twoFactorSecret);
     if (!isValid) {
       return res
@@ -296,6 +311,9 @@ router.post('/two-factor', async (req, res) => {
     });
     const refreshTokenHash = sha512(refreshToken);
 
+    /**
+     * Create the session in the database
+     */
     const session = new Session({
       tokenHash,
       refreshTokenHash,
@@ -304,6 +322,9 @@ router.post('/two-factor', async (req, res) => {
     });
     await session.save();
 
+    /**
+     * Remove the TwoFactor ticket and return tokens
+     */
     await twoFactor.remove();
     res.json({
       code: 200,
@@ -335,6 +356,9 @@ router.post('/logout', isSessionValid, async (req, res) => {
       .toString();
     const tokenHash = sha512(token);
 
+    /**
+     * Finds and removes the session from the database by marking it as revoked
+     */
     await Session.findOneAndUpdate(
       { tokenHash },
       {

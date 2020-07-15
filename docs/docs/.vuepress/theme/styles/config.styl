@@ -1,0 +1,48 @@
+$contentClass = '.theme-default-content'
+
+.theme-vuepress {
+  --accent-color: #3eaf7c;
+  --body-color: #2c3e50;
+  --border-color: #eaecef;
+  --bg-code: #282c34;
+  --arrow-bg-color: #ccc;
+}
+
+.theme-light {
+  --bg-color: #F3F7F9;
+  --bg-content-color: #fff;
+  --bg-code: #fffbf3;
+  --border-color:  rgba(0,0,0,.1);
+  --body-color: #444;
+  --title-color: #111;
+  --accent-color: #6b17e6;
+  --accent-hover: #6b17e8;
+  
+}
+
+.theme-dark {
+  --bg-color: #0D2538;
+  --bg-content-color: #0f2d44;
+  --bg-code: rgba(0,0,0,.3);
+  --border-color:  rgba(255,255,255,.1);
+  --body-color: #ced8de;
+  --title-color: #fff;
+  --accent-color: #af9cef;
+  --accent-hover: #ae9aef;
+}
+
+a {
+  color: var(--accent-color);
+  -webkit-transition: opacity .2s;
+  transition: opacity .2s;
+}
+
+a:hover {
+  opacity: .8;
+}
+
+.theme-default-content code {
+  background-color: var(--bg-code);
+  color: var(--body-color);
+  }
+

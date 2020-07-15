@@ -1,13 +1,13 @@
 {
   "name": "share",
   "version": "0.0.1",
-  "description": "Simple yet advanced NodeJS, MongoDB and Express based uploader. Allows users to upload files,images, and text with moderation tools for admins. Plus users can see uploads for there account and simple remove ones. Admins can view all and remove ones that don&#39;t follow the rules. Can be used for friends and family or just for you. Built for ShareX at the moment but more uploaders will be supported.",
+  "description": "Simple yet advanced uploader. Allows users to upload files,images, and text with moderation tools for admins. Can be used for friends and family or just for you. Built with integration, like ShareX but more uploaders will be officially supported.",
   "main": "index.js",
   "authors": {
     "name": "Nathan Henniges",
-    "email": "webmaster@mrdemonwolf.me"
+    "email": "contact@mrdemonwolf.me"
   },
-  "repository": "https://github.com/MrDemonWolf/share/share",
+  "repository": "https://github.com/MrDemonWolf/share/Share",
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs"
@@ -17,5 +17,15 @@
     "vuepress": "^1.3.1",
     "@vuepress/plugin-back-to-top": "^1.3.1",
     "@vuepress/plugin-medium-zoom": "^1.3.1"
+  },
+  "dependencies": {
+    "@vuepress/plugin-google-analytics": "^1.5.2",
+    "@vuepress/plugin-pwa": "^1.5.2",
+    "moment": "^2.27.0",
+    "tailwindcss": "^1.4.6",
+    "vuepress-plugin-code-copy": "^1.0.6",
+    "vuepress-plugin-element-ui": "^1.1.0",
+    "vuepress-plugin-reading-time": "^0.1.1",
+    "vuepress-theme-default-prefers-color-scheme": "^1.0.9"
   }
 }

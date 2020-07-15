@@ -1,0 +1,22 @@
+.custom-block
+  .custom-block-title
+    font-weight 600
+    margin-bottom -0.4rem
+  
+ // Custom 
+
+@css {
+  .custom-block {
+    @apply bg-background-primary m-4 p-4 shadow
+  }
+  .custom-block.tip {
+    @apply rounded 
+  }
+  .custom-block.warning {
+    @apply border-l-4 border-accent
+  }
+  .custom-block.danger {
+    @apply border-4 border-accent  px-4 py-3 rounded relative
+  }
+}
+

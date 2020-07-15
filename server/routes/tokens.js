@@ -20,10 +20,9 @@ const requireAuth = passport.authenticate('jwt', {
 /**
  * @route /tokens
  * @method GET
- * @description Tokens
+ * @description Allows a logged in user to list tokens available.
  * @access Private
  */
-
 router.get('/', requireAuth, async (req, res) => {
   try {
     const query = {
@@ -43,12 +42,11 @@ router.get('/', requireAuth, async (req, res) => {
 });
 
 /**
- * @route /tokens
+ * @route /tokens/:token_id
  * @method GET
- * @description Tokens
+ * @description Allows a logged in user to grab a token via it's id
  * @access Private
  */
-
 router.get('/:token_id', requireAuth, async (req, res) => {
   try {
     const { token_id } = req.params;

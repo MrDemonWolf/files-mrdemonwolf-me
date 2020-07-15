@@ -12,10 +12,7 @@ const TokenSchema = new Schema({
     ref: 'User',
     required: true
   },
-  isRevoked: {
-    type: Boolean,
-    default: false
-  },
+  displayName: String,
   expireAt: {
     type: Date,
     required: true,

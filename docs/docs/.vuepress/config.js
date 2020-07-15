@@ -1,10 +1,10 @@
-const { description } = require('../../package')
+const { description } = require("../../package");
 
 module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: 'Vuepress Docs Boilerplate',
+  title: "Share",
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
@@ -16,9 +16,12 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/config/#head
    */
   head: [
-    ['meta', { name: 'theme-color', content: '#3eaf7c' }],
-    ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
-    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
+    ["meta", { name: "theme-color", content: "#3eaf7c" }],
+    ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
+    [
+      "meta",
+      { name: "apple-mobile-web-app-status-bar-style", content: "black" }
+    ]
   ],
 
   /**
@@ -27,36 +30,34 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
-    repo: '',
+    // defaultTheme: { light: [6, 18], dark: [18, 6] },
+    repo: "MrDemonWolf/share",
     editLinks: false,
-    docsDir: '',
-    editLinkText: '',
+    docsDir: "",
+    editLinkText: "",
     lastUpdated: false,
     nav: [
       {
-        text: 'Guide',
-        link: '/guide/',
+        text: "Guide",
+        link: "/guide/"
       },
       {
-        text: 'Config',
-        link: '/config/'
+        text: "Config",
+        link: "/config/"
       },
       {
-        text: 'VuePress',
-        link: 'https://v1.vuepress.vuejs.org'
+        text: "Creator",
+        link: "https://www.mrdemonwolf.me"
       }
     ],
     sidebar: {
-      '/guide/': [
+      "/guide/": [
         {
-          title: 'Guide',
+          title: "Guide",
           collapsable: false,
-          children: [
-            '',
-            'using-vue',
-          ]
+          children: ["", "using-vue"]
         }
-      ],
+      ]
     }
   },
 
@@ -64,7 +65,16 @@ module.exports = {
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
   plugins: [
-    '@vuepress/plugin-back-to-top',
-    '@vuepress/plugin-medium-zoom',
-  ]
-}
+    "@vuepress/plugin-back-to-top",
+    "@vuepress/plugin-medium-zoom",
+    "@vuepress/pwa",
+    "vuepress-plugin-reading-time",
+    ["vuepress-plugin-code-copy", true]
+  ],
+  postcss: {
+    plugins: [
+      require("tailwindcss")("./tailwind.config.js"),
+      require("autoprefixer")
+    ]
+  }
+};

@@ -32,7 +32,9 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
     /**
      * Get the current user data and remove sensitive data
      */
-    const user = await User.findById(req.user.id).select('-password -__v');
+    const user = await User.findById(req.user.id).select(
+      '-password -__v -twoFactorSecret -emailVerificationToken -emailVerificationTokenExpire'
+    );
 
     res.status(200).json({ code: 200, user });
   } catch (err) {
@@ -123,7 +125,7 @@ router.put(
          * Create authenticator sercet
          */
         const secret = authenticator.generateSecret();
-        user.twofactor = false;
+        user.twoFactor = false;
         user.twoFactorSecret = secret;
 
         await user.save();
@@ -148,7 +150,7 @@ router.put(
         });
       }
 
-      user.twofactor = false;
+      user.twoFactor = false;
       user.twoFactorSecret = undefined;
       await user.save();
       res.json({ code: 200, message: 'Two factor has been disabled.' });

@@ -81,9 +81,9 @@ router.put('/update', requireAuth, isSessionValid, async (req, res) => {
  * This does require them to have to verify said new email.
  * @access Private
  *
- * @param (body) {String} username New Username for the current account
+ * @param (body) {String} email New email for the current account
  */
-router.post('/update/email', async (req, res) => {
+router.post('/update/email', requireAuth, isSessionValid, async (req, res) => {
   try {
     const { newEmail } = req.body;
 
@@ -94,7 +94,29 @@ router.post('/update/email', async (req, res) => {
     user.newEmail = newEmail;
 
     await user.save();
-    res.status(200).json({ code: 200, message: '' });
+    res.status(200).json({
+      code: 200,
+      message:
+        'A email verificationy has been sent to your new email and needs to be verified.',
+      newEmail
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ code: 500, error: 'Internal Server Error' });
+  }
+});
+
+/**
+ * @route /account/verify/email/:token
+ * @method PUT
+ * @description Allows a logged in user to update their account details
+ * @access Private
+ *
+ * @param (body) {String} username New Username for the current account
+ */
+router.put('/verify/email/:token', async (req, res) => {
+  try {
+    res.status(200).json({ code: 200, message: 'Updated user profile.' });
   } catch (err) {
     console.log(err);
     res.status(500).json({ code: 500, error: 'Internal Server Error' });
@@ -108,7 +130,7 @@ router.post('/update/email', async (req, res) => {
  * @access Private
  *
  * @param (params) {boolean} true/false Enable or disable two factor.
- * @param (body) {String} username New Username for the current account
+ * @param (body) {String} code Current Two Factor Code
  */
 router.put(
   '/update/two-factor/:boolean',
@@ -162,7 +184,7 @@ router.put(
 );
 
 /**
- * @route /account/verify/two-factor/:token
+ * @route /account/verify/two-factor
  * @method POST
  * @description Allows a logged in user verify two factor before enabling.
  * @access Private
@@ -170,7 +192,7 @@ router.put(
  * @param (body) {String} username New Username for the current account
  */
 router.post(
-  '/verify/two-factor/:code',
+  '/verify/two-factor',
   requireAuth,
   isSessionValid,
   async (req, res) => {
@@ -185,7 +207,7 @@ router.post(
          * Check if Two Factor code is valid
          */
         const isValid = authenticator.check(
-          req.params.code,
+          req.body.code,
           user.twoFactorSecret
         );
         if (!isValid) {
@@ -212,23 +234,6 @@ router.post(
     }
   }
 );
-
-/**
- * @route /account/verify/email/:token
- * @method PUT
- * @description Allows a logged in user to update their account details
- * @access Private
- *
- * @param (body) {String} username New Username for the current account
- */
-router.put('/verify/email/:token', async (req, res) => {
-  try {
-    res.status(200).json({ code: 200, message: 'Updated user profile.' });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ code: 500, error: 'Internal Server Error' });
-  }
-});
 
 /**
  * @route /account/delete

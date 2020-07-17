@@ -184,7 +184,7 @@ module.exports = {
           title: "API",
           collapsable: false,
           sidebarDepth: 2,
-          children: ["auth", "account", "client"]
+          children: ["auth", "account", "client", "admin"]
         }
       ]
     }

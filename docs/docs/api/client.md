@@ -8,6 +8,10 @@ Uploads a file to the server.
 
 `/api/client/upload`
 
+#### Method
+
+`POST`
+
 #### Headers
 
 | Field         | Type   | Description                                                     |
@@ -36,6 +40,10 @@ Delete a uploaded file with the delete key sent on upload.
 
 `/api/client/delete`
 
+#### Method
+
+`DELETE`
+
 #### Headers
 
 #### Query Params
@@ -45,5 +53,5 @@ Delete a uploaded file with the delete key sent on upload.
 | key   | string | Delete key linked to a uploaded file |
 
 ```sh
-curl --location --request GET 'https://www.example.com/api/v1/delete?key='
+curl --location --request DELETE 'https://www.example.com/api/v1/delete?key='
 ```

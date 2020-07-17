@@ -24,7 +24,7 @@ const requireAuth = passport.authenticate('jwt', {
 /**
  * @route /account
  * @method GET
- * @description Allows a logged in user to get there data.
+ * @description Allows a logged in user to get their account details.
  * @access Private
  */
 router.get('/', requireAuth, isSessionValid, async (req, res) => {
@@ -51,7 +51,7 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
  *
  * @param (body) {String} username New Username for the current account
  */
-router.put('/update', async (req, res) => {
+router.put('/update', requireAuth, isSessionValid, async (req, res) => {
   try {
     const { username } = req.body;
 

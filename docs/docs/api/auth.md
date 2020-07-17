@@ -8,6 +8,10 @@ Allows a user to register for a account.
 
 `/auth/register`
 
+#### Method
+
+`POST`
+
 #### Headers
 
 | Field        | Type   | Description                       |
@@ -50,6 +54,10 @@ Allows a user to login with their account.
 #### Path
 
 `/auth/login`
+
+#### Method
+
+`POST`
 
 #### Headers
 
@@ -94,6 +102,10 @@ Allows a user to login with two factor.
 
 `/auth/two-factor`
 
+#### Method
+
+`POST`
+
 #### Headers
 
 | Field        | Type   | Description                       |
@@ -137,6 +149,10 @@ Allows a user to refresh their login token with a new one
 
 `/auth/refresh`
 
+#### Method
+
+`POST`
+
 #### Headers
 
 | Field         | Type   | Description                       |
@@ -150,7 +166,7 @@ Request
 
 ```sh
 curl --location --request POST 'https://www.example.com/api/auth/refresh' \
-
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjEwYjBkMjEwZDZhNzBiZTE0OTdkZTEiLCJpc3MiOiJodHRwczovL2ZlZmE0M2RkZDVjYi5uZ3Jvay5pbyIsImlhdCI6MTU5NDkyOTQzNSwiZXhwIjoxNTk1MDE1ODM1fQ.l401E4dWB39VNhJwIyvKPHVoD-fVzV2eXnCvK6UkvQY'
 ```
 
 Response
@@ -160,5 +176,38 @@ Response
   "code": 200,
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjBjZmVlMTIzNzUwYTc0OTk5ZDAyYTciLCJpc3MiOiJodHRwczovL2ZlZmE0M2RkZDVjYi5uZ3Jvay5pbyIsImlhdCI6MTU5NDkzMDQ0MiwiZXhwIjoxNTk0OTMyMjQyfQ.CaM3xTQLBkdB2tQdhDvc3jkvMJGw2sJ-Bs9CGdfR9tE",
   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjBjZmVlMTIzNzUwYTc0OTk5ZDAyYTciLCJpc3MiOiJodHRwczovL2ZlZmE0M2RkZDVjYi5uZ3Jvay5pbyIsImlhdCI6MTU5NDkzMDQ0MiwiZXhwIjoxNTk1MDE2ODQyfQ.stse9hRJVA_2Va5fZpmIWgTRM8CljXzNWsCXdHjZUFs"
+}
+```
+
+## Logout
+
+Allows a user logout of their account which revokes the current login token.
+
+#### Path
+
+`/auth/logout`
+
+#### Headers
+
+| Field         | Type   | Description                       |
+| :------------ | :----- | :-------------------------------- |
+| Authorization | string | JWT token.                        |
+| Content-Type  | string | application/x-www-form-urlencoded |
+
+#### Example
+
+Request
+
+```sh
+curl --location --request POST 'https://www.example.com/api/auth/logout' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjEwYjBkMjEwZDZhNzBiZTE0OTdkZTEiLCJpc3MiOiJodHRwczovL2ZlZmE0M2RkZDVjYi5uZ3Jvay5pbyIsImlhdCI6MTU5NDkyOTQzNSwiZXhwIjoxNTk0OTMxMjM1fQ.U5pH17a88I0LSSLzlA4N4pnelgbB3P8358rc_3CKh64'
+```
+
+Response
+
+```json
+{
+  "code": 200,
+  "message": "You are now logged out."
 }
 ```

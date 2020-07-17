@@ -16,40 +16,130 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/config/#head
    */
   head: [
-    ["meta", { name: "theme-color", content: "#3eaf7c" }],
-    ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
-    [
-      "meta",
-      { name: "apple-mobile-web-app-status-bar-style", content: "black" }
-    ],
-    ["link", { rel: "icon", href: "/logo.png" }],
-    ["link", { rel: "manifest", href: "/manifest.json" }],
-    ["meta", { name: "theme-color", content: "#3eaf7c" }],
-    ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
-    [
-      "meta",
-      { name: "apple-mobile-web-app-status-bar-style", content: "black" }
-    ],
     [
       "link",
-      { rel: "apple-touch-icon", href: "/icons/apple-touch-icon-152x152.png" }
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "192x192",
+        href: "/assets/img/icons/android-icon-192x192.png"
+      }
     ],
     [
       "link",
       {
-        rel: "mask-icon",
-        href: "/icons/safari-pinned-tab.svg",
-        color: "#3eaf7c"
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/assets/img/icons/favicon-32x32.png"
       }
     ],
+    [
+      "link",
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "96x96",
+        href: "/assets/img/icons/favicon-96x96.png"
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "/assets/img/icons/favicon-16x16.png"
+      }
+    ],
+    ["meta", { name: "msapplication-TileColor", content: "#303059" }],
     [
       "meta",
       {
         name: "msapplication-TileImage",
-        content: "/icons/msapplication-icon-144x144.png"
+        content: "/assets/img/icons/msapplication-icon-144x144.png"
       }
     ],
-    ["meta", { name: "msapplication-TileColor", content: "#000000" }]
+    ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
+    [
+      "meta",
+      { name: "apple-mobile-web-app-status-bar-style", content: "black" }
+    ],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "57x57",
+        href: "/assets/img/icons/apple-touch-icon-57x57.png"
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "60x60",
+        href: "/assets/img/icons/apple-touch-icon-60x60.png"
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "72x72",
+        href: "/assets/img/icons/apple-touch-icon-72x72.png"
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "76x76",
+        href: "/assets/img/icons/apple-touch-icon-76x76.png"
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "114x114",
+        href: "/assets/img/icons/apple-touch-icon-114x114.png"
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "120x120",
+        href: "/assets/img/icons/apple-touch-icon-120x120.png"
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "144x144",
+        href: "/assets/img/icons/apple-touch-icon-144x144.png"
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "152x152",
+        href: "/assets/img/icons/apple-touch-icon-152x152.png"
+      }
+    ],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/assets/img/icons/apple-touch-icon-180x180.png"
+      }
+    ],
+    ["link", { rel: "manifest", href: "/manifest.json" }],
+    ["link", { rel: "icon", href: "/favico.ico" }],
+    ["meta", { name: "theme-color", content: "#303059" }]
   ],
 
   /**
@@ -62,10 +152,10 @@ module.exports = {
     logo: "/assets/img/logo.png",
 
     repo: "MrDemonWolf/share",
-    editLinks: false,
+    editLinks: true,
     docsDir: "",
     editLinkText: "",
-    lastUpdated: false,
+    lastUpdated: true,
     nav: [
       {
         text: "Guide",
@@ -94,7 +184,7 @@ module.exports = {
           title: "API",
           collapsable: false,
           sidebarDepth: 2,
-          children: ["auth", "client"]
+          children: ["auth", "account", "client"]
         }
       ]
     }

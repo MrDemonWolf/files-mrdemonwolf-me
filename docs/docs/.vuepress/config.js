@@ -153,7 +153,7 @@ module.exports = {
 
     repo: "MrDemonWolf/share",
     editLinks: true,
-    docsDir: "",
+    docsDir: "docs/docs",
     editLinkText: "",
     lastUpdated: true,
     nav: [
@@ -181,10 +181,10 @@ module.exports = {
       ],
       "/api/": [
         {
-          title: "API",
+          title: "API Reference",
           collapsable: false,
           sidebarDepth: 2,
-          children: ["auth", "account", "client", "admin"]
+          children: ["", "auth", "account", "client", "admin"]
         }
       ]
     }

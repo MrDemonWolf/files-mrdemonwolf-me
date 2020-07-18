@@ -70,7 +70,7 @@ router.get(
 /**
  * @route /admin/uploads/:id
  * @method GET
- * @description Allow a admin to get a list uploads.
+ * @description Allows admin to get upload details by it's ID.
  * @access Private
  */
 router.get(
@@ -83,7 +83,7 @@ router.get(
       /**
        * Finds a single upload by it's id.
        */
-      const upload = await Uploads.findById(req.params.upload_id);
+      const upload = await Upload.findById(req.params.upload_id);
       if (!upload) {
         return res.status(404).json({
           code: 404,
@@ -101,7 +101,7 @@ router.get(
 /**
  * @route /admin/links
  * @method GET
- * @description Allow a admin to get a list uploads.
+ * @description Allow a admin to get a list shorten links.
  * @access Private
  */
 router.get('/links', requireAuth, isSessionValid, isAdmin, async (req, res) => {

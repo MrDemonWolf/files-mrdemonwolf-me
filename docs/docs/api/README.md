@@ -1,5 +1,3 @@
-# API Reference
-
 ## Introduction
 
 Welcome to the Share API!

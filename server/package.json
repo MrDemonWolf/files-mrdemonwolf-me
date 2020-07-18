@@ -45,7 +45,7 @@
     "jsonwebtoken": "^8.5.1",
     "lusca": "^1.6.1",
     "moment": "^2.27.0",
-    "mongoose": "^5.9.21",
+    "mongoose": "^5.9.25",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "nanoid": "^3.1.10",

@@ -46,11 +46,12 @@ Response
     "fileType": "file",
     "storage": "local",
     "tags": [],
-    "uploadedAt": "2020-07-18T15:29:59.358Z",
-    "_id": "5f1317221ec8ae275af9aff8",
+    "uploadedAt": "2020-07-18T15:54:03.256Z",
+    "_id": "5f131b434d3200322786b460",
     "uploader": "5f131400dfc73f0a71dbd929",
-    "name": "index.html",
-    "fileName": "index.html",
+    "name": "index",
+    "fileOriginalName": "index",
+    "fileName": "9u9uMwhlFTgce34Ts4QKjsqS4sgkbIcz",
     "fileExtension": ".html",
     "fileMimeType": "text/html",
     "fileSize": "8679",
@@ -59,11 +60,11 @@ Response
       "sha256": "932d114496a9897acba8bfd1bc80760eeeac36265e61d8764dfe934ce5077d53",
       "sha512": "4585db8f86a27a447aca3abc2842191821ee88f4ee3cb35fdb0cdac4fc035f0097aca150704fa1d6f703f216fe0277708dce2585dddab9e47f6d9c04c75d159e"
     },
-    "deleteToken": "gcnOPUvr4fNh5KcNUQk8PZjQPG5ifeWl",
+    "deleteToken": "IunEb97BE1roanu77xHj9FK3y3Tj9U8c",
     "__v": 0
   },
-  "url": "https://www.example.com/u/",
-  "deleteUrl": "https://www.example.com/delete/token=gcnOPUvr4fNh5KcNUQk8PZjQPG5ifeWl"
+  "url": "https://fefa43ddd5cb.ngrok.io/u/",
+  "deleteUrl": "https://fefa43ddd5cb.ngrok.io/api/client/delete/token=IunEb97BE1roanu77xHj9FK3y3Tj9U8c"
 }
 ```
 
@@ -98,4 +99,5 @@ curl --location --request DELETE 'https://www.example.com/api/v1/delete?key='
 Response
 
 ```json
+
 ```

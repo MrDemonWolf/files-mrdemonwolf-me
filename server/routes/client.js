@@ -79,10 +79,15 @@ router.post('/upload', requireAuth, async (req, res) => {
       /**
        * Setup file metdata for database
        */
-      const { originalname, mimetype, size, type } = req.file;
+
+      console.log(req.file);
+
+      // eslint-disable-next-line object-curly-newline
+      const { originalname, mimetype, size, type, filename } = req.file;
       const deleteToken = customAlphabet(urlFriendyAlphabet, 32);
       const fileExtension = path.extname(originalname);
-      const fileName = originalname;
+      const fileOriginalName = path.parse(originalname).name;
+      const fileName = path.parse(filename).name;
       const fileMimeType = mimetype;
       const fileType = type;
       const fileSize = size;
@@ -98,7 +103,8 @@ router.post('/upload', requireAuth, async (req, res) => {
        */
       const newUpload = new Upload({
         uploader: req.user.id,
-        name: fileName,
+        name: fileOriginalName,
+        fileOriginalName,
         fileName,
         fileExtension,
         fileMimeType,

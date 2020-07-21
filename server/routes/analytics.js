@@ -6,9 +6,7 @@ const router = express.Router();
 /**
  * Load MongoDB models.
  */
-const Users = require('../models/User');
 const Upload = require('../models/Upload');
-const Links = require('../models/Links');
 
 /**
  * Load middlewares
@@ -27,7 +25,6 @@ const requireAuth = passport.authenticate('jwt', {
  * @route /analytics/admin/counts
  * @method GET
  * @description Allow a admin list of analytics counts
- * @access Private
  */
 router.get(
   '/admin/counts',

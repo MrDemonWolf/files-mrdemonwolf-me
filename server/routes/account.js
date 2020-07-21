@@ -25,7 +25,6 @@ const requireAuth = passport.authenticate('jwt', {
  * @route /account
  * @method GET
  * @description Allows a logged in user to get their account details.
- * @access Private
  */
 router.get('/', requireAuth, isSessionValid, async (req, res) => {
   try {
@@ -47,9 +46,6 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
  * @route /account/update
  * @method PUT
  * @description Allows a logged in user to update their account details
- * @access Private
- *
- * @param (body) {String} username New Username for the current account
  */
 router.put('/update', requireAuth, isSessionValid, async (req, res) => {
   try {
@@ -79,9 +75,6 @@ router.put('/update', requireAuth, isSessionValid, async (req, res) => {
  * @method POST
  * @description Allows a logged in user to update their email address with a new one
  * This does require them to have to verify said new email.
- * @access Private
- *
- * @param (body) {String} email New email for the current account
  */
 router.post('/update/email', requireAuth, isSessionValid, async (req, res) => {
   try {
@@ -110,9 +103,6 @@ router.post('/update/email', requireAuth, isSessionValid, async (req, res) => {
  * @route /account/verify/email/:token
  * @method PUT
  * @description Allows a logged in user to update their account details
- * @access Private
- *
- * @param (body) {String} username New Username for the current account
  */
 router.put(
   '/verify/email/:token',
@@ -132,10 +122,6 @@ router.put(
  * @route /account/update/two-factor/:boolean
  * @method PUT
  * @description Allows a logged in user to update their two factor status.
- * @access Private
- *
- * @param (params) {boolean} true/false Enable or disable two factor.
- * @param (body) {String} code Current Two Factor Code
  */
 router.put(
   '/update/two-factor/:boolean',

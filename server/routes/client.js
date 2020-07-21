@@ -34,7 +34,6 @@ const requireAuth = passport.authenticate('jwt', {
  * @route /client/upload
  * @method POST
  * @description Allow a admin to get a list uploads.
- * @access Private
  */
 // TODO Add token middleware
 router.post('/upload', requireAuth, async (req, res) => {
@@ -132,7 +131,6 @@ router.post('/upload', requireAuth, async (req, res) => {
  * @route /client/upload/delete
  * @method DELETE
  * @description Allow a admin to get a list uploads.
- * @access Private
  */
 router.delete('/upload/delete', async (req, res) => {
   try {
@@ -147,11 +145,11 @@ router.delete('/upload/delete', async (req, res) => {
  * @route /client/link
  * @method POST
  * @description Allow a admin to get a list uploads.
- * @access Private
  */
 // TODO Add token middleware
 router.post('/link', async (req, res) => {
   try {
+    console.log('hello');
   } catch (err) {
     console.log(err);
     res.status(500).json({ code: 500, error: 'Internal Server Error' });

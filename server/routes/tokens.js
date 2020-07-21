@@ -26,7 +26,6 @@ const requireAuth = passport.authenticate('jwt', {
  * @route /tokens
  * @method GET
  * @description Allows a logged in user to list tokens available.
- * @access Private
  */
 router.get('/', requireAuth, isSessionValid, async (req, res) => {
   try {
@@ -50,7 +49,6 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
  * @route /tokens/:token_id
  * @method GET
  * @description Allows a logged in user to grab a token via it's id
- * @access Private
  */
 router.get('/:token_id', requireAuth, isSessionValid, async (req, res) => {
   try {

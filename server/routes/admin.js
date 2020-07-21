@@ -27,7 +27,6 @@ const requireAuth = passport.authenticate('jwt', {
  * @route /admin/users
  * @method GET
  * @description Allow a admin to get a list all the users.
- * @access Private
  */
 router.get('/users', requireAuth, isSessionValid, isAdmin, async (req, res) => {
   try {
@@ -46,7 +45,6 @@ router.get('/users', requireAuth, isSessionValid, isAdmin, async (req, res) => {
  * @route /admin/uploads
  * @method GET
  * @description Allow a admin to get a list uploads.
- * @access Private
  */
 router.get(
   '/uploads',
@@ -71,7 +69,6 @@ router.get(
  * @route /admin/uploads/:id
  * @method GET
  * @description Allows admin to get upload details by it's ID.
- * @access Private
  */
 router.get(
   '/uploads/:upload_id',
@@ -102,7 +99,6 @@ router.get(
  * @route /admin/links
  * @method GET
  * @description Allow a admin to get a list shorten links.
- * @access Private
  */
 router.get('/links', requireAuth, isSessionValid, isAdmin, async (req, res) => {
   try {

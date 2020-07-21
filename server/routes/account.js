@@ -114,14 +114,19 @@ router.post('/update/email', requireAuth, isSessionValid, async (req, res) => {
  *
  * @param (body) {String} username New Username for the current account
  */
-router.put('/verify/email/:token', async (req, res) => {
-  try {
-    res.status(200).json({ code: 200, message: 'Updated user profile.' });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ code: 500, error: 'Internal Server Error' });
+router.put(
+  '/verify/email/:token',
+  requireAuth,
+  isSessionValid,
+  async (req, res) => {
+    try {
+      res.status(200).json({ code: 200, message: 'Updated user profile.' });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ code: 500, error: 'Internal Server Error' });
+    }
   }
-});
+);
 
 /**
  * @route /account/update/two-factor/:boolean

@@ -24,13 +24,13 @@ const requireAuth = passport.authenticate('jwt', {
 });
 
 /**
- * @route /analytics/counts
+ * @route /analytics/admin/counts
  * @method GET
  * @description Allow a admin list of analytics counts
  * @access Private
  */
 router.get(
-  '/counts',
+  '/admin/counts',
   requireAuth,
   isSessionValid,
   isAdmin,

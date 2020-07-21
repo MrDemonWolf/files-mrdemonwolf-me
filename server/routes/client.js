@@ -36,6 +36,7 @@ const requireAuth = passport.authenticate('jwt', {
  * @description Allow a admin to get a list uploads.
  * @access Private
  */
+// TODO Add token middleware
 router.post('/upload', requireAuth, async (req, res) => {
   try {
     /**
@@ -79,9 +80,6 @@ router.post('/upload', requireAuth, async (req, res) => {
       /**
        * Setup file metdata for database
        */
-
-      console.log(req.file);
-
       // eslint-disable-next-line object-curly-newline
       const { originalname, mimetype, size, type, filename } = req.file;
       const deleteToken = customAlphabet(urlFriendyAlphabet, 32);
@@ -120,8 +118,8 @@ router.post('/upload', requireAuth, async (req, res) => {
         success: true,
         message: 'File uploaded successfully!',
         upload: newUpload,
-        url: `${process.env.WEB_URI}/u/`,
-        deleteUrl: `${process.env.API_URI}/client/delete/token=${newUpload.deleteToken}`
+        url: `${process.env.WEB_URI}/u/${newUpload.fileName}`,
+        deleteUrl: `${process.env.API_URI}/u/${newUpload.fileName}?token=${newUpload.deleteToken}`
       });
     });
   } catch (err) {
@@ -138,18 +136,20 @@ router.post('/upload', requireAuth, async (req, res) => {
  */
 router.delete('/upload/delete', async (req, res) => {
   try {
-    const { token } = req.body;
+    const { deleteToken } = req.body;
   } catch (err) {
     console.log(err);
     res.status(500).json({ code: 500, error: 'Internal Server Error' });
   }
 });
+
 /**
  * @route /client/link
  * @method POST
  * @description Allow a admin to get a list uploads.
  * @access Private
  */
+// TODO Add token middleware
 router.post('/link', async (req, res) => {
   try {
   } catch (err) {

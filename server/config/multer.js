@@ -44,16 +44,17 @@ module.exports.clientUpload = multer({
 
       const isAllowedFile = allowemimeType.includes(mimetype);
 
-      if (!isAllowedFile) {
-        return cb(
-          {
-            code: 'FILE_NOT_PERMITTED',
-            error: 'This File Type Is Not Permitted.',
-            mimetype
-          },
-          false
-        );
+      if (isAllowedFile) {
+        return cb(null, true);
       }
+      return cb(
+        {
+          code: 'FILE_NOT_PERMITTED',
+          error: 'This File Type Is Not Permitted.',
+          mimetype
+        },
+        false
+      );
     }
 
     cb(null, true);

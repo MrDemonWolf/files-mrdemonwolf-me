@@ -11,6 +11,11 @@ const router = express.Router();
 const Token = require('../models/Token');
 
 /**
+ * Load middlewares
+ */
+const isSessionValid = require('../middleware/isSessionValid');
+
+/**
  * Require authentication middleware.
  */
 const requireAuth = passport.authenticate('jwt', {
@@ -23,7 +28,7 @@ const requireAuth = passport.authenticate('jwt', {
  * @description Allows a logged in user to list tokens available.
  * @access Private
  */
-router.get('/', requireAuth, async (req, res) => {
+router.get('/', requireAuth, isSessionValid, async (req, res) => {
   try {
     const query = {
       user: req.user.id,
@@ -32,9 +37,9 @@ router.get('/', requireAuth, async (req, res) => {
       }
     };
     const tokens = await Token.find(query);
-    const _total = await Token.find(query).countDocuments();
+    const total = await Token.find(query).countDocuments();
 
-    res.status(200).json({ code: 200, tokens, _total });
+    res.status(200).json({ code: 200, tokens, total });
   } catch (err) {
     console.log(err);
     res.status(500).json({ code: 500, error: 'Internal Server Error' });
@@ -47,8 +52,9 @@ router.get('/', requireAuth, async (req, res) => {
  * @description Allows a logged in user to grab a token via it's id
  * @access Private
  */
-router.get('/:token_id', requireAuth, async (req, res) => {
+router.get('/:token_id', requireAuth, isSessionValid, async (req, res) => {
   try {
+    // eslint-disable-next-line camelcase
     const { token_id } = req.params;
     /**
      * Check for a valid mongo objectId

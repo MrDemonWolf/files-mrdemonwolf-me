@@ -43,18 +43,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('etag', false);
 app.use(helmet());
+app.use(compression());
 
 const corsOptions = {
-  origin: process.env.WEB_URI
+  origin: [process.env.WEB_URI, process.env.API_URI]
 };
 
 switch (process.env.NODE_ENV) {
-  case 'production ':
+  case 'production':
     app.use(logger('combined'));
     app.use(cors(corsOptions));
     app.enable('trust proxy');
     app.set('trust proxy', 1);
-    app.use(compression());
     break;
   default:
     app.use(logger('dev'));

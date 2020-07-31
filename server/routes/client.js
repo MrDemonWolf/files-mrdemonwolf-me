@@ -31,6 +31,11 @@ const requireAuth = passport.authenticate('jwt', {
 });
 
 /**
+ * Load Utils
+ */
+const removeUpload = require('../utils/remove-upload');
+
+/**
  * @route /client/upload
  * @method POST
  * @description Allow a admin to get a list uploads.
@@ -134,7 +139,20 @@ router.post('/upload', requireAuth, async (req, res) => {
  */
 router.delete('/upload/delete', async (req, res) => {
   try {
-    const { deleteToken } = req.body;
+    // TODO Add validation
+    const { deleteToken, type } = req.body;
+
+    switch (type) {
+      case 'file':
+        removeUpload(deleteToken);
+        break;
+      case 'link':
+        break;
+      default:
+        res.status(400).json({ code: 400, error: 'Internal Server Error' });
+
+        break;
+    }
   } catch (err) {
     console.log(err);
     res.status(500).json({ code: 500, error: 'Internal Server Error' });

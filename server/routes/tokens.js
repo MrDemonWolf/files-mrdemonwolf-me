@@ -8,6 +8,7 @@ const router = express.Router();
 /**
  * Load MongoDB models.
  */
+const User = require('../models/User');
 const Token = require('../models/Token');
 
 /**
@@ -78,6 +79,32 @@ router.get('/:token_id', requireAuth, isSessionValid, async (req, res) => {
       });
     }
     res.status(200).json({ code: 200, token });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ code: 500, error: 'Internal Server Error' });
+  }
+});
+
+/**
+ * @route /tokens
+ * @method POST
+ * @description Allows a logged in user to create a new client token.
+ */
+router.post('/', requireAuth, isSessionValid, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    /**
+     * Create the JWT payload
+     */
+    const payload = {
+      sub: user.id,
+      iss: process.env.WEB_URI
+    };
+    const newToken = new Token({});
+
+    await newToken.save();
+
+    res.status(200).json({ code: 200 });
   } catch (err) {
     console.log(err);
     res.status(500).json({ code: 500, error: 'Internal Server Error' });

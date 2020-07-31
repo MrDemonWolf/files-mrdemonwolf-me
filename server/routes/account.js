@@ -236,7 +236,7 @@ router.post(
 /**
  * @route /account/email-change/:token
  * @method POST
- * @description Allows a logged in user to comfirm their email with the token send to it.
+ * @description Allows a logged in user to confirm  their email with the token send to it.
  * @access Private
  */
 

@@ -17,7 +17,6 @@ Allow a admin to get a list all the users.
 | Field         | Type   | Description                       |
 | :------------ | :----- | :-------------------------------- |
 | Authorization | string | JWT token.                        |
-| Content-Type  | string | application/x-www-form-urlencoded |
 
 #### Example
 
@@ -116,7 +115,6 @@ Allow a admin to get a list uploads.
 | Field         | Type   | Description                       |
 | :------------ | :----- | :-------------------------------- |
 | Authorization | string | JWT token.                        |
-| Content-Type  | string | application/x-www-form-urlencoded |
 
 #### Example
 
@@ -196,7 +194,6 @@ Allows admin to get upload details by it's ID.
 | Field         | Type   | Description                       |
 | :------------ | :----- | :-------------------------------- |
 | Authorization | string | JWT token.                        |
-| Content-Type  | string | application/x-www-form-urlencoded |
 
 #### URL Params
 
@@ -259,7 +256,6 @@ Allow a admin to get a list shorten links
 | Field         | Type   | Description                       |
 | :------------ | :----- | :-------------------------------- |
 | Authorization | string | JWT token.                        |
-| Content-Type  | string | application/x-www-form-urlencoded |
 
 #### Example
 

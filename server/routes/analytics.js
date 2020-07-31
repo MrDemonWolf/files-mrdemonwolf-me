@@ -24,7 +24,7 @@ const requireAuth = passport.authenticate('jwt', {
 /**
  * @route /analytics/admin/counts
  * @method GET
- * @description Allow a admin list of analytics counts
+ * @description Allow a admin list of counts analytics.
  */
 router.get(
   '/admin/counts',
@@ -33,8 +33,8 @@ router.get(
   isAdmin,
   async (req, res) => {
     try {
-      const uploads = Upload
-      res.status(200).json({ code: 200, counts: {} });
+      const uploads = await Upload.find({}).countDocuments();
+      res.json({ code: 200, counts: { uploads } });
     } catch (err) {
       console.log(err);
       res.status(500).json({ code: 500, error: 'Internal Server Error' });

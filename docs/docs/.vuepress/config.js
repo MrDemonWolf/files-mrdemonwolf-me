@@ -1,5 +1,3 @@
-const { description } = require("../../package");
-
 module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
@@ -8,7 +6,8 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
-  description: description,
+  description:
+    "Simple yet advanced uploader. Built-in tools for content moderation tools for admins, and with integration in mind.",
 
   /**
    * Extra tags to be injected to the page HTML `<head>`

@@ -1,6 +1,6 @@
 # Account
 
-## Account Details
+## Get Account Details
 
 Allows a logged in user to get their account details.
 
@@ -178,7 +178,7 @@ Response
 
 ``` -->
 
-## Update Two Factor
+## Update Two Factor Status
 
 Allows a logged in user to update their two factor status.
 

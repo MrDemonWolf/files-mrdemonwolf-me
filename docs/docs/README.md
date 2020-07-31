@@ -1,6 +1,7 @@
 ---
 home: true
-heroImage: https://v1.vuepress.vuejs.org/hero.png
+heroText: Share
+heroImage: /assets/img/hero.png
 tagline: Simple yet advanced uploader. Built-in tools for content moderation tools for admins, and with integration in mind.
 actionLink: /guide/
 features:

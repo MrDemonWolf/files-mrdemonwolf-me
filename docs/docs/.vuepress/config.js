@@ -183,7 +183,7 @@ module.exports = {
           title: "API Reference",
           collapsable: false,
           sidebarDepth: 2,
-          children: ["", "auth", "account", "client", "admin"]
+          children: ["", "auth", "account", "client", "admin", "analytics"]
         }
       ]
     }

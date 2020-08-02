@@ -1,0 +1,11 @@
+{
+  "title": "Share",
+  "url": "https://share.mrdemonwolf.xyz",
+  "logo": {
+    "light": "/logo-text.svg",
+    "dark": "/logo-text-dark.svg"
+  },
+  "github": "MrDemonWolf/Share",
+  "twitter": "MrDemonWolf",
+  "defaultBranch": "master"
+}

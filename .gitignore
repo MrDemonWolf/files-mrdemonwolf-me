@@ -1,5 +1,5 @@
 # NodejS
-node_modules/
+node_modules
 npm-debug.log*
 package-lock.json
 
@@ -52,7 +52,3 @@ lib-cov
 pids
 logs
 results
-
-# Express-FileUpload
-server/tmp/*
-server/uploads

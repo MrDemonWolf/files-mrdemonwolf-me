@@ -1,12 +1,10 @@
-pids
-logs
-node_modules
-npm-debug.log
-coverage/
-run
+# other
+.nuxt
 dist
-.DS_Store
-.nyc_output
-.basement
-config.local.js
-basement_dist
+.vscode
+.idea
+newrelic_agent.log
+.eslintrc
+
+# @nuxtjs/pwa
+sw.*

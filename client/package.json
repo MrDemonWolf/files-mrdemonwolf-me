@@ -25,14 +25,18 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.0",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
-    "nuxt": "^2.14.0"
+    "nuxt": "^2.14.0",
+    "vue-click-outside": "^1.1.0"
   },
   "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^5.14.0",
+    "@fortawesome/free-regular-svg-icons": "^5.14.0",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@nuxtjs/color-mode": "^1.0.2",
-    "tailwindcss-dark-mode": "^1.1.5",
-    "@nuxtjs/tailwindcss": "^2.1.1",
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-module": "^2.0.0",
+    "@nuxtjs/fontawesome": "^1.1.2",
+    "@nuxtjs/tailwindcss": "^2.1.1",
     "@vue/test-utils": "^1.0.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
@@ -43,6 +47,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.2.2",
     "prettier": "^2.0.5",
+    "tailwindcss-dark-mode": "^1.1.5",
     "vue-jest": "^3.0.6"
   }
 }

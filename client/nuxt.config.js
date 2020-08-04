@@ -50,6 +50,15 @@ export default {
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
     '@nuxtjs/tailwindcss',
+    [
+      '@nuxtjs/fontawesome',
+      {
+        component: 'fa',
+        icons: {
+          regular: ['faSun', 'faMoon'],
+        },
+      },
+    ],
   ],
 
   tailwindcss: {

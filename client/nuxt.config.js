@@ -59,6 +59,16 @@ export default {
         },
       },
     ],
+    [
+      '@nuxtjs/google-fonts',
+      {
+        families: {
+          Roboto: [100, 300, 400, 500, 700, 900],
+        },
+        download: true,
+        base64: true,
+      },
+    ],
   ],
 
   tailwindcss: {

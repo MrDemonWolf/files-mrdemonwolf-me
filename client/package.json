@@ -36,6 +36,7 @@
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/fontawesome": "^1.1.2",
+    "@nuxtjs/google-fonts": "^1.0.0",
     "@nuxtjs/tailwindcss": "^2.1.1",
     "@vue/test-utils": "^1.0.3",
     "babel-core": "7.0.0-bridge.0",

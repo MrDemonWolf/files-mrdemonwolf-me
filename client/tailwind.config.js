@@ -8,6 +8,9 @@ module.exports = {
   theme: {
     // compatible with @nuxtjs/color-mode
     darkSelector: '.dark-mode',
+    fontFamily: {
+      roboto: ['Roboto', 'sans-serif'],
+    },
   },
   variants: {
     backgroundColor: [

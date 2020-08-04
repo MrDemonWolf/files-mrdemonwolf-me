@@ -44,11 +44,18 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    // Doc: https://github.com/nuxt-community/color-mode-module
+    '@nuxtjs/color-mode',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
     '@nuxtjs/tailwindcss',
   ],
+
+  tailwindcss: {
+    // add '~tailwind.config` alias
+    exposeConfig: true,
+  },
   /*
    ** Nuxt.js modules
    */
@@ -57,6 +64,11 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
   ],
+
+  purgeCSS: {
+    whitelist: ['dark-mode'],
+  },
+
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

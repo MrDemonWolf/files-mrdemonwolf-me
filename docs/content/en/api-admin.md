@@ -5,6 +5,9 @@ position: 8
 category: API
 ---
 
+<alert type="info">
+These routes require you to be admin or higher to access.
+</alert>
 ## List Users
 
 Allow a admin to get a list all the users.

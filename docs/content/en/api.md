@@ -5,11 +5,7 @@ position: 4
 category: API
 ---
 
-## Introduction
-
-Welcome to the Share API!
-
-We have language bindings in Shell! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right in the future when other language bindings become availabe.
+We have language bindings in Shell! You can view code examples in the the bottom of each request page.
 
 ## JSON Web Tokens
 
@@ -27,6 +23,7 @@ curl "api_endpoint_here" \
 
 _Make sure to replace `Bearer jsonwebtoken` with your API key. And api_endpoint_here with the endpoint your trying to request._
 
-::: tip
-You must replace <code>Bearer jsonwebtoken</code> with your personal API key. If the route is `/client/` then you will have to use a token generated from your accounts token page.
-:::
+<alert type="info">
+
+You must replace `Bearer jsonwebtoken` with your personal API key. If the route is `/client/` then you will have to use a token generated from your accounts token page.
+</alert>

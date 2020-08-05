@@ -1,3 +1,3 @@
 <template>
-  <h1>Uploads</h1>
+  <div class="container"></div>
 </template>

@@ -1,6 +1,6 @@
 <template>
-  <button
-    class="rounded-md hover:text-primary-500 focus:outline-none transition ease-in-out duration-150"
+  <div
+    class="focus:outline-none"
     aria-label="Color Mode"
     @click="
       $colorMode.value === 'dark'
@@ -8,11 +8,14 @@
         : ($colorMode.preference = 'dark')
     "
   >
+    <span>{{
+      $colorMode.value === 'dark' ? 'Dark Theme' : 'Light Theme'
+    }}</span>
     <fa
       v-if="$colorMode.value === 'light'"
       :icon="['far', 'sun']"
-      class="w-5 h-5"
+      class="w-6 h-6 align-middle"
     />
-    <fa v-else :icon="['far', 'moon']" class="w-5 h-5 text-white" />
-  </button>
+    <fa v-else :icon="['far', 'moon']" class="w-6 h-6 align-middle" />
+  </div>
 </template>

@@ -4,6 +4,8 @@
  ** Docs: https://tailwindcss.com/docs/configuration
  ** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
  */
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
   theme: {
     // compatible with @nuxtjs/color-mode
@@ -31,7 +33,18 @@ module.exports = {
     ],
     textColor: ['dark', 'dark-hover', 'dark-active', 'hover', 'responsive'],
   },
-  plugins: [require('tailwindcss-dark-mode')()],
+  plugins: [
+    require('tailwindcss-dark-mode')(),
+    plugin(function ({ addUtilities }) {
+      const newUtilities = {
+        '.h-80': {
+          height: '80vh',
+        },
+      }
+
+      addUtilities(newUtilities, ['responsive', 'hover'])
+    }),
+  ],
   purge: {
     // Learn more on https://tailwindcss.com/docs/controlling-file-size/#removing-unused-css
     enabled: process.env.NODE_ENV === 'production',

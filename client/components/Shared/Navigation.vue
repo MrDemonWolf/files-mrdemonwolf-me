@@ -2,14 +2,14 @@
   <header id="header" class="dark:bg-gray-700">
     <nav class="container mx-auto flex-wrap p-6 flex justify-between">
       <div
-        class="flex items-center flex-no-shrink text-blue-700 dark:text-white"
+        class="flex items-center flex-no-shrink text-primary-500 dark:text-white"
       >
         <Logo width="40px" height="40px" />
         <span class="font-semibold text-xl ml-2">{{ title }}</span>
       </div>
       <div class="md:hidden flex items-center">
         <button
-          class="px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white"
+          class="px-3 py-2 border rounded text-primary-500 border-primary-500 hover:text-primary-400 hover:border-primary-400"
           @click.prevent="navigationActive"
         >
           <svg
@@ -26,10 +26,10 @@
         class="w-full md:flex md:items-center md:w-auto"
         :class="mobileNavActive ? 'block' : 'hidden'"
       >
-        <ul v-if="isLoggedIn" class="list-reset md:flex justify-end">
+        <ul v-if="isAuthenticated" class="list-reset md:flex justify-end">
           <li v-for="(link, text) in links" :key="text" :value="link">
             <nuxt-link
-              class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 md:py-1 md:px-2 dark:text-white font-roboto"
+              class="inline-block md:inline-block no-underline hover:text-underline text-primary-500 hover:text-secondary-500 dark:text-white dark-hover:text-secondary-200 py-2 md:py-1 md:px-2 font-roboto"
               :to="link"
               >{{ text }}</nuxt-link
             >
@@ -38,19 +38,21 @@
         <ul v-else class="list-reset md:flex justify-end">
           <li>
             <nuxt-link
-              class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 md:py-1 md:px-2 dark:text-white font-roboto"
+              class="inline-block no-underline text-primary-500 hover:text-secondary-500 py-2 md:py-1 md:px-2 dark:text-white font-roboto"
               to="/register"
               >Register
             </nuxt-link>
+          </li>
+          <li>
             <nuxt-link
-              class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 md:py-1 md:px-2 dark:text-white font-roboto"
+              class="inline-block no-underline text-primary-500 hover:text-secondary-500 dark:text-white dark-hover:text-secondary-200 py-2 md:py-1 md:px-2 font-roboto"
               to="/login"
               >Login
             </nuxt-link>
           </li>
         </ul>
         <div
-          v-if="!isLoggedin"
+          v-if="!isAuthenticated"
           class="relative inline-block text-left md:block"
         >
           <button
@@ -76,15 +78,18 @@
             />
           </button>
         </div>
-        <div v-if="isLoggedIn" class="relative inline-block text-left md:block">
+        <div
+          v-if="isAuthenticated"
+          class="relative inline-block text-left md:block"
+        >
           <button
             v-click-outside="accountDropdownHide"
             type="button"
-            class="py-2 md:py-1 md:px-2 focus:outline-none inline-flex justify-center w-full font-medium text-blue-700 dark:text-white transition ease-in-out duration-150 font-roboto"
+            class="py-2 md:py-1 md:px-2 focus:outline-none inline-flex justify-center w-full font-bold text-blue-700 dark:text-white transition ease-in-out duration-150 font-roboto"
             @keydown.esc="accountDropdownHide"
             @click.prevent="accountDropdown"
           >
-            {{ 'MrDemonWolf' }}
+            {{ user.username }}
             <span class="ml-2" title="Verified account">
               <Verified width="1.25rem" height="1.25rem" />
             </span>
@@ -167,18 +172,19 @@ export default {
   },
   data() {
     return {
+      user: {
+        username: 'MrDemonWolf',
+      },
+      isAuthenticated: true,
       mobileNavActive: false,
       accountNavActive: false,
       theme: '',
-      isLoggedIn: false,
     }
   },
   mounted() {
     // prevent click outside event with popupItem.
     this.popupItem = this.$el
   },
-
-  // do not forget this section
 
   methods: {
     navigationActive() {

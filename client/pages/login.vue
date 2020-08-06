@@ -12,38 +12,38 @@
         >
           Or
           <nuxt-link
-            class="font-bold text-indigo-600 dark:text-blue-300 hover:text-indigo-500 transition ease-in-out duration-150"
+            class="ont-bold text-indigo-600 dark:text-blue-300 hover:text-indigo-500 transition ease-in-out duration-150"
             to="/register"
           >
             register for a account
           </nuxt-link>
         </p>
       </div>
-      <form class="mt-8 bg-gray-100 p-20">
+      <form class="bg-gray-100 mt-8 p-16">
         <input
           class="rounded-md shadow-sm mb-1"
           type="hidden"
           name="remember"
           value="true"
         />
-        <div class="mb-1">
+        <div class="mb-3">
           <input
             aria-label="Email address"
             name="email"
             type="email"
-            required
-            class="inline-block w-full px-3 py-2 border border-gray-400 focus:border-blue-500 bg-white text-gray-900 appearance-nonerounded focus:outline-none"
+            class="iinline-block w-full px-3 py-2 rounded border border-gray-400 focus:border-blue-500 bg-white text-gray-900 appearance-nonerounded focus:outline-none"
             placeholder="Email address"
+            required
           />
         </div>
-        <div class="mb-1">
+        <div class="mb-3">
           <input
             aria-label="Password"
             name="password"
             type="password"
-            required
-            class="inline-block w-full px-3 py-2 border border-gray-400 focus:border-blue-500 bg-white text-gray-900 appearance-nonerounded focus:outline-none"
+            class="inline-block w-full px-3 py-2 rounded border border-gray-400 focus:border-blue-500 bg-white text-gray-900 appearance-nonerounded focus:outline-none"
             placeholder="Password"
+            required
           />
         </div>
 
@@ -77,7 +77,7 @@
             type="submit"
             class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
           >
-            Sign in
+            Login
           </button>
         </div>
       </form>

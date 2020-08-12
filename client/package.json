@@ -23,21 +23,21 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.12.0",
+    "@nuxtjs/axios": "^5.12.1",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
-    "nuxt": "^2.14.0",
-    "vue-click-outside": "^1.1.0"
+    "nuxt": "^2.14.1"
   },
   "devDependencies": {
+    "vue-click-outside": "^1.1.0",
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
-    "@nuxtjs/color-mode": "^1.0.2",
+    "@nuxtjs/color-mode": "^1.0.3",
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/google-fonts": "^1.0.0",
-    "@nuxtjs/tailwindcss": "^2.1.1",
+    "@nuxtjs/tailwindcss": "^3.0.0",
     "@vue/test-utils": "^1.0.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
@@ -48,7 +48,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.2.2",
     "prettier": "^2.0.5",
-    "tailwindcss-dark-mode": "^1.1.5",
+    "tailwindcss-dark-mode": "^1.1.6",
     "vue-jest": "^3.0.6"
   }
 }

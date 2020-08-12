@@ -5,7 +5,7 @@
         class="flex items-center flex-no-shrink text-primary-500 dark:text-white"
       >
         <Logo width="40px" height="40px" />
-        <span class="font-semibold text-xl ml-2">{{ title }}</span>
+        <span class="font-semibold text-xl ml-2">{{ $config.title }}</span>
       </div>
       <div class="md:hidden flex items-center">
         <button
@@ -93,6 +93,12 @@
             <span class="ml-2" title="Verified account">
               <Verified width="1.25rem" height="1.25rem" />
             </span>
+            <fa
+              :icon="['fas', 'caret-down']"
+              class="ml-2"
+              width="1.25rem"
+              height="1.25rem"
+            />
           </button>
           <div
             class="origin-top-left md:origin-top-right absolute left-0 md:right-0 mt-2 w-30 md:w-50"
@@ -160,11 +166,6 @@ export default {
     ClickOutside,
   },
   props: {
-    title: {
-      type: String,
-      required: false,
-      default: 'Share',
-    },
     links: {
       type: Object,
       required: true,

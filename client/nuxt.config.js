@@ -9,12 +9,13 @@ export default {
    ** See https://nuxtjs.org/api/configuration-target
    */
   target: 'static',
+
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: process.env.SITE_TITLE || 'Share',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -26,6 +27,7 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
+
   /*
    ** Global CSS
    */
@@ -35,11 +37,12 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [],
+
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
    */
-  components: true,
+  components: false,
   /*
    ** Nuxt.js dev-modules
    */
@@ -56,6 +59,7 @@ export default {
         component: 'fa',
         icons: {
           regular: ['faSun', 'faMoon'],
+          solid: ['faCaretDown'],
         },
       },
     ],
@@ -65,16 +69,9 @@ export default {
         families: {
           Roboto: [100, 300, 400, 500, 700, 900],
         },
-        download: true,
-        base64: true,
       },
     ],
   ],
-
-  tailwindcss: {
-    // add '~tailwind.config` alias
-    exposeConfig: true,
-  },
   /*
    ** Nuxt.js modules
    */
@@ -84,15 +81,19 @@ export default {
     '@nuxtjs/pwa',
   ],
 
-  purgeCSS: {
-    whitelist: ['dark-mode'],
-  },
-
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
+
+  publicRuntimeConfig: {
+    title: process.env.SITE_TITLE || 'Share',
+    copyright: process.env.COPYRIGHT || 'Share',
+    copyrightLink:
+      process.env.COPYRIGHT_LINK || 'https://share.mrdemonwolf.xyz',
+  },
+
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/

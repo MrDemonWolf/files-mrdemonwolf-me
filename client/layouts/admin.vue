@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col min-h-screen">
     <Navigation :links="links" />
+    <h1>Welcome Admin</h1>
     <main id="content" role="main" class="dark:bg-gray-600 flex-grow">
       <Nuxt />
     </main>
@@ -19,13 +20,13 @@ export default {
   },
   data() {
     return {
-      title: 'MrDemonWolf',
       links: {
-        Upload: '/uploads',
-        Gallery: '/gallery',
-        Links: '/links',
-        Tokens: '/tokens',
-        Config: '/config',
+        Upload: '/admin/uploads',
+        Gallery: '/admin/gallery',
+        Links: '/admin/links',
+        Users: '/admin/users',
+        Settings: '/admin/settings',
+        'Back to User': '/uploads',
       },
     }
   },

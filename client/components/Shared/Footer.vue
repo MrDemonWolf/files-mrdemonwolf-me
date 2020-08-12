@@ -6,12 +6,12 @@
       <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:py-2 sm:mt-0 mt-4">
         &copy; {{ year }}
         <a
-          :href="copyrightLink"
+          :href="$config.copyrightLink"
           class="text-gray-600 ml-1"
           rel="noopener noreferrer"
           target="_blank"
         >
-          {{ copyright }}
+          {{ $config.copyright }}
         </a>
       </p>
       <span
@@ -40,8 +40,6 @@ export default {
   data() {
     return {
       year: new Date().getFullYear(),
-      copyright: 'MrDemonWolf',
-      copyrightLink: 'https://www.mrdemonwolf.me',
     }
   },
 }

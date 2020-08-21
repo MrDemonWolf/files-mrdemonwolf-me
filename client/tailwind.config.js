@@ -50,6 +50,10 @@ module.exports = {
       'hover',
       'responsive',
     ],
+    backgroundImage: {
+      'responsive',
+      'dark',
+    },
     borderColor: [
       'dark',
       'dark-focus',

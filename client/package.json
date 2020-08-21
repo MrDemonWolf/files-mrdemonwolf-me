@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.1",
-    "@nuxtjs/pwa": "^3.0.0-beta.20",
-    "nuxt": "^2.14.1"
+    "@nuxtjs/pwa": "^3.0.1",
+    "nuxt": "^2.14.3"
   },
   "devDependencies": {
     "vue-click-outside": "^1.1.0",
@@ -38,15 +38,15 @@
     "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/google-fonts": "^1.0.0",
     "@nuxtjs/tailwindcss": "^3.0.0",
-    "@vue/test-utils": "^1.0.3",
+    "@vue/test-utils": "^1.0.4",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.2.2",
-    "eslint": "^7.6.0",
+    "babel-jest": "^26.3.0",
+    "eslint": "^7.7.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-nuxt": "^1.0.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.2.2",
+    "jest": "^26.4.1",
     "prettier": "^2.0.5",
     "tailwindcss-dark-mode": "^1.1.6",
     "vue-jest": "^3.0.6"

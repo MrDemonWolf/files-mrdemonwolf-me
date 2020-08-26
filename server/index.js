@@ -15,7 +15,6 @@ require('dotenv').config();
 
 /**
  * Create Express server.
- *
  */
 const app = express();
 
@@ -35,7 +34,7 @@ const db = mongoose.connection;
  * Express configuration (compression, logging, body-parser,methodoverride)
  */
 app.set('host', process.env.IP || '127.0.0.1');
-app.set('port', process.env.PORT || 5050);
+app.set('port', process.env.PORT || 8080);
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 lusca.referrerPolicy('same-origin');

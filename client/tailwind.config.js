@@ -50,10 +50,7 @@ module.exports = {
       'hover',
       'responsive',
     ],
-    backgroundImage: {
-      'responsive',
-      'dark',
-    },
+    backgroundImage: ['responsive', 'dark'],
     borderColor: [
       'dark',
       'dark-focus',
@@ -85,5 +82,8 @@ module.exports = {
       'plugins/**/*.js',
       'nuxt.config.js',
     ],
+  },
+  future: {
+    removeDeprecatedGapUtilities: true,
   },
 }

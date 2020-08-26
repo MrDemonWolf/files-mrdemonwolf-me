@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 const Validator = require('validator');
-const isEmpty = require('../../utils/is-empty');
+const isEmpty = require('../utils/is-empty');
 
 module.exports = data => {
   const errors = {};

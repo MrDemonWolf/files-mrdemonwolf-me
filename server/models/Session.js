@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const SessionSchema = new Schema({
-  tokenHash: {
+  accessTokenHash: {
     type: String,
     required: true
   },

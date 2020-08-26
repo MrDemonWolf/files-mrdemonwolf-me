@@ -22,7 +22,7 @@ const TwoFactor = require('../models/TwoFactor');
  * Load middlewares
  */
 const isSessionValid = require('../middleware/isSessionValid');
-const isRefreshValid = require('../middleware/isRefreshValid');
+const isRefreshValid = require('../middleware/isRefreshTokenValid');
 
 /**
  * Require authentication middleware.
@@ -34,8 +34,8 @@ const requireAuth = passport.authenticate('jwt', {
 /**
  * Load input validators.
  */
-const validateRegisterInput = require('../validation/v1/register');
-const validateLoginInput = require('../validation/v1/login');
+const validateRegisterInput = require('../validation/register');
+const validateLoginInput = require('../validation/login');
 
 /**
  * @route /auth/register
@@ -162,10 +162,10 @@ router.post('/login', async (req, res) => {
       iss: process.env.WEB_URI
     };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '30m'
     });
-    const tokenHash = sha512(token);
+    const accessTokenHash = sha512(accessToken);
 
     const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '24h'
@@ -176,7 +176,7 @@ router.post('/login', async (req, res) => {
      * Create the session in the database
      */
     const session = new Session({
-      tokenHash,
+      accessTokenHash,
       refreshTokenHash,
       user: user.id,
       expireAt: moment().add('24', 'h')
@@ -184,8 +184,8 @@ router.post('/login', async (req, res) => {
     await session.save();
     res.json({
       code: 200,
-      token,
-      refreshToken,
+      access_token: accessToken,
+      refresh_token: refreshToken,
       twoFactor: false
     });
   } catch (err) {
@@ -237,10 +237,10 @@ router.post('/two-factor', async (req, res) => {
       iss: process.env.WEB_URI
     };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '30m'
     });
-    const tokenHash = sha512(token);
+    const accessTokenHash = sha512(accessToken);
 
     const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '24h'
@@ -251,7 +251,7 @@ router.post('/two-factor', async (req, res) => {
      * Create the session in the database
      */
     const session = new Session({
-      tokenHash,
+      accessTokenHash,
       refreshTokenHash,
       user: twoFactor.user.id,
       expireAt: moment().add('24', 'h')
@@ -264,8 +264,8 @@ router.post('/two-factor', async (req, res) => {
     await twoFactor.remove();
     res.json({
       code: 200,
-      token,
-      refreshToken,
+      access_token: accessToken,
+      refresh_token: refreshToken,
       twoFactor: true
     });
   } catch (err) {
@@ -290,10 +290,10 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
       iss: process.env.WEB_URI
     };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '30m'
     });
-    const tokenHash = sha512(token);
+    const accessTokenHash = sha512(accessToken);
 
     const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '24h'
@@ -304,7 +304,7 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
      * Create the new session in the database
      */
     const session = new Session({
-      tokenHash,
+      accessTokenHash,
       refreshTokenHash,
       user: user.id,
       expireAt: moment().add('24', 'h')
@@ -312,8 +312,8 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
     await session.save();
     res.json({
       code: 200,
-      token,
-      refreshToken
+      access_token: accessToken,
+      refresh_token: refreshToken
     });
   } catch (err) {
     console.log(err);

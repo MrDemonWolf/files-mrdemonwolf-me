@@ -1,48 +1,51 @@
 const express = require('express');
-const passport = require('passport');
 const { customAlphabet } = require('nanoid');
 const moment = require('moment');
 const sha512 = require('js-sha512');
 const jwt = require('jsonwebtoken');
-const { authenticator } = require('otplib');
+const sendgrid = require('../config/sendgrid');
 
 const router = express.Router();
 
-const urlFriendyAlphabet =
-  '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+/**
+ * Setup nanoid
+ */
+const emailVerificationToken = customAlphabet(
+  '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_',
+  32
+);
 
 /**
  * Load MongoDB models.
  */
 const User = require('../models/User');
 const Session = require('../models/Session');
-const TwoFactor = require('../models/TwoFactor');
 
 /**
  * Load middlewares
  */
-const isSessionValid = require('../middleware/isSessionValid');
-const isRefreshValid = require('../middleware/isRefreshTokenValid');
-
-/**
- * Require authentication middleware.
- */
-const requireAuth = passport.authenticate('jwt', {
-  session: false
-});
+const isSessionValid = require('../middleware/auth/isSessionValid');
+const isRefreshValid = require('../middleware/auth/isRefreshTokenValid');
+const isRegistration = require('../middleware/auth/isRegistration');
+const isAccountActivated = require('../middleware/auth/isAccountActivated');
 
 /**
  * Load input validators.
  */
-const validateRegisterInput = require('../validation/register');
-const validateLoginInput = require('../validation/login');
+const validateRegisterInput = require('../validation/auth/register');
+const validateLoginInput = require('../validation/auth/login');
+
+/**
+ * Load Email Templates.
+ */
+const activateAccountTemplate = require('../emails/auth/activate-account');
 
 /**
  * @route /auth/register
  * @method POST
  * @description Allows a user to register for a account.
  */
-router.post('/register', async (req, res) => {
+router.post('/register', isRegistration, async (req, res) => {
   try {
     /**
      * Validdate the user important for username,email,password
@@ -52,6 +55,7 @@ router.post('/register', async (req, res) => {
     if (!isValid) {
       return res.status(400).json({ code: 400, errors });
     }
+
     const { username, email, password } = req.body;
 
     /**
@@ -77,19 +81,27 @@ router.post('/register', async (req, res) => {
       email,
       password
     });
-    const emailVerificationToken = customAlphabet(urlFriendyAlphabet, 32);
 
     newUser.emailVerificationToken = emailVerificationToken();
     newUser.emailVerificationTokenExpire = moment().add('3', 'h');
 
-    /**
-     * TODO send email verification token to the email.
-     */
-
     await newUser.save();
 
-    res.json({
-      code: 200,
+    const emailTemplate = activateAccountTemplate(
+      newUser.emailVerificationToken
+    );
+
+    const msg = {
+      to: newUser.email,
+      from: `${process.env.EMAIL_FROM} <noreply@${process.env.EMAIL_DOMAIN}>`,
+      subject: `Activate your account on ${process.env.SITE_TITLE}`,
+      html: emailTemplate.html
+    };
+
+    if (process.env.NODE_ENV !== 'test') await sendgrid.send(msg);
+
+    res.status(201).json({
+      code: 201,
       message: 'Please confirm your email address to complete the registration.'
     });
   } catch (err) {
@@ -103,16 +115,18 @@ router.post('/register', async (req, res) => {
  * @method POST
  * @description Allows a user to login with their account.
  */
-router.post('/login', async (req, res) => {
+router.post('/login', isAccountActivated, async (req, res) => {
   try {
     /**
      * Validdate the user important for email,password.
      */
+
     const { errors, isValid } = validateLoginInput(req.body);
 
     if (!isValid) {
       return res.status(400).json({ code: 400, errors });
     }
+
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -124,7 +138,7 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    const vailidPassword = user.verifyPassword(password);
+    const vailidPassword = await user.verifyPassword(password);
 
     if (!vailidPassword) {
       return res.status(400).json({
@@ -134,27 +148,6 @@ router.post('/login', async (req, res) => {
     }
 
     /**
-     * Check if the user has Two Factor
-     */
-    if (user.twoFactor) {
-      const twoFactorToken = customAlphabet(urlFriendyAlphabet, 32);
-
-      const newTwoFactor = new TwoFactor({
-        token: twoFactorToken(),
-        user: user.id,
-        expireAt: moment().add('15', 'm')
-      });
-
-      await newTwoFactor.save();
-
-      return res.json({
-        code: 200,
-        twoFactor: true,
-        token: newTwoFactor.token,
-        message: 'Enter your verification code.'
-      });
-    }
-    /**
      * Create the JWT payload
      */
     const payload = {
@@ -163,12 +156,12 @@ router.post('/login', async (req, res) => {
     };
 
     const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: '30m'
+      expiresIn: '5m'
     });
     const accessTokenHash = sha512(accessToken);
 
     const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: '24h'
+      expiresIn: '14d'
     });
     const refreshTokenHash = sha512(refreshToken);
 
@@ -179,10 +172,12 @@ router.post('/login', async (req, res) => {
       accessTokenHash,
       refreshTokenHash,
       user: user.id,
-      expireAt: moment().add('24', 'h')
+      expireAt: moment().add('14', 'd')
     });
+
     await session.save();
-    res.json({
+
+    res.status(200).json({
       code: 200,
       access_token: accessToken,
       refresh_token: refreshToken,
@@ -195,91 +190,11 @@ router.post('/login', async (req, res) => {
 });
 
 /**
- * @route /auth/two-factor
- * @method POST
- * @description Allows a user to login with two factor.
- */
-router.post('/two-factor', async (req, res) => {
-  try {
-    const { code } = req.body;
-
-    /**
-     * Check if the Two Factor token is valid
-     */
-    const twoFactor = await TwoFactor.findOne({
-      token: req.body.token,
-      expireAt: {
-        $gt: moment()
-      }
-    }).populate({
-      path: 'user',
-      select: 'twoFactor twoFactorSecret'
-    });
-
-    if (!twoFactor) {
-      return res.status(401).send('Unauthorized');
-    }
-
-    /**
-     * Check if the Two Factor code is valid
-     */
-    const isValid = authenticator.check(code, twoFactor.user.twoFactorSecret);
-    if (!isValid) {
-      return res
-        .status(400)
-        .json({ code: 400, error: 'Invalid Two Factor code.' });
-    }
-    /**
-     * Create the JWT payload
-     */
-    const payload = {
-      sub: twoFactor.user.id,
-      iss: process.env.WEB_URI
-    };
-
-    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: '30m'
-    });
-    const accessTokenHash = sha512(accessToken);
-
-    const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: '24h'
-    });
-    const refreshTokenHash = sha512(refreshToken);
-
-    /**
-     * Create the session in the database
-     */
-    const session = new Session({
-      accessTokenHash,
-      refreshTokenHash,
-      user: twoFactor.user.id,
-      expireAt: moment().add('24', 'h')
-    });
-    await session.save();
-
-    /**
-     * Remove the TwoFactor token and login jwt
-     */
-    await twoFactor.remove();
-    res.json({
-      code: 200,
-      access_token: accessToken,
-      refresh_token: refreshToken,
-      twoFactor: true
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ code: 500, error: 'Internal Server Error' });
-  }
-});
-
-/**
  * @route /auth/refresh
  * @method POST
  * @description Allows a user to refresh their login token with a new one
  */
-router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
+router.post('/refresh', isRefreshValid, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     /**
@@ -291,12 +206,12 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
     };
 
     const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: '30m'
+      expiresIn: '5m'
     });
     const accessTokenHash = sha512(accessToken);
 
     const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: '24h'
+      expiresIn: '14d'
     });
     const refreshTokenHash = sha512(refreshToken);
 
@@ -307,10 +222,10 @@ router.post('/refresh', requireAuth, isRefreshValid, async (req, res) => {
       accessTokenHash,
       refreshTokenHash,
       user: user.id,
-      expireAt: moment().add('24', 'h')
+      expireAt: moment().add('14', 'd')
     });
     await session.save();
-    res.json({
+    res.status(200).json({
       code: 200,
       access_token: accessToken,
       refresh_token: refreshToken
@@ -334,19 +249,19 @@ router.post('/logout', isSessionValid, async (req, res) => {
       .split(' ')
       .slice(1)
       .toString();
-    const tokenHash = sha512(token);
+    const accessTokenHash = sha512(token);
 
     /**
      * Finds and removes the session from the database by marking it as revoked
      */
     await Session.findOneAndUpdate(
-      { tokenHash },
+      { accessTokenHash },
       {
         isRevoked: true
       },
       { $safe: true }
     );
-    res.json({
+    res.status(200).json({
       code: 200,
       message: 'You are now logged out.'
     });

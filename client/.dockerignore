@@ -8,9 +8,6 @@ npm-debug.log*
 # Optional npm cache directory
 .npm
 
-# API keys and secrets
-.env
-
 # sass
 .sass-cache
 

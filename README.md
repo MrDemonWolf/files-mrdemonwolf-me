@@ -9,7 +9,7 @@
 
 # What is Share?
 
-Simple yet advanced **NodeJS**, **MongoDB** and **Express** based uploader. Allows users to upload files,images, and text with moderation tools for admins. Plus users can see uploads for there account and simple remove ones. Admins can view all and remove ones that don't follow the rules. Can be used for friends and family or just for you. Built for [ShareX](https://getsharex.com/) at the moment but more uploaders will be supported.
+Simple yet advanced **Nuxt**, **MongoDB** and **Express** based uploader. Allows users to upload files,images, and text with moderation tools for admins. Plus users can see uploads for there account and simple remove ones. Admins can view all and remove ones that don't follow the rules. Can be used for friends and family or just for you. Built for [ShareX](https://getsharex.com/) at the moment but more uploaders will be supported.
 
 ## Getting started
 

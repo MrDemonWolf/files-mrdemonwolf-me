@@ -1,35 +1,19 @@
 {
   "name": "share",
-  "version": "5.0.0",
-  "description": "Advanced custom uploader with web front-end.  Allows uploads for  images, files, and text. Built with ShareX in mind.",
+  "version": "1.0.0",
+  "private": true,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MrDemonWolf/share.git"
-  },
-  "keywords": [
-    "sharex",
-    "custom-uploader",
-    "uploader",
-    "files",
-    "images",
-    "text",
-    "custom"
-  ],
-  "author": "Nathan Henniges",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/MrDemonWolf/share/issues"
-  },
-  "homepage": "https://github.com/MrDemonWolf/share#readme",
   "dependencies": {
-    "@nuxt/content-theme-docs": "^0.2.0",
-    "@nuxtjs/google-analytics": "^2.4.0",
-    "nuxt": "^2.14.0"
+    "@nuxt/content-theme-docs": "^0.7.2",
+    "nuxt": "^2.14.7"
+  },
+  "devDependencies": {
+    "push-dir": "^0.4.1"
   }
 }

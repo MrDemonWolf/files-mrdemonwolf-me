@@ -1,34 +1,45 @@
 <template>
   <div class="flex flex-col min-h-screen">
-    <Navigation :links="links" />
-    <main id="content" role="main" class="dark:bg-gray-600 flex-grow">
+    <header id="header" class="bg-white dark:bg-gray-900 font-roboto">
+      <Navigation :links="links" />
+    </header>
+    <main
+      id="content"
+      role="main"
+      class="flex-grow bg-gray-200 dark:bg-gray-800 font-montserrat"
+    >
+      <OfflineBanner />
       <Nuxt />
     </main>
-    <DefaultFooter />
+    <footer
+      class="bg-white text-primary-400 dark:bg-gray-900 dark:text-white font-roboto"
+    >
+      <Footer />
+    </footer>
   </div>
 </template>
 
 <script>
 import Navigation from '@/components/Shared/Navigation'
-import DefaultFooter from '@/components/Shared/Footer'
+import OfflineBanner from '@/components/Shared/OfflineBanner'
+import Footer from '@/components/Shared/Footer'
 
 export default {
   components: {
     Navigation,
-    DefaultFooter,
+    OfflineBanner,
+    Footer,
   },
   data() {
     return {
       title: 'MrDemonWolf',
-      links: {
-        Upload: '/uploads',
-        Gallery: '/gallery',
-        Links: '/links',
-        Tokens: '/tokens',
-        Config: '/config',
-      },
+      links: [
+        {
+          url: '/goals/weekly',
+          text: 'Weekly',
+        },
+      ],
     }
   },
 }
 </script>
-<style lang="postcss"></style>

@@ -5,7 +5,7 @@ position: 6
 category: API
 ---
 
-## Get Account Details
+## Account
 
 Allows a logged in user to get their account details.
 
@@ -17,8 +17,8 @@ Allows a logged in user to get their account details.
 
 | Field         | Type   | Description                       |
 | :------------ | :----- | :-------------------------------- |
-| Authorization | string | JWT token.                        |
 | Content-Type  | string | application/x-www-form-urlencoded |
+| Authorization | string | JWT access token.                 |
 
 #### Example
 
@@ -27,56 +27,54 @@ Allows a logged in user to get their account details.
 
 ```sh
 curl --location --request GET 'https://www.example.com/api/account' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjEwYjBkMjEwZDZhNzBiZTE0OTdkZTEiLCJpc3MiOiJodHRwczovL2ZlZmE0M2RkZDVjYi5uZ3Jvay5pbyIsImlhdCI6MTU5NDkyOTQzNSwiZXhwIjoxNTk0OTMxMjM1fQ.U5pH17a88I0LSSLzlA4N4pnelgbB3P8358rc_3CKh64'
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjRiZmYxMjEwMzdlNDI0YTE3YTNlYmMiLCJpYXQiOjE1OTkyNDE1OTMsImV4cCI6MTU5OTI0MzM5M30.FuLUNEc_lE8jI2KEur0KsQzZFjIh5kymnLdR0Udycxk'
 ```
 
-</code-block>
-<code-block label="Response">
+  </code-block>
+  <code-block label="Response
+">
 
 ```json
 {
   "code": 200,
   "user": {
-    "emailVerified": true,
-    "twoFactor": false,
+    "emailVerified": false,
     "isBanned": false,
-    "isSuspended": false,
     "streamerMode": false,
     "role": "user",
-    "isVerified": false,
-    "_id": "5f11c79aef4efb1dcb8b1719",
-    "username": "usermrdemonwolfgithubio",
-    "email": "user@mrdemonwolf.github.io",
-    "createdAt": "2020-07-17T15:45:30.270Z",
-    "updatedAt": "2020-07-17T15:45:30.270Z",
-    "slug": "usermrdemonwolfgithubio"
+    "_id": "5f566fdd853a10598b553a24",
+    "username": "MrDemonWolf",
+    "email": "mrdemonwolf@example.com",
+    "createdAt": "2020-09-07T17:37:33.526Z",
+    "updatedAt": "2020-09-07T17:37:33.526Z",
+    "slug": "mrdemonwolf"
   }
 }
 ```
 
-</code-block>
+  </code-block>
 </code-group>
 
-## Update Account Details
+## Email Change
 
-Allows a logged in user to update their account details.
+Allows a logged in user to change their email
 
 #### Path
 
-`PUT /account/update`
+`POST /account/email-change`
 
 #### Headers
 
 | Field         | Type   | Description                       |
 | :------------ | :----- | :-------------------------------- |
-| Authorization | string | JWT token.                        |
 | Content-Type  | string | application/x-www-form-urlencoded |
+| Authorization | string | JWT access token.                 |
 
 #### Body
 
-| Field    | Type   | Description                          |
-| :------- | :----- | :----------------------------------- |
-| username | string | New Username for the current account |
+| Field | Type   | Description        |
+| :---- | :----- | :----------------- |
+| email | string | New account email. |
 
 #### Example
 
@@ -84,41 +82,40 @@ Allows a logged in user to update their account details.
   <code-block label="Request" active>
 
 ```sh
-curl --location --request PUT 'https://www.example.com/api/account/update' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjEwYjBkMjEwZDZhNzBiZTE0OTdkZTEiLCJpc3MiOiJodHRwczovL2ZlZmE0M2RkZDVjYi5uZ3Jvay5pbyIsImlhdCI6MTU5NDkyOTQzNSwiZXhwIjoxNTk0OTMxMjM1fQ.U5pH17a88I0LSSLzlA4N4pnelgbB3P8358rc_3CKh64' \
---data-urlencode 'username=user'
+curl --location --request POST 'https://www.example.com/api/account/email-change' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjdiMmMwYjMwNmI2NTE4MGQyYjAyZGYiLCJpYXQiOjE2MDE5MDg4NjAsImV4cCI6MTYwMTkwOTE2MH0.5fhqZJH_29mpFneOySnAmOQsZj0nI7Su9-zJ1fNQZuM' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'email=nathan@example.com'
 ```
 
-</code-block>
-<code-block label="Response">
+  </code-block>
+  <code-block label="Response
+">
 
 ```json
-{ "code": 200, "message": "Updated user profile." }
+{
+  "code": 200,
+  "message": "Please check your new email address to complate the email change."
+}
 ```
 
-</code-block>
+  </code-block>
 </code-group>
 
-## Update Account Email
+## Email Change resend
 
-Allows a logged in user to update their email address with a new one. This does require them to have to verify said new email.
+Allows a logged in user to resend email change confirmation.
 
 #### Path
 
-`PUT /account/update/email`
+`POST /account/email-change/resend`
 
 #### Headers
 
 | Field         | Type   | Description                       |
 | :------------ | :----- | :-------------------------------- |
-| Authorization | string | JWT token.                        |
 | Content-Type  | string | application/x-www-form-urlencoded |
-
-#### Body
-
-| Field    | Type   | Description                       |
-| :------- | :----- | :-------------------------------- |
-| newEmail | string | New email for the current account |
+| Authorization | string | JWT access token.                 |
 
 #### Example
 
@@ -126,169 +123,113 @@ Allows a logged in user to update their email address with a new one. This does 
   <code-block label="Request" active>
 
 ```sh
-curl --location --request PUT 'https://www.example.com/api/account/update/email' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjEwYjBkMjEwZDZhNzBiZTE0OTdkZTEiLCJpc3MiOiJodHRwczovL2ZlZmE0M2RkZDVjYi5uZ3Jvay5pbyIsImlhdCI6MTU5NDkyOTQzNSwiZXhwIjoxNTk0OTMxMjM1fQ.U5pH17a88I0LSSLzlA4N4pnelgbB3P8358rc_3CKh64' \
---data-urlencode 'newEmail=example@mrdemonwolf.github.io'
+curl --location --request POST 'https://www.example.com/api/account/email-change/resend' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjdiMmMwYjMwNmI2NTE4MGQyYjAyZGYiLCJpYXQiOjE2MDE5MDg4NjAsImV4cCI6MTYwMTkwOTE2MH0.5fhqZJH_29mpFneOySnAmOQsZj0nI7Su9-zJ1fNQZuM' \
 ```
 
-</code-block>
-<code-block label="Response">
+  </code-block>
+  <code-block label="Response
+">
 
 ```json
 {
   "code": 200,
-  "message": "A email verificationy has been sent to your new email and needs to be verified.",
-  "newEmail": "example@mrdemonwolf.github.io"
+  "message": "Please check your new email address to complate the email change."
 }
 ```
 
-</code-block>
+  </code-block>
 </code-group>
 
-<!-- ## Verify new email
+## Email Change with Token
 
-Allows a logged in user to update their account details.
+Allow a logged in user to change their email with email verify token.
 
 #### Path
 
-`POST/account/update/email`
+`PUT /account/email-change/:email_token`
 
 #### Headers
 
-| Field         | Type   | Description                       |
-| :------------ | :----- | :-------------------------------- |
-| Authorization | string | JWT token.                        |
-| Content-Type  | string | application/x-www-form-urlencoded |
+| Field        | Type   | Description                       |
+| :----------- | :----- | :-------------------------------- |
+| Content-Type | string | application/x-www-form-urlencoded |
 
-#### Body
+#### Params
 
-| Field    | Type   | Description                       |
-| :------- | :----- | :-------------------------------- |
-| newEmail | string | New email for the current account |
+| Field       | Type   | Description         |
+| :---------- | :----- | :------------------ |
+| email_token | string | Email change token. |
 
 #### Example
 
-``` -->
+<code-group>
+  <code-block label="Request" active>
 
-## Update Two Factor Status
+```sh
+curl --location --request PUT 'https://www.example.com/api/account/email-change/:email_token' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjdiMmMwYjMwNmI2NTE4MGQyYjAyZGYiLCJpYXQiOjE2MDE5MDg4NjAsImV4cCI6MTYwMTkwOTE2MH0.5fhqZJH_29mpFneOySnAmOQsZj0nI7Su9-zJ1fNQZuM'
+```
 
-Allows a logged in user to update their two factor status.
+  </code-block>
+  <code-block label="Response
+">
+
+```json
+{
+  "code": 200,
+  "message": "Please check your new email address to complate the email change."
+}
+```
+
+  </code-block>
+</code-group>
+
+## Password Change
+
+Allows a logged in user to change their password.
 
 #### Path
 
-`PUT /update/two-factor`
+`PUT /account/change-password`
 
 #### Headers
 
 | Field         | Type   | Description                       |
 | :------------ | :----- | :-------------------------------- |
-| Authorization | string | JWT token.                        |
 | Content-Type  | string | application/x-www-form-urlencoded |
-
-#### URL Params
-
-| Field   | Type    | Description                              |
-| :------ | :------ | :--------------------------------------- |
-| boolean | boolean | true/false Enable or disable two factor. |
+| Authorization | string | JWT access token.                 |
 
 #### Body
 
-| Field | Type   | Description             |
-| :---- | :----- | :---------------------- |
-| code  | string | Current Two Factor Code |
+| Field       | Type   | Description               |
+| :---------- | :----- | :------------------------ |
+| oldPassword | string | Old Password for account  |
+| newPassword | string | New password for account. |
 
-#### Examples
-
-##### Enable
+#### Example
 
 <code-group>
   <code-block label="Request" active>
 
 ```sh
-curl --location --request PUT 'https://www.example.com/api/account/update/two-factor/true' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjEwYjBkMjEwZDZhNzBiZTE0OTdkZTEiLCJpc3MiOiJodHRwczovL2ZlZmE0M2RkZDVjYi5uZ3Jvay5pbyIsImlhdCI6MTU5NDkyOTQzNSwiZXhwIjoxNTk0OTMxMjM1fQ.U5pH17a88I0LSSLzlA4N4pnelgbB3P8358rc_3CKh64'
+curl --location --request PUT 'https://www.example.com/api//account/change-password' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjdiMmMwYjMwNmI2NTE4MGQyYjAyZGYiLCJpYXQiOjE2MDE5MDg4NjAsImV4cCI6MTYwMTkwOTE2MH0.5fhqZJH_29mpFneOySnAmOQsZj0nI7Su9-zJ1fNQZuM' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'oldPassword=password' \
+--data-urlencode 'newPassword=password123'
 ```
 
-</code-block>
-<code-block label="Response">
+  </code-block>
+  <code-block label="Response
+">
 
 ```json
 {
   "code": 200,
-  "secret": "IJVEM2K6CZJEQZKO",
-  "qrCode": "",
-  "message": "You must verify your two factor code before it will be enabled."
+  "message": "Your password has been changed."
 }
 ```
 
-</code-block>
-</code-group>
-
-##### Disable
-
-<code-group>
-  <code-block label="Request" active>
-
-```sh
-curl --location --request PUT 'https://www.example.com/api/account/update/two-factor/false' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjEwYjBkMjEwZDZhNzBiZTE0OTdkZTEiLCJpc3MiOiJodHRwczovL2ZlZmE0M2RkZDVjYi5uZ3Jvay5pbyIsImlhdCI6MTU5NDkyOTQzNSwiZXhwIjoxNTk0OTMxMjM1fQ.U5pH17a88I0LSSLzlA4N4pnelgbB3P8358rc_3CKh64' \
---data-urlencode 'code=171918'
-```
-
-</code-block>
-<code-block label="Response">
-
-```json
-{
-  "code": 200,
-  "message": "Two factor has been disabled."
-}
-```
-
-</code-block>
-</code-group>
-
-## Verify Two Factor
-
-Allows a logged in user verify two factor before enabling.
-
-#### Path
-
-`POST /update/two-factor`
-
-#### Headers
-
-| Field         | Type   | Description                       |
-| :------------ | :----- | :-------------------------------- |
-| Authorization | string | JWT token.                        |
-| Content-Type  | string | application/x-www-form-urlencoded |
-
-#### Body
-
-| Field | Type   | Description     |
-| :---- | :----- | :-------------- |
-| code  | string | Two Factor Code |
-
-#### Examples
-
-<code-group>
-<code-block label="Request" active>
-
-```sh
-curl --location --request POST 'https://www.example.com/api/account/update/two-factor' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjEwYjBkMjEwZDZhNzBiZTE0OTdkZTEiLCJpc3MiOiJodHRwczovL2ZlZmE0M2RkZDVjYi5uZ3Jvay5pbyIsImlhdCI6MTU5NDkyOTQzNSwiZXhwIjoxNTk0OTMxMjM1fQ.U5pH17a88I0LSSLzlA4N4pnelgbB3P8358rc_3CKh64' \
---data-urlencode 'code=171918'
-```
-
-</code-block>
-<code-block label="Response">
-
-```json
-{
-  "code": 200,
-  "message": "Verified.  Two Factor has been enabled."
-}
-```
-
-</code-block>
+  </code-block>
 </code-group>

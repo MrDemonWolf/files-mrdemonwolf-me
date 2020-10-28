@@ -1,6 +1,10 @@
 const express = require('express');
 const passport = require('passport');
-const { authenticator } = require('otplib');
+const moment = require('moment');
+
+const { customAlphabet } = require('nanoid/async');
+
+const sendgrid = require('../config/sendgrid');
 
 const router = express.Router();
 
@@ -8,11 +12,20 @@ const router = express.Router();
  * Load MongoDB models.
  */
 const User = require('../models/User');
+const Session = require('../models/Session');
+
+/**
+ * Setup nanoid
+ */
+const emailVerificationToken = customAlphabet(
+  '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_',
+  64
+);
 
 /**
  * Load middlewares
  */
-const isSessionValid = require('../middleware/isSessionValid');
+const isSessionValid = require('../middleware/auth/isSessionValid');
 
 /**
  * Require authentication middleware.
@@ -20,6 +33,17 @@ const isSessionValid = require('../middleware/isSessionValid');
 const requireAuth = passport.authenticate('jwt', {
   session: false
 });
+
+/**
+ * Load input validators.
+ */
+const validateEmailChangeInput = require('../validation/account/email-change');
+
+/**
+ * Load Email Templates.
+ */
+const verifyNewEmailTemplate = require('../emails/account/new-email');
+const changePasswordTemplate = require('../emails/account/change-password');
 
 /**
  * @route /account
@@ -32,7 +56,7 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
      * Get the current user data and remove sensitive data
      */
     const user = await User.findById(req.user.id).select(
-      '-password -__v -twoFactorSecret -emailVerificationToken -emailVerificationTokenExpire'
+      '-password -twoFactorSecret -emailVerificationToken -emailVerificationTokenExpire'
     );
 
     res.status(200).json({ code: 200, user });
@@ -43,55 +67,70 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
 });
 
 /**
- * @route /account/update
- * @method PUT
- * @description Allows a logged in user to update their account details
- */
-router.put('/update', requireAuth, isSessionValid, async (req, res) => {
-  try {
-    const { username } = req.body;
-
-    /**
-     * Updates the user by the user id
-     */
-    await User.findByIdAndUpdate(
-      req.user.id,
-      {
-        username
-      },
-      {
-        $safe: true
-      }
-    );
-    res.status(200).json({ code: 200, message: 'Updated user profile.' });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ code: 500, error: 'Internal Server Error' });
-  }
-});
-
-/**
- * @route /account/update/email
+ * @route /account/email-change
  * @method POST
- * @description Allows a logged in user to update their email address with a new one
- * This does require them to have to verify said new email.
+ * @description Allows a logged in user to change their email
  */
-router.post('/update/email', requireAuth, isSessionValid, async (req, res) => {
+router.post('/email-change', requireAuth, isSessionValid, async (req, res) => {
   try {
-    const { newEmail } = req.body;
-
     /**
-     * Finds the user and adds the newEmail to the dataase
+     * Validdate the user important for username,email,password
+     */
+    const { errors, isValid } = validateEmailChangeInput(req.body);
+
+    if (!isValid) {
+      return res.status(400).json({ code: 400, errors });
+    }
+
+    const { email } = req.body;
+    /**
+     * Get the current logged in account from the database
      */
     const user = await User.findById(req.user.id);
-    user.newEmail = newEmail;
+
+    if (email === user.email) {
+      return res.status(409).json({
+        code: 409,
+        error:
+          'The email you are attempting to change to is the same as your current one.'
+      });
+    }
+
+    /**
+     * Check if the email is already in used or already being changed too.
+     */
+    const isAlready = await User.findOne({
+      $or: [{ email }, { newEmail: email }]
+    });
+
+    if (isAlready) {
+      return res.status(409).json({
+        code: 409,
+        error: 'The email you are attempting to change to is already in use.'
+      });
+    }
+
+    user.emailVerificationToken = await emailVerificationToken();
+    user.emailVerificationTokenExpire = moment().add('3', 'h');
+    user.newEmail = email;
 
     await user.save();
+
+    const emailTemplate = verifyNewEmailTemplate(user.emailVerificationToken);
+
+    const msg = {
+      to: user.newEmail,
+      from: `${process.env.EMAIL_FROM} <noreply@${process.env.EMAIL_DOMAIN}>`,
+      subject: `Veify your new email on ${process.env.SITE_TITLE}`,
+      html: emailTemplate.html
+    };
+
+    if (process.env.NODE_ENV !== 'test') await sendgrid.send(msg);
+
     res.status(200).json({
       code: 200,
       message:
-        'A email verificationy has been sent to your new email and needs to be verified.',
-      newEmail
+        'Please check your new email address to complate the email change.'
     });
   } catch (err) {
     console.log(err);
@@ -100,124 +139,45 @@ router.post('/update/email', requireAuth, isSessionValid, async (req, res) => {
 });
 
 /**
- * @route /account/verify/email/:token
- * @method PUT
- * @description Allows a logged in user to update their account details
- */
-router.put(
-  '/verify/email/:token',
-  requireAuth,
-  isSessionValid,
-  async (req, res) => {
-    try {
-      res.status(200).json({ code: 200, message: 'Updated user profile.' });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ code: 500, error: 'Internal Server Error' });
-    }
-  }
-);
-
-/**
- * @route /account/update/two-factor/:boolean
- * @method PUT
- * @description Allows a logged in user to update their two factor status.
- */
-router.put(
-  '/update/two-factor/:boolean',
-  requireAuth,
-  isSessionValid,
-  async (req, res) => {
-    try {
-      // TODO Add validation
-      const twofactor = req.params.boolean === 'true';
-      const user = await User.findById(req.user.id);
-
-      if (twofactor) {
-        /**
-         * Create authenticator sercet
-         */
-        const secret = authenticator.generateSecret();
-        user.twoFactor = false;
-        user.twoFactorSecret = secret;
-
-        await user.save();
-        return res.json({
-          code: 200,
-          secret,
-          qrCode: '',
-          message:
-            'You must verify your two factor code before it will be enabled.'
-        });
-      }
-
-      /**
-       * Check if Two Factor code is valid.
-       */
-      const isValid = authenticator.check(req.body.code, user.twoFactorSecret);
-      if (!isValid) {
-        return res.status(401).json({
-          code: 401,
-          message:
-            'Unable to disable two factor due to invaild code.  Please try again.'
-        });
-      }
-
-      user.twoFactor = false;
-      user.twoFactorSecret = undefined;
-      await user.save();
-      res.json({ code: 200, message: 'Two factor has been disabled.' });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ code: 500, error: 'Internal Server Error' });
-    }
-  }
-);
-
-/**
- * @route /account/verify/two-factor
+ * @route /account/email-change/resend
  * @method POST
- * @description Allows a logged in user verify two factor before enabling.
- * @access Private
- *
- * @param (body) {String} username New Username for the current account
+ * @description Allows a logged in user to resend email change confirmation.
  */
 router.post(
-  '/verify/two-factor',
+  '/email-change/resend',
   requireAuth,
   isSessionValid,
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id);
 
-      /**
-       * Check if user has initialized Two Factor setup
-       */
-      if (!user.twoFactor && user.twoFactorSecret) {
-        /**
-         * Check if Two Factor code is valid
-         */
-        const isValid = authenticator.check(
-          req.body.code,
-          user.twoFactorSecret
-        );
-        if (!isValid) {
-          return res.status(401).json({
-            code: 401,
-            message:
-              'Unable to enable two factor due to invaild code.  Please try again.'
-          });
-        }
-        user.twoFactor = true;
-        await user.save();
-        return res.json({
-          code: 200,
-          message: 'Verifyed.  Two Factor has been enabled.'
+      if (!user.newEmail) {
+        return res.status(400).json({
+          code: 400,
+          error: 'You have not requsted a email change.'
         });
       }
-      res.status(400).json({
-        code: 400,
-        error: 'You start the two factor process before verifying.'
+
+      user.emailVerificationToken = await emailVerificationToken();
+      user.emailVerificationTokenExpire = moment().add('3', 'h');
+
+      await user.save();
+
+      const emailTemplate = verifyNewEmailTemplate(user.emailVerificationToken);
+
+      const msg = {
+        to: user.newEmail,
+        from: `${process.env.EMAIL_FROM} <noreply@${process.env.EMAIL_DOMAIN}>`,
+        subject: `Verify your new email on ${process.env.SITE_TITLE}`,
+        html: emailTemplate.html
+      };
+
+      if (process.env.NODE_ENV !== 'test') await sendgrid.send(msg);
+
+      res.status(200).json({
+        code: 200,
+        message:
+          'Please check your new email address to complate the email change.'
       });
     } catch (err) {
       console.log(err);
@@ -227,17 +187,133 @@ router.post(
 );
 
 /**
- * @route /account/delete
- * @method DELETE
- * @description Allows a logged in user to delete their account and all releated infomation.
- * @access Private
+ * @route /account/email-change/:email_token
+ * @method PUT
+ * @description Allow a logged in user to change their email with email verify token.
  */
+router.put(
+  '/email-change/:email_token',
+  requireAuth,
+  isSessionValid,
+  async (req, res) => {
+    try {
+      /**
+       * Get the user by their email token
+       */
+      const user = await User.findOne({
+        emailVerificationToken: req.params.email_token,
+        emailVerificationTokenExpire: { $gt: moment() }
+      });
+
+      if (!user) {
+        return res.status(400).json({
+          code: 400,
+          error:
+            'Either your new email confirmation link has expired or already has been used.'
+        });
+      }
+      user.emailVerificationToken = undefined;
+      user.emailVerificationTokenExpire = undefined;
+      user.email = user.newEmail;
+      user.newEmail = undefined;
+      user.emailChanged = moment();
+
+      await user.save();
+
+      res.status(201).json({
+        code: 201,
+        message: 'Your email has been changed successfully.'
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ code: 500, error: 'Internal Server Error' });
+    }
+  }
+);
 
 /**
- * @route /account/email-change/:token
- * @method POST
- * @description Allows a logged in user to confirm  their email with the token send to it.
- * @access Private
+ * @route /account/change-password
+ * @method PUT
+ * @description Allows a logged in user to change their password.
  */
+router.put(
+  '/change-password',
+  requireAuth,
+  isSessionValid,
+  async (req, res) => {
+    try {
+      /**
+       * Get the user.
+       */
+      const user = await User.findById(req.user.id);
+
+      const { oldPassword, newPassword } = req.body;
+
+      const isPasswordSame = await user.verifyPassword(newPassword);
+
+      if (isPasswordSame) {
+        return res.status(409).json({
+          code: 409,
+          errors: { newPassword: 'New password can not match old password.' }
+        });
+      }
+
+      const isMatch = await user.verifyPassword(oldPassword);
+
+      if (!isMatch) {
+        return res.status(409).json({
+          code: 409,
+          errors: { oldPassword: 'Wrong old password.' }
+        });
+      }
+
+      user.password = newPassword;
+
+      await user.save();
+
+      await Session.deleteMany({
+        user: req.user.id
+      });
+
+      /**
+       * Get the IP details and place it in a object
+       */
+      const ipInfo = {
+        city: req.ipInfo.city,
+        state: req.ipInfo.region,
+        country: req.ipInfo.country,
+        ip: req.ipInfo.ip,
+        localhost: req.ipInfo.error
+      };
+
+      /**
+       * Device Details in a object
+       */
+      const device = {
+        os: req.body.device.os ? req.body.device.os : 'null',
+        browser: req.body.device.browser ? req.body.device.browser : 'null'
+      };
+
+      const emailTemplate = changePasswordTemplate(ipInfo, device);
+
+      const msg = {
+        to: user.email,
+        from: `${process.env.EMAIL_FROM} <noreply@${process.env.EMAIL_DOMAIN}>`,
+        subject: `Your password has been changed on ${process.env.SITE_TITLE}`,
+        html: emailTemplate.html
+      };
+
+      // if (process.env.NODE_ENV !== 'test') await sendgrid.send(msg);
+
+      res.status(200).json({
+        code: 200,
+        message: 'Your password has been changed.'
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ code: 500, error: 'Internal Server Error' });
+    }
+  }
+);
 
 module.exports = router;

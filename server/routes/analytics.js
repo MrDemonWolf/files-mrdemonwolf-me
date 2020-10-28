@@ -6,13 +6,12 @@ const router = express.Router();
 /**
  * Load MongoDB models.
  */
-const Upload = require('../models/Upload');
+const User = require('../models/User');
 
 /**
  * Load middlewares
  */
-const isSessionValid = require('../middleware/isSessionValid');
-const isAdmin = require('../middleware/isAdmin');
+const isSessionValid = require('../middleware/auth/isSessionValid');
 
 /**
  * Require authentication middleware.
@@ -22,24 +21,17 @@ const requireAuth = passport.authenticate('jwt', {
 });
 
 /**
- * @route /analytics/admin/counts
+ * @route /analytics
  * @method GET
- * @description Allow a admin list of counts analytics.
+ * @description Allows a logged in user to get analytics on all goals.
  */
-router.get(
-  '/admin/counts',
-  requireAuth,
-  isSessionValid,
-  isAdmin,
-  async (req, res) => {
-    try {
-      const uploads = await Upload.find({}).countDocuments();
-      res.json({ code: 200, counts: { uploads } });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ code: 500, error: 'Internal Server Error' });
-    }
+
+router.get('/', requireAuth, isSessionValid, async (req, res) => {
+  try {
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ code: 500, error: 'Internal Server Error' });
   }
-);
+});
 
 module.exports = router;

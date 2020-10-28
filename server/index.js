@@ -3,10 +3,10 @@ const logger = require('morgan');
 const consola = require('consola');
 const compression = require('compression');
 const helmet = require('helmet');
-const cors = require('cors');
 const lusca = require('lusca');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const expressip = require('express-ip');
 
 /**
  * Load environment variables from the .env file, where API keys and passwords are stored.
@@ -43,15 +43,16 @@ app.use(express.urlencoded({ extended: true }));
 app.set('etag', false);
 app.use(helmet());
 app.use(compression());
+app.use(expressip().getIpInfoMiddleware);
 
-const corsOptions = {
-  origin: [process.env.WEB_URI, process.env.API_URI]
-};
+// const corsOptions = {
+//   origin: [process.env.WEB_URI, process.env.API_URI]
+// };
 
 switch (process.env.NODE_ENV) {
   case 'production':
     app.use(logger('combined'));
-    app.use(cors(corsOptions));
+    // app.use(cors(corsOptions));
     app.enable('trust proxy');
     app.set('trust proxy', 1);
     break;
@@ -68,19 +69,15 @@ require('./config/passport')(passport);
 /**
  * Primary app routes.
  */
-const clientRoutes = require('./routes/client');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 const accountRoutes = require('./routes/account');
-const tokensRoutes = require('./routes/tokens');
 const analyticsRoutes = require('./routes/analytics');
-const adminRoutes = require('./routes/admin');
 
-app.use('/client', clientRoutes);
 app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
 app.use('/account', accountRoutes);
-app.use('/tokens', tokensRoutes);
 app.use('/analytics', analyticsRoutes);
-app.use('/admin', adminRoutes);
 
 /**
  * Handle 404 errors
@@ -110,7 +107,7 @@ db.once('open', () => {
     if (process.env.NODE_ENV !== 'test') {
       consola.log('----------------------------------------');
       consola.info(`Environment: ${app.get('env')}`);
-      consola.info(`App URL: http://localhost:${app.get('port')}`);
+      consola.info(`App URL: http://${app.get('host')}:${app.get('port')}`);
       consola.log('----------------------------------------');
     }
   });

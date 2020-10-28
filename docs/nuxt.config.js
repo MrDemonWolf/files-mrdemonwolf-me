@@ -9,6 +9,9 @@ export default theme({
     fallback: "404.html", // for Netlify
     routes: ["/"] // give the first url to start crawling
   },
+  router: {
+    base: "/share/"
+  },
   i18n: {
     locales: () => [
       {
@@ -20,12 +23,8 @@ export default theme({
     ],
     defaultLocale: "en"
   },
-  buildModules: [
-    [
-      "@nuxtjs/google-analytics",
-      {
-        id: "UA-12301-2"
-      }
-    ]
-  ]
+  content: {
+    liveEdit: false
+  },
+  buildModules: []
 });

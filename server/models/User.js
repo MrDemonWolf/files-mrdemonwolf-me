@@ -40,21 +40,11 @@ const UserSchema = new Schema(
       trim: true,
       lowercase: true
     },
-    twoFactorSecret: String,
-    twoFactor: {
-      type: Boolean,
-      default: false
-    },
+    emailChanged: Date,
     isBanned: {
       type: Boolean,
       default: false
     },
-    isSuspended: {
-      type: Boolean,
-      default: false
-    },
-    suspendedExpire: Date,
-    suspendedReason: String,
     passwordChanged: Date,
     passwordResetToken: String,
     passwordResetTokenExpire: Date,
@@ -66,10 +56,6 @@ const UserSchema = new Schema(
       type: String,
       enum: ['owner', 'admin', 'user'],
       default: 'user'
-    },
-    isVerified: {
-      type: Boolean,
-      default: false
     },
     lastLogin: Date,
     lastLoginIP: String
@@ -122,11 +108,16 @@ UserSchema.pre('save', function save(next) {
 UserSchema.methods.verifyPassword = async function verifyPassword(
   candidatePassword
 ) {
-  const isMatch = await bcrypt.compare(candidatePassword, this.password);
-  if (!isMatch) {
+  try {
+    const isMatch = await bcrypt.compare(candidatePassword, this.password);
+    if (!isMatch) {
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.log(err);
     return false;
   }
-  return true;
 };
 
 UserSchema.index(

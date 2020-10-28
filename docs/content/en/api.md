@@ -21,9 +21,9 @@ curl "api_endpoint_here" \
   -H "Authorization: Bearer jsonwebtoken"
 ```
 
-_Make sure to replace `Bearer jsonwebtoken` with your API key. And api_endpoint_here with the endpoint your trying to request._
+_Make sure to replace `Bearer jsonwebtoken` with your personal access token. And api_endpoint_here with the endpoint your trying to request._
 
 <alert type="info">
 
-You must replace `Bearer jsonwebtoken` with your personal API key. If the route is `/client/` then you will have to use a token generated from your accounts token page.
+You must replace `Bearer jsonwebtoken` with your personal access token.
 </alert>

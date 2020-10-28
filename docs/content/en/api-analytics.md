@@ -1,25 +1,29 @@
 ---
 title: Analytics
 description: "Simple yet advanced uploader. Built-in tools for content moderation tools for admins, and with integration in mind."
-position: 9
+position: 7
 category: API
 ---
 
-## Admin
+## Analytics
 
-### List counts
-
-Allow a admin list of counts analytics.
+Allows a logged in user to get analytics on all goals.
 
 #### Path
 
-`GET /analytics/admin/counts`
+`GET /analytics`
 
 #### Headers
 
-| Field         | Type   | Description |
-| :------------ | :----- | :---------- |
-| Authorization | string | JWT token.  |
+| Field        | Type   | Description                       |
+| :----------- | :----- | :-------------------------------- |
+| Content-Type | string | application/x-www-form-urlencoded |
+
+#### Body
+
+| Field         | Type   | Description       |
+| :------------ | :----- | :---------------- |
+| Authorization | string | JWT access token. |
 
 #### Example
 
@@ -27,8 +31,8 @@ Allow a admin list of counts analytics.
   <code-block label="Request" active>
 
 ```sh
-curl --location --request GET 'https://www.example.com/api/analytics/admin/counts' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjEwYjBkMjEwZDZhNzBiZTE0OTdkZTEiLCJpc3MiOiJodHRwczovL2ZlZmE0M2RkZDVjYi5uZ3Jvay5pbyIsImlhdCI6MTU5NDkyOTQzNSwiZXhwIjoxNTk0OTMxMjM1fQ.U5pH17a88I0LSSLzlA4N4pnelgbB3P8358rc_3CKh64'
+curl --location --request GET 'https://www.example.com/api/analytics' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjRiZmYxMjEwMzdlNDI0YTE3YTNlYmMiLCJpYXQiOjE1OTkyNDE1OTMsImV4cCI6MTU5OTI0MzM5M30.FuLUNEc_lE8jI2KEur0KsQzZFjIh5kymnLdR0Udycxk'
 ```
 
   </code-block>
@@ -38,9 +42,6 @@ curl --location --request GET 'https://www.example.com/api/analytics/admin/count
 ```json
 {
   "code": 200,
-  "counts": {
-    "uploads": 1
-  }
 }
 ```
 

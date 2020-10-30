@@ -1,5 +1,8 @@
 <template>
-  <nav class="container flex flex-wrap justify-between p-6 mx-auto">
+  <nav
+    v-click-outside="mobileNavHide"
+    class="container flex flex-wrap justify-between p-6 mx-auto"
+  >
     <nuxt-link
       active-class="false"
       class="flex items-center flex-no-shrink text-primary-500 dark:text-primary-300"
@@ -83,7 +86,12 @@
 import AccountDropdown from '@/components/Shared/AccountDropdown'
 import Logo from '@/assets/vectors/logo.svg?inline'
 
+import ClickOutside from 'vue-click-outside'
+
 export default {
+  directives: {
+    ClickOutside,
+  },
   components: {
     Logo,
     AccountDropdown,
@@ -100,10 +108,16 @@ export default {
       mobileNavActive: false,
     }
   },
-
+  mounted() {
+    // prevent click outside event with popupItem.
+    this.popupItem = this.$el
+  },
   methods: {
     mobileNavToggle() {
       this.mobileNavActive = !this.mobileNavActive
+    },
+    mobileNavHide() {
+      this.mobileNavActive = false
     },
   },
 }

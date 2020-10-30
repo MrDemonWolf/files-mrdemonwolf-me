@@ -35,8 +35,25 @@ export default {
       title: 'MrDemonWolf',
       links: [
         {
-          url: '/goals/weekly',
-          text: 'Weekly',
+          url: '/uploads',
+          text: 'Uploads',
+        },
+        {
+          url: '/gallery',
+          text: 'Gallery',
+        },
+
+        {
+          url: '/Links',
+          text: 'Links',
+        },
+        {
+          url: '/tokens',
+          text: 'Tokens',
+        },
+        {
+          url: '/config',
+          text: 'Config',
         },
       ],
     }

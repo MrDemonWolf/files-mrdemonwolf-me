@@ -12,7 +12,7 @@ Simple yet advanced **NodeJS**, **MongoDB** and **Express** based uploader.  All
 ## Getting started
 
 ### Download
-You can now download the release [here](/releases/latest)
+You can now download the release [here](https://github.com/MrDemonWolf/share/releases/latest)
 
 You can also fork,clone,download from github for pre release builds and development.
 * Clone the repo: `git clone https://github.com/MrDemonWolf/share.git`
@@ -23,7 +23,7 @@ Before installing, [download and install Node.js](https://nodejs.org/en/download
 
 If your a user then please read the setup guide here.
 
-If you want to help out development read this here.
+If you want to help out development, check out our [Contributing]() docs.
 
 <!-- Add other helps in the code base here -->
 

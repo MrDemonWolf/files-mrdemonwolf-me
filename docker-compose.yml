@@ -1,12 +1,13 @@
 version: "3.5"
 
 services:
-  app:
+  server:
     restart: always
+
     build:
-      context: .
+      context: ./server
       dockerfile: ./Dockerfile
-    env_file: .env
+    env_file: ./server/.env
     depends_on:
       - mongodb
     networks:
@@ -20,9 +21,21 @@ services:
       - share-mongodb-data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_ROOT_PASSWORD: toor
     networks:
       - share
+  client:
+    restart: always
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+    env_file: ./client/.env
+    depends_on:
+      - server
+    networks:
+      - share
+    ports:
+      - 3000:3000
 
 networks:
   share:

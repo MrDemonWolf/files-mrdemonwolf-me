@@ -1,10 +1,14 @@
 version: "3.5"
 
 services:
-  app:
+  server:
     command: "npm run dev"
     volumes:
-      - .:/usr/src/app
+      - ./server:/usr/src/app
   mongodb:
     ports:
       - 27017:27017
+  client:
+    command: "npm run dev"
+    volumes:
+      - ./client:/usr/src/app

@@ -1,0 +1,10 @@
+{
+  "title": "Share",
+  "url": "mrdemonwolf.github.io/share",
+  "logo": {
+    "light": "/logo-light.svg",
+    "dark": "/logo-dark.svg"
+  },
+  "github": "mrdemonwolf/share",
+  "twitter": "@mrdemonwolf"
+}

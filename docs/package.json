@@ -1,0 +1,31 @@
+{
+  "name": "share",
+  "version": "1.0.0",
+  "description": "Advanced custom uploader with web front-end.  Allows uploads for  images, files, and text.",
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "github.com/MrDemonWolf/share"
+  },
+  "keywords": [
+    "sharex",
+    "custom-uploader",
+    "uploader",
+    "files",
+    "images",
+    "text",
+    "custom"
+  ],
+  "author": "Nathan Henniges (MrDemonWolf)",
+  "license": "MIT",
+  "dependencies": {
+    "@nuxt/content-theme-docs": "^0.8.0",
+    "nuxt": "^2.14.7"
+  }
+}

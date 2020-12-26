@@ -1,0 +1,40 @@
+{
+  "name": "share",
+  "version": "5.0.0",
+  "description": "Advanced custom uploader with web front-end.  Allows uploads for  images, files, and text.",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/MrDemonWolf/share"
+  },
+  "keywords": [
+    "sharex",
+    "custom-uploader",
+    "uploader",
+    "files",
+    "images",
+    "text",
+    "custom"
+  ],
+  "author": "Nathan Henniges (MrDemonWolf)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^7.16.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "mocha": "^8.2.1",
+    "nodemon": "^2.0.6",
+    "prettier-eslint-cli": "^5.0.0",
+    "supertest": "^6.0.1"
+  }
+}

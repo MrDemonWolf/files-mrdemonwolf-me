@@ -30,6 +30,9 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/pwa": "^3.0.2",
+    "@tailwindcss/aspect-ratio": "^0.2.0",
+    "@tailwindcss/forms": "^0.2.1",
+    "@tailwindcss/typography": "^0.3.1",
     "core-js": "^3.6.5",
     "nuxt": "^2.14.6",
     "vue-click-outside": "^1.1.0"

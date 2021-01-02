@@ -11,15 +11,16 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          100: '#EDF1F9',
-          200: '#D1DBF0',
-          300: '#B6C5E7',
-          400: '#7F9AD4',
-          500: '#486EC2',
-          600: '#4163AF',
-          700: '#2B4274',
-          800: '#203257',
-          900: '#16213A',
+          50: '#f4fcfe',
+          100: '#e9fafe',
+          200: '#c9f2fc',
+          300: '#a9e9f9',
+          400: '#68d9f5',
+          500: '#27c9f1',
+          600: '#23b5d9',
+          700: '#1d97b5',
+          800: '#177991',
+          900: '#136276',
         },
       },
       fontFamily: {
@@ -33,5 +34,9 @@ module.exports = {
       textOpacity: ['dark'],
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }

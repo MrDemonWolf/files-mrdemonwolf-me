@@ -43,8 +43,8 @@
       </div>
       <div class="hidden space-x-10 md:flex md:ml-10">
         <nuxt-link
-          v-for="link in links"
-          :key="link"
+          v-for="(link, index) in links"
+          :key="index"
           :to="link.url"
           class="font-medium text-gray-800 hover:text-gray-600 dark:text-white dark:hover:text-gray-200 font-montserrat"
           >{{ link.text }}</nuxt-link

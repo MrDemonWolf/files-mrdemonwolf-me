@@ -44,8 +44,8 @@
       <div role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
         <div class="px-2 pt-2 pb-3 space-y-1" role="none">
           <nuxt-link
-            v-for="link in links"
-            :key="link"
+            v-for="(link, index) in links"
+            :key="index"
             :to="link.url"
             class="block px-3 py-2 text-base font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50 font-montserrat"
             role="menuitem"
@@ -53,13 +53,13 @@
           >
         </div>
         <div role="none">
-          <login
+          <nuxt-link
             to="/login"
             class="block w-full px-5 py-3 font-medium text-center text-white dark:text-black bg-primary-600 dark:bg-primary-500 dark:hover:bg-primary-400 hover:bg-primary-500 font-montserrat"
             role="menuitem"
           >
             Log in
-          </login>
+          </nuxt-link>
         </div>
       </div>
     </div>

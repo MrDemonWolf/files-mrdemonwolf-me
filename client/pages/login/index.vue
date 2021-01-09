@@ -3,10 +3,12 @@
     class="flex flex-col justify-center min-h-screen py-12 bg-primary-50 dark:bg-gray-800 sm:px-6 lg:px-8"
   >
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <Logo
-        class="w-auto h-16 mx-auto text-primary-500 dark:text-white"
-        :alt="`${$config.title} Logo`"
-      />
+      <nuxt-link to="/">
+        <Logo
+          class="w-auto h-16 mx-auto text-primary-500 dark:text-white"
+          :alt="`${$config.title} Logo`"
+        />
+      </nuxt-link>
       <h2
         class="mt-6 text-3xl font-extrabold text-center text-gray-800 dark:text-white"
       >

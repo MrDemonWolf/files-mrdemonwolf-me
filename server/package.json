@@ -1,0 +1,67 @@
+{
+  "name": "share",
+  "version": "5.0.0",
+  "description": "Simple yet advanced uploader. Allows users to upload files,images, and text with moderation tools for admins. Can be used for friends and family or just for you. Built with integration, like ShareX but more uploaders will be officially supported.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon",
+    "lint": "eslint . --ext .js --fix",
+    "format": "prettier-eslint --write $PWD/'**/*.{js,json}'",
+    "test": "cross-env NODE_ENV=test mocha tests --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrDemonWolf/share.git"
+  },
+  "keywords": [
+    "share"
+  ],
+  "author": "Nathan Henniges (MrDemonWolf)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MrDemonWolf/share/issues"
+  },
+  "homepage": "https://github.com/MrDemonWolf/share#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^7.4.2",
+    "bcrypt": "^5.0.0",
+    "compression": "^1.7.4",
+    "consola": "^2.15.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-ip": "^1.0.4",
+    "express-useragent": "^1.0.15",
+    "helmet": "^4.4.1",
+    "js-sha512": "^0.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "lusca": "^1.6.1",
+    "luxon": "^1.25.0",
+    "mjml": "^4.8.1",
+    "moment": "^2.29.1",
+    "mongoose": "^5.11.14",
+    "morgan": "^1.10.0",
+    "nanoid": "^3.1.20",
+    "nodemailer": "^6.5.0",
+    "otplib": "^12.0.1",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "qrcode": "^1.4.4",
+    "slugify": "^1.4.6",
+    "validator": "^13.5.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^7.18.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "mocha": "^8.2.1",
+    "nodemon": "^2.0.7",
+    "prettier-eslint-cli": "^5.0.0",
+    "supertest": "^6.1.3"
+  }
+}

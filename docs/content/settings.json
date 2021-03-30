@@ -1,15 +1,11 @@
 {
   "title": "Share",
-  "url": "https://mrdemonwolf.github.io/share",
+  "url": "https://mrdemonwolf.github.io/share/",
   "logo": {
-    "light": "/logo-light.svg",
-    "dark": "/logo-dark.svg"
+    "light": "/share/logo-text.svg",
+    "dark": "/share/logo-text-dark.svg"
   },
-  "github": "mrdemonwolf/share",
-  "twitter": "@mrdemonwolf",
-  "algolia": {
-    "apiKey": "59c306464f3978993110f6dcca8f8e63",
-    "indexName": "mrdemonwolf",
-    "langAttribute": "language"
-  }
+  "github": "MrDemonWolf/share",
+  "twitter": "MrDemonWolf",
+  "defaultBranch": "master"
 }

@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^4.0.2",
+    "@tailwindcss/postcss7-compat": "^2.0.4",
+    "autoprefixer": "^9.8.6",
+    "postcss": "^7.0.35",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.4"
+  }
+}

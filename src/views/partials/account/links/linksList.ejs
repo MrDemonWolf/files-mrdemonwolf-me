@@ -1,0 +1,321 @@
+<div class="alert alert-danger collapse alert-timeout" role="alert" id="error">
+</div>
+<div class="alert alert-success collapse alert-timeout" role="alert" id="success">
+</div>
+<div class="modal fade" id="create-link" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create shorted link</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" class="mt-2" id="links">
+                    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                    <div class="form-group">
+                        <label for="newLinkURL">Destination URL</label>
+                        <input class="form-control" id="newLinkURL" name="url" type="text" />
+                    </div>
+                    <div class="form-group">
+                        <label for="newLinkCode">Link Code</label>
+                        <div class="alert alert-danger collapse alert-timeout" role="alert" id="newLinkCodeError">
+                        </div>
+                        <div class="input-group">
+                          <input class="form-control" id="newLinkCode" name="code" type="text" maxlength="24" value="<%= newLinkCode %>"/>
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" id="btn-get-code">New Code</button>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newLinkCodeLimit">Link click limit (0 = unlimited)</label>
+                        <input class="form-control" id="newLinkCodeLimit" name="limit" type="number" value="0" min="0" step="5" />
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Shorted Link</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="edit-link" tabindex="-1" role="dialog" aria-labelledby="edit-lin">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit link</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="mt-2">
+                    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                    <input type="hidden" id="linkCode" name="code" />
+                    <div class="form-group">
+                        <label for="linkTags">Tags</label>
+                        <input class="form-tags" id="linkTags" name="linkTags" type="text" data-lpignore="true">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary text-white" id="btn-edit-link">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="confirm-delete">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Remove all links</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="/links/all/?_method=delete" method="POST" class="mt-2">
+                    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                    <p>Are you sure you want to delete all your links, this procedure is irreversible.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-danger btn-ok text-white">Delete all link</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div
+  class="modal fade"
+  id="link-qrcode"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="link-qrcode"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">QR Code</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <img id="linkQrCode" class="rounded mx-auto d-block" />
+          <div class="alert alert-info " role="alert">
+            Scan the image ablove or send to others to redirect them to your shorted link.
+          </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">
+            Cancel</button>
+      </div>
+    </div>
+</div>
+</div>
+
+<div class="customTable">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <h2>Your <strong>Links</strong>
+                    </h2>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <a data-toggle="modal" data-target="#confirm-delete" role="button" class="btn btn-danger">Delete
+                        All</a>
+                    <a data-toggle="modal" data-target="#create-link" role="button" class="btn btn-success" id="btn-create-link">Create
+                        Link</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover" id="table" data-toggle="table" data-pagination="true" data-id-field="id"
+        data-search="true" data-side-pagination="server" data-url="/links-data" data-sort-order="desc"
+        data-page-size="10" data-page-list="[10, 25, 50, 100, all]">
+        <thead>
+            <tr>
+                <th data-field="code" data-formatter="codeFormater" scope="col">Shorten</th>
+                <th data-field="url" data-formatter="urlFormater" scope="col">Original</th>
+                <th data-field="createdAt" data-formatter="createdAtFormater" data-sortable="true" scope="col">Created
+                </th>
+                <th data-field="tags" data-formatter="tagsFormater" scope="col" data-width="250px">Tags</th>
+                <th data-field="actions" data-formatter="actionsFormatter" data-events="actionEvents" scope="col"
+                    data-width="160px">Actions</th>
+            </tr>
+        </thead>
+    </table>
+    <script>
+      $(document).ready(() => {
+        $('#table').bootstrapTable({
+          formatNoMatches: function () {
+            return 'No links found.'
+          }
+        });
+        $("#editLink").on("submit", function (e) {
+         e.preventDefault();
+       });
+        $(".clipboard").tooltip({
+         placement: "bottom",
+         delay: 1000
+       });
+        $('#linkTags').tagsinput({
+           unique: true,
+           minChars: 2,
+           maxChars: 15,
+           limit: 8,
+           validationPattern: new RegExp('^[a-zA-Z]+$')
+        });
+      });
+      const clipboard = new ClipboardJS(".clipboard");
+
+      const $table = $('#table')
+
+      function createdAtFormater(value, row) {
+        return moment(value).fromNow();
+      };
+      function urlFormater(value, row) {
+      if ('<%= currentUser.streamerMode %>' === 'true') {
+        return `<a href="${value}" target="_blank">${value.substring(0, 2)}********************</a>`;
+      }
+      return `<a href="${value}" taget="_blank">${value}</a>`;
+      };
+      function codeFormater(value, row) {
+              if ('<%= currentUser.streamerMode %>' === 'true') {
+        return `<a href="<%= siteURL %>/l/${value}" rel="nofollow" taget="_blank">${value.substring(0, 2)}********</a>`;
+      }
+        return `<a href="<%= siteURL %>/l/${value}" rel="nofollow" taget="_blank">${value}</a>`
+      };
+      function tagsFormater(value, row) {
+        if (value.length === null || value.length === 0) {
+
+          return 'No Tags';
+        };
+        const tags = [];
+          value.map(data=>{
+            tags.push(
+               '<span class="badge badge-primary">',
+          data,
+          '</span> ',)
+          });
+          return  tags.join('');
+      };
+      function actionsFormatter(value, row, index) {
+        return [
+          `<a class="link clipboard" id="clip_${row.id}" href="#" data-clipboard-text="<%= siteURL %>/l/${row.code}">`,
+          '<i class="fas fa-link"></i>',
+          '</a> ',
+          `<a class="qrcode" href="javascript:void(0)">`,
+          '<i class="fas fa-qrcode"></i>',
+          '</a> ',
+          '<a class="edit" href="javascript:void(0)" title="Copy link">',
+          '<i class="fas fa-edit"></i>',
+          '</a> ',
+          '<a class="delete" href="javascript:void(0)" title="Delete Upload">',
+          ' <i class="fas fa-times-circle"></i>',
+          '</a>'
+        ].join('');
+      };
+      //Data events
+      window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+        const tags = row.tags;
+        tags.map(data=>{
+          $('#linkTags').tagsinput('add', data);
+        })
+        $('#linkCode').attr('value', row.code);
+        $('#edit-link').modal('show');
+        },
+        'click .delete': function (e, value, row, index) {
+          $.ajax({
+            url: `/links?_method=DELETE`,
+            type: 'POST',
+            data: { _csrf: '<%= _csrf %>', code: row.code}, success: function (response) {
+              $('#success').show(); $('#success').html(response.message); $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+              })
+            }, error: function (response) {
+              $('#error').show(); $('#error').html(response.message);
+            }
+          });
+        },
+        'click .qrcode': function (e, value, row, index) {
+          $('#linkQrCode').attr('src', row.qrCode);
+          $('#link-qrcode').modal('show');
+        }
+      }
+      function setTooltip(message, id) {
+        $(`#${id}`)
+           .tooltip("hide")
+           .attr("data-original-title", message)
+           .tooltip("show");
+       }
+       function hideTooltip(id) {
+           $(`#${id}`)
+           .tooltip("hide")
+       }
+       clipboard.on("success", (e) => {
+         setTooltip("Copied!", e.trigger.id);
+         hideTooltip(e.trigger.id);
+       });
+       clipboard.on("error", (e) => {
+         setTooltip("Failed!");
+         hideTooltip(e.trigger.id);
+       });
+       $('#btn-edit-link').on('click', function(e) {
+      e.preventDefault();
+      const tags = $("#linkTags").tagsinput('items')
+      const code = $('#linkCode').val();
+      $.ajax({
+        url: '/links?_method=PUT',
+        type: 'POST',
+        data: { _csrf: '<%= _csrf %>', tags: tags,code: code},
+        success: function(response) {
+          $table.bootstrapTable('refresh');
+          $('#linkTags').tagsinput('removeAll');
+          $(':input', this).val('');
+          $('#edit-link').modal('hide');
+          $('#success').show();
+          $('#success').html(response.message);
+        },
+        error: function(response) {
+          console.log(response);
+          $('#edit-link-error').addClass('d-block');
+          $('#edit-link-error').html(response.responseJSON.message);
+        }
+      });
+    });
+    $('#create-link').on('shown.bs.modal', function(){
+        $('#newLinkURL').focus();
+    })
+    $('#edit-link').on('shown.bs.modal', function(){
+      $('.bootstrap-tagsinput input').focus();
+    })
+    $('#edit-link').on('hide.bs.modal', function () {
+      $('#linkTags').tagsinput('removeAll');
+      $(':input', this).val('');
+    })
+    $('#btn-get-code').click(e=>{
+      $.ajax({
+        url: '/links/code',
+        type: 'get',
+        success: function(response) {
+          $('#newLinkCode').val(response.code)
+        },
+        error: function(response) {
+          $('#newLinkCodeError').html(response.responseJSON.message);
+          $('#newLinkCodeError').show();
+        }
+      });
+    })
+</script>
+</div>

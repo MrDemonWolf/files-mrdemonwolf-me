@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <a class="navbar-brand " href="/admin">
+      <img alt="Logo" src="<%= logo %>" height="40" />
+      <span><%= siteTitle %></span>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbar"
+      aria-controls="navbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav ml-auto">
+        <li
+          class="nav-item  <% if(pageName === 'adminUploads'){%> active <%}%>"
+        >
+          <a href="/admin/uploads" class="nav-link"
+            >Uploads <% if(pageName === 'adminUploads'){%><span
+              class="
+          sr-only"
+            >
+              (current)</span
+            ><%}%></a
+          >
+        </li>
+        <li class="nav-item <% if(pageName === 'adminGallery'){%> active <%}%>">
+          <a href="/admin/gallery" class="nav-link"
+            >Gallery <% if(pageName === 'adminGallery'){%><span class=" sr-only"
+              >(current)</span
+            ><%}%></a
+          >
+        </li>
+        <li class="nav-item <% if(pageName === 'adminLinks'){%> active <%}%>">
+          <a href="/admin/links" class="nav-link"
+            >Links <% if(pageName === 'adminLinks'){%><span class=" sr-only"
+              >(current)</span
+            ><%}%></a
+          >
+        </li>
+        <li class="nav-item <% if(pageName === 'adminUsers'){%> active <%}%>">
+          <a href="/admin/users" class="nav-link"
+            >Users <% if(pageName === 'adminUsers'){%><span class=" sr-only"
+              >(current)</span
+            ><%}%></a
+          >
+        </li>
+        <% if (currentUser.role === 'owner') { %>
+        <li
+          class="nav-item <% if(pageName === 'adminSettings'){%> active <%}%>"
+        >
+          <a href="/admin/settings" class="nav-link"
+            >Settings <% if(pageName === 'adminSettings'){%><span
+              class=" sr-only"
+              >(current)</span
+            ><%}%></a
+          >
+        </li>
+        <% } %>
+        <li class="nav-item">
+          <a href="/" class="nav-link">Back to User</a>
+        </li>
+        <%- include ('./../navbarUser') %>
+      </ul>
+    </div>
+  </div>
+</nav>

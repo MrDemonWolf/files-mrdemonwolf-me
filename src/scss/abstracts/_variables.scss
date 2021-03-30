@@ -1,0 +1,29 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+// Fonts
+$main-font: "Roboto", sans-serif;
+$second-font: "Lato", Times, serif;
+
+// Brand Color
+$brand-color: #091533;
+$brand-color-alt: #00aced;
+$brand-color-alt-2: #303059;
+
+// Footer Text
+$footer-color: #ffffff;
+$footer-link: #f2f2f2;
+$footer-background: #303059;
+
+// Menu Links
+$nav-bgDefault: #ffffff;
+$nav-bgHighlight: #ffffff;
+$nav-colDefault: $brand-color-alt;
+$nav-colHighlight: $brand-color;
+$nav-dropdown: true;
+
+// Buttons
+$buttonBg: $brand-color-alt;
+$buttonTextColor: #ffffff;
+$buttonBgHover: #091533;
+$buttonTextColorHover: #ffffff;

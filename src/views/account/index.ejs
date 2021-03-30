@@ -1,0 +1,58 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/navbar') %>
+
+<%- include ('../partials/account/modal/mfa') %>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="accountDeletion"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Account Deletion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete your account, this procedure is irreversible.
+          <strong>This also removes all your API keys and uploads.</strong>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <form action="/account?_method=DELETE" method="POST">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+          <button class="btn btn-danger btn-ok" style="color: #ffff;">Delete my account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% errors = error && error.length > 0 %>
+<div class="container w-50 mt-3 mb-5 account">
+  <div class="alert alert-success collapse alert-timeout" role="alert" id="success">
+</div>
+  <%- include ('../partials/alerts/success') %>
+  <%- include ('../partials/alerts/error') %>
+  <form action="/account?_method=PUT" method="POST">
+  <input type="hidden" name="_csrf" value="<%= _csrf  %>" />
+  <%- include ('../partials/account/account') %>
+  <%- include ('../partials/account/security') %>
+  <%- include ('../partials/account/mfa') %>
+  <%- include ('../partials/account/toggles') %>
+  <%- include ('../partials/account/basicInfo') %>
+
+    <div class="container pl-0 pt-2 pb-3">
+      <button type="submit" class="btn btn-primary">Save Account</button>
+         <a href="/account/export" taget="_blank" role="button" class="btn btn-success"
+        style="color: #ffff;">Export
+        Data</a>
+      <a data-toggle="modal" data-target="#confirm-delete" role="button" class="btn btn-danger"
+        style="color: #ffff;">Delete
+        account</a>
+    </div>
+  </form>
+</div>
+</div>
+
+
+<%- include ('../partials/footer') %>

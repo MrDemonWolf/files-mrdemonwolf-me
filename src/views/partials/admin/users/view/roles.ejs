@@ -1,0 +1,6 @@
+<div class="info header mt-3 mb-2">Role</div>
+<select id="role" class="selectpicker" disabled>
+  <option><%- user.role === 'owner' ? 'Owner' : user.role === 'admin' ?
+'Admin' : 'User' %>
+</option>
+</select>

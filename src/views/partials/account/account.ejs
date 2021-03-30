@@ -1,0 +1,42 @@
+<div class="header mb-2">My Account</div>
+
+<div class="form-group">
+  <label for="username">Username</label>
+  <input
+    name="username"
+    type="text"
+    class="form-control <% if(errors && error[0].username) { %> is-invalid <% } %>"
+    id="username"
+    value="<%= currentUser.username %>"
+    autocomplete="off"
+    data-lpignore="true"
+    required
+  />
+  <% if(errors && error[0].username) { %>
+  <small class="form-text text-danger"> <%= error[0].username %></small>
+  <% } %>
+</div>
+<div class="form-group">
+  <label for="email" id="emailLabel"
+    >Email <% if(currentUser.streamerMode) { %> (Can't be updated as streamer
+    mode is enabled) <% } %></label
+  >
+  <input name="email" type="text" class="form-control <% if(errors &&
+  error[0].email) { %> is-invalid <% } %>" id="email" value="<%-
+  currentUser.streamerMode ? `${currentUser.email.substring(0,3)}******`:
+  currentUser.email %>" <% if(currentUser.streamerMode){ %> disabled <%}%>
+  required> <% if(currentUser.newEmail) { %>
+  <small class="form-text text-success pt-2">
+    Your new e-mail address <span id="newEmail"><%- currentUser.streamerMode ?
+    `${currentUser.newEmail.substring(0,3)}******`: currentUser.newEmail %></span>, has
+    not yet been verified.
+    <a href="/account/resend/email-verify" class="text-primary" submit
+      >Resend confirmation email</a
+    >
+  </small>
+  <% } %> <% if(errors && error[0].email) { %>
+  <small class=" form-text text-danger">
+    <%= error[0].email %>
+  </small>
+  <% } %>
+</div>

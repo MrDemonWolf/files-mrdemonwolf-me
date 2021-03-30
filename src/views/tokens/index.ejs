@@ -1,0 +1,38 @@
+<%- include ('../partials/header') %> <%- include ('../partials/navbar') %>
+
+<div class="container mt-3 pl-0 pr-0">
+  <%- include ('../partials/streamerMode') %> <%- include
+  ('../partials/alerts/error') %> <%- include ('../partials/alerts/success') %>
+  <% if (info && info.length > 0){ %>
+  <div class="alert alert-primary alert-dismissible" role="alert">
+    <p>
+      Here's your API Key<br />
+      <span class="text-break-all" id="apiKey"><%= info %></span><br />
+      This will not be showed again for security reasons.
+    </p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+<div class="container pl-0 pr-0 mb-5 tokens">
+  <script>
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+      const apiKey = document.getElementById('apiKey');
+      apiKey.onclick = function () {
+        document.execCommand('copy');
+      };
+      apiKey.addEventListener('copy', function (event) {
+        event.preventDefault();
+        if (event.clipboardData) {
+          event.clipboardData.setData('text/plain', apiKey.textContent);
+        }
+      });
+    });
+
+  </script>
+  <% } %> <%- include ('../partials/account/tokens/tokensList') %>
+</div>
+
+<%- include ('../partials/footer.ejs') %>

@@ -1,0 +1,6 @@
+<div class="info header mt-3 mb-2">Role</div>
+<select id="role" name="role" class="selectpicker">
+  <option value="admin" <% if(currentUser.role === 'admin') { %> disabled <% } %>>Admin</option>
+  <option value="user" selected>User</option>
+</select>
+

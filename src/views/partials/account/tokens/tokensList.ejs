@@ -1,0 +1,171 @@
+<div class="alert alert-danger collapse alert-timeout" role="alert" id="error">
+</div>
+<div class="alert alert-success collapse alert-timeout" role="alert" id="success">
+</div>
+<div class="modal fade" id="create-token" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Create new token</h5>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <form action="/tokens" method="POST" class="mt-2" id="token">
+                    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                    <div class="form-group">
+                      <label for="tokenLabel">Token Label</label>
+                      <input name="label" type="text" class="form-control" id="tokenLabel" value="Default Token Label"
+                        required>
+                    </div>
+                    <div class="form-group">
+                      <label for="tokenExpire">Expire?</label>
+                      <select name="expire" class="selectpicker" id="tokenExpire" data-style="btn-primary">
+                        <option value="0" selected>Never</option>
+                        <option value="1">24 Hours</option>
+                        <option value="7">A Week</option>
+                        <option value="30">A Month</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Create Token</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal fade" id="rename-token" tabindex="-1" role="dialog" aria-labelledby="rename-token">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Rename Token</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <form action="" method="POST" class="mt-2">
+                  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                  <input id="renameTokenLabel" name="label" type="text" class="form-control" value="renameTokenLabel">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary text-white">Rename</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="confirm-delete">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Remove all tokens</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <form action="/all/tokens?_method=delete" method="POST" class="mt-2">
+                  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                  <p>Are you sure you want to delete all your API tokens, this procedure is irreversible.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-danger btn-ok text-white">Delete all tokens</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+<div class="customTable">
+  <div class="table-wrapper">
+    <div class="table-title">
+      <div class="row">
+        <div class="col-xs-12 col-md-6">
+          <h2>Your <strong>Tokens</strong
+          </h2>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <a data-toggle="modal" data-target="#confirm-delete" role="button" class="btn btn-danger">Delete
+            All</a>
+          <a data-toggle="modal" data-target="#create-token" role="button"
+            class="btn btn-success <% if(currentUser.streamerMode){ %>disabled<%}%>"<% if(currentUser.streamerMode){ %>aria-disabled=" true"<%}%>>Create Token</a>
+        </div>
+      </div>
+    </div>
+  </div>
+ <table class="table table-hover" id="table" data-toggle="table" data-pagination="true"  data-id-field="id"
+    data-side-pagination="server" data-url="/tokens-data" data-sort-order="desc" data-page-size="10"
+    data-page-list="[10, 25, 50, 100, all]">
+      <thead>
+        <tr>
+          <th data-field="createdAt" data-formatter="createdAtFormater" data-sortable="true"  scope="col">Created</th>
+          <th data-field="label" scope="col">Label</th>
+          <th data-field="expires" data-formatter="expiresFormater" scope="col">Expires</th>
+          <th data-field="actions" data-formatter="actionsFormatter" data-events="actionEvents" scope="col">Actions</th>
+        </tr>
+      </thead>
+    </table>
+    <script>
+      $(document).ready(() => {
+        $('#table').bootstrapTable({
+          formatNoMatches: function () {
+            return 'No tokens found.'
+          }
+        })
+      })
+      const $table = $('#table')
+
+      function createdAtFormater(value, row) {
+        return moment(value).format('MMM Do YYYY hh:mm A')
+      }
+      function expiresFormater(value, row) {
+        if (row.isNever) {
+          return 'Never Expires'
+        }
+        return moment(value).fromNow()
+      }
+
+
+      function actionsFormatter(value, row, index) {
+        return [
+          '<a class="edit" href="javascript:void(0)" title="Copy link">',
+          '<i class="fas fa-edit"></i>',
+          '</a> ',
+          '<a class="delete" href="javascript:void(0)" title="Delete Upload">',
+          ' <i class="fas fa-times-circle"></i>',
+          '</a>'
+        ].join('')
+      }
+      //Data events
+      window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+          $('#rename-token form').attr('action', `/tokens/${row._id}?_method=PUT`);
+          $("#renameTokenLabel").attr('value', row.label);
+          $("#renameTokenLabel").val(row.label);
+          $("#renameTokenLabel").attr('value', row.label);
+          $('#rename-token').modal('show');
+        },
+        'click .delete': function (e, value, row, index) {
+          $.ajax({
+            url: `/tokens/${row._id}?_method=DELETE`,
+            type: 'POST',
+            data: { _csrf: '<%= _csrf %>' }, success: function (response) {
+              $('#success').show(); $('#success').html(response.message); $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+              })
+            }, error: function (response) {
+              $('#error').show(); $('#error').html(response.message);
+            }
+          });
+        }
+      }
+      $('#create-token').on('shown.bs.modal', function(){
+        $('#tokenLabel').focus();
+       })
+      $('#rename-token').on('shown.bs.modal', function(){
+        $('#renameTokenLabel').focus();
+       })
+      $('#rename-token').on('hide.bs.modal', function() {
+      $(':input', this).val('');
+    }); </script>
+      </div>

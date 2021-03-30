@@ -1,0 +1,32 @@
+version: "3.5"
+
+services:
+  app:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file: .env
+    depends_on:
+      - mongodb
+    networks:
+      - share
+    ports:
+      - 8080:8080
+  mongodb:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - share-mongodb-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    networks:
+      - share
+
+networks:
+  share:
+    name: share
+
+volumes:
+  share-mongodb-data:

@@ -1,6 +1,6 @@
 ---
 title: Introduction
-description: "Simple yet advanced NodeJS, MongoDB and Express based uploader."
+description: Simple yet advanced NodeJS, MongoDB and Express based uploader.
 position: 1
 category: Getting started
 features:

@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+// 1. Configuration and helpers
+@import "abstracts/variables";
+@import "abstracts/functions";
+@import "abstracts/mixins";
+
+// 2. Vender
+//
+// 3. Base stuff
+@import "base/base";
+@import "base/fonts";
+@import "base/typography";
+@import "base/helpers";
+
+// 4. Layout-related sections
+@import "layout/header";
+@import "layout/navbar";
+@import "layout/footer";
+
+// 5. Components
+@import "components/gallery";
+@import "components/tableList";
+@import "components/cards";
+@import "components/tags";
+@import "components/notloggedin";
+@import "components/dropzone";
+
+// 6. Page-specific styles
+@import "pages/index";
+@import "pages/auth";
+@import "pages/account";
+@import "pages/config";
+@import "pages/view";
+@import "pages/tokens";
+@import "pages/admin";

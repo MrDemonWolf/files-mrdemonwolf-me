@@ -1,0 +1,19 @@
+<%- include ('../partials/header') %> <%- include ('../partials/navbar') %>
+<div class="container mt-3 pl-0 pr-0">
+  <%- include ('../partials/streamerMode') %> <%- include
+  ('../partials/alerts/error') %> <% if (info && info.length > 0){ %>
+  <div class="alert alert-primary alert-dismissible" role="alert">
+    Shorten link has been created for
+    <a href="<%= info[0].shortenLink %>" rel="nofollow noreffer" target="_blank"
+      ><%= info[0].url %></a
+    >
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <% } %>
+</div>
+<div class="container pl-0 pr-0 mb-5 links">
+  <%- include ('../partials/account/links/linksList') %>
+</div>
+<%- include ('../partials/footer.ejs') %>

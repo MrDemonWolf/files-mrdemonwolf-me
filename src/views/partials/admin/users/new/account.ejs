@@ -1,0 +1,43 @@
+<div class="header mb-2">Create new user</div>
+<div class="form-group">
+  <label for="username">Username</label>
+  <input
+    name="username"
+    type="text"
+    class="form-control <% if(errors && error[0].username) { %> is-invalid <% } %>"
+    id="username"
+    autocomplete="off"
+    data-lpignore="true"
+  />
+  <% if(errors && error[0].username) { %>
+  <small class="form-text text-danger"> <%= error[0].username %></small>
+  <% } %>
+</div>
+<div class="form-group">
+  <label for="email">Email</label>
+  <input
+    name="email"
+    type="text"
+    class="form-control <% if(errors && error[0].email) { %> is-invalid <% } %>"
+    id="email"
+  />
+  <% if(errors && error[0].email) { %>
+  <small class="form-text text-danger"> <%= error[0].email %></small>
+  <% } %>
+  <div class="form-group">
+    <label for="password"> Password</label>
+    <div class="input-group">
+      <input
+        name="password"
+        type="password"
+        data-toggle="password"
+        class="form-control <% if(errors && error[0].password) { %> is-invalid <% } %>"
+        id="password"
+        value="<%= generatePassword %>"
+      />
+    </div>
+  </div>
+  <% if(errors && error[0].password) { %>
+  <small class="form-text text-danger"> <%= error[0].password %></small>
+  <% } %>
+</div>

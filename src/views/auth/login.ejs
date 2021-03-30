@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+  <head>
+    <title>
+      <%= pageTitle %> | <%= siteTitle %>
+    </title>
+    <!-- Basic Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" href="<%= favicon %>" type="image/x-icon" />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script
+      type="text/javascript"
+      src="/bower_components/jquery/dist/jquery.min.js"
+    ></script>
+    <!-- Font Awsome-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/bower_components/font-awsome/css/all.min.css"
+    />
+    <!--Bootstrap -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/bower_components/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <!-- Custom -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+    <!-- Site meta data -->
+    <meta name="og:site_name" content="<%= siteTitle %>" />
+    <meta name="twitter:title" content="<%= siteTitle %>" />
+    <meta name="twitter:description" content="<%= siteDesc %>" />
+    <meta name="description" content="<%= siteDesc %>" />
+    <meta property="og:description" content="<%= siteDesc %>" />
+    <meta name="theme-color" content="#0084da" />
+    <meta content="<%= siteURL + currentPath %>" property="og:url" />
+  </head>
+
+  <body class="auth mb-0">
+    <div class="form-auth">
+      <div class="branding text-center mb-4">
+        <img alt="<%= siteTitle %> Logo" src="<%= logo %>" height="60" /><span
+          ><%= siteTitle %></span
+        >
+      </div>
+      <% errors = error && error.length > 0 %> <% if (error && typeof error[0]
+      === 'string'){ %>
+      <div class="alert alert-danger alert-timeout" role="alert">
+        <%= error %>
+      </div>
+      <% } %> <% if (success && typeof success[0] === 'string'){ %>
+      <div class="alert alert-success alert-timeout" role="alert">
+        <%= success %>
+      </div>
+      <% } %>
+      <form action="/login" method="POST" novalidate>
+        <input type="hidden" name="_csrf" value="<%= _csrf  %>" />
+        <div class="form-group">
+          <input
+            name="email"
+            type="email"
+            class="form-control <% if(errors && error[0].email){ %>is-invalid <% } %>"
+            id="email"
+            placeholder="Your email"
+          />
+          <% if (errors && error[0].email) { %>
+          <small class="invalid-feedback">
+            <%= error[0].email %>
+          </small>
+          <% } %>
+        </div>
+        <div class="form-group">
+          <input
+            name="password"
+            type="password"
+            class="form-control <% if(errors && error[0].password){ %>is-invalid <% } %>"
+            id="password"
+            placeholder="Your password"
+          />
+          <% if (errors && error[0].password) { %>
+          <small class="invalid-feedback">
+            <%= error[0].password %>
+          </small>
+          <% } %>
+        </div>
+        <div class="form-group">
+          <input
+            name="mfa"
+            type="mfa"
+            class="form-control <% if(errors && error[0].mfa){ %>is-invalid <% } %>"
+            id="text"
+            placeholder="Your MFA Token"
+
+          />
+          <% if (errors && error[0].mfa) { %>
+          <small class="invalid-feedback">
+            <%= error[0].mfa %>
+          </small>
+          <% } %>
+        </div>
+        <button type="submit" class="btn btn-auth btn-primary btn-block">
+          login
+        </button>
+      </form>
+      <div class="info">
+        <a href="/user/forgot-password">
+          <small class=" info text">Forgot your password?</small>
+        </a>
+        <a href="/user/resend-activation">
+          <small class=" info text">Resend account activation token</small>
+        </a>
+        <% if(signups) { %>
+          <a href="/signup">
+            <small class="info text">Create a account</small>
+          </a>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Bootstrap Javascript -->
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom -->
+    <script src="/assets/js/main.js"></script>
+  </body>
+</html>

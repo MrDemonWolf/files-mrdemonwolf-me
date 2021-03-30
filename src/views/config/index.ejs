@@ -1,0 +1,53 @@
+<%- include ('../partials/header') %> <%- include ('../partials/navbar') %>
+
+<div class="container w-50 mt-3 mb-5 config">
+  <%- include ('../partials/alerts/success') %> <%- include
+  ('../partials/alerts/error') %>
+
+  <h1 class="header">Create a config file</h1>
+
+  <form action="/config" method="POST">
+    <input type="hidden" name="_csrf" value="<%= _csrf  %>" />
+    <div class="form-group">
+      <label for="token">Please paste your token you created</label>
+      <input
+        name="token"
+        type="password"
+        class="form-control"
+        id="token"
+        aria-describedby="token"
+        data-toggle="password"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="supportedUploader">Pick supported uploadeder</label>
+      <select class="selectpicker" name="supportedUploader" required>
+        <option value="sharex" selected>ShareX</option>
+        <option value="share-cli">Share CLI</option>
+      </select>
+    </div>
+
+    <!-- ShareX  -->
+    <div class="conditional" data-condition="supportedUploader === 'sharex'">
+      <div class="form-group">
+        <label for="sharexType">What uploads you want enabled for ShareX</label>
+        <select
+          class="selectpicker"
+          name="sharexType"
+          multiple
+          data-actions-box="true"
+        >
+          <option value="FileUploader" selected>Files</option>
+          <option value="ImageUploader" selected>Images</option>
+          <option value="TextUploader" selected>Text</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" style="color: #ffff;">
+      Download config
+    </button>
+  </form>
+</div>
+
+<%- include ('../partials/footer') %>

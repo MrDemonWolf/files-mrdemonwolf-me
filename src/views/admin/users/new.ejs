@@ -1,0 +1,14 @@
+<%- include ('../../partials/header') %> <%- include
+('../../partials/admin/navbar') %> <% errors = error && error.length > 0 %> <%
+successs = error && error.length > 0 %>
+
+<div class="container w-50 mt-3 mb-3 admin user">
+  <form action="/admin/users" method="POST">
+    <input type="hidden" name="_csrf" value="<%= _csrf  %>" />
+    <%- include ('../../partials/admin/users/new/account') %> <%- include
+    ('../../partials/admin/users/new/roles') %> <%- include
+    ('../../partials/admin/users/new/toggles') %>
+    <button type="submit" class="btn btn-primary mb-5">Create User</button>
+  </form>
+</div>
+<%- include ('../../partials/footer.ejs') %>

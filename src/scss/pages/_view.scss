@@ -1,0 +1,29 @@
+.view {
+    &_images {
+        position: relative;
+
+        &:hover {
+            cursor: pointer;
+            transform: scale(1.01);
+            transition-duration: 200ms;
+
+            .btn {
+                opacity: 1;
+            }
+        }
+
+        .btn {
+            position: absolute;
+            top: 56%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            background: black;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 2em;
+            opacity: 0;
+        }
+    }
+}

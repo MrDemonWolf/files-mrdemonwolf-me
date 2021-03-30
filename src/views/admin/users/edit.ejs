@@ -1,0 +1,59 @@
+<%- include ('../../partials/header') %> <%- include
+('../../partials/admin/navbar') %> <% errors = error && error.length > 0 %>
+<% successs = error && error.length > 0 %>
+
+
+
+<div class="container w-50 mt-3 mb-3 admin user">
+  <div
+    class="alert alert-success collapse alert-timeout"
+    role="alert"
+    id="success"
+  ></div>
+  <div
+    class="alert alert-danger collapse alert-timeout"
+    role="alert"
+    id="error"
+  >
+  </div>
+   <% if (errors && typeof error[0] === 'string'){ %>
+      <div class="alert alert-danger alert-timeout" role="alert">
+        <%= error %>
+      </div>
+      <% } %>
+       <% if (successs && typeof success[0] === 'string'){ %>
+      <div class="alert alert-success alert-timeout" role="alert">
+        <%= success %>
+      </div>
+      <% } %>
+
+    <form action="/admin/users/edit/<%= user.slug %>?_method=PUT" method="POST">
+      <input type="hidden" name="_csrf" value="<%= _csrf  %>" />
+      <% owner = currentUser.role === 'owner'; %>
+      <% userOwner = user.role === 'owner'; %>
+      <% userAdmin = user.role === 'admin'; %>
+      <% userOwnerOrAdmin = userOwner || userAdmin; %>
+      <% userSelf = user.id === currentUser.id; %>
+      <% if (!owner && !userSelf &&  userOwnerOrAdmin) { %>
+      <!-- Blocks owners from being edited -->
+      <%- include ('../../partials/admin/users/view/account') %> <%- include
+      ('../../partials/admin/users/view/status') %> <%- include
+      ('../../partials/admin/users/view/roles') %> <%- include
+      ('../../partials/admin/users/view/security') %> <%- include
+      ('../../partials/admin/users/view/toggles') %> <%- include
+      ('../../partials/admin/users/view/basicInfo') %> <% } else { %> <%-
+      include
+      <!-- Allows admins to edit users -->
+      ('../../partials/admin/users/edit/account') %> <%- include
+      ('../../partials/admin/users/edit/status') %> <%- include
+      ('../../partials/admin/users/edit/roles') %> <%- include
+      ('../../partials/admin/users/edit/security') %> <%- include
+      ('../../partials/admin/users/edit/toggles') %> <%- include
+      ('../../partials/admin/users/edit/basicInfo') %>
+      <button type="submit" class="btn btn-primary mb-5">Edit User</button>
+    </form>
+    <% } %>
+  </div>
+
+  <%- include ('../../partials/footer.ejs') %>
+</div>

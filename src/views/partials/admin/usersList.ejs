@@ -1,0 +1,338 @@
+
+<div class="modal fade" id="suspend-user" tabindex="-1" role="dialog" aria-labelledby="suspend-user">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Suspend <strong id="suspendUsername"></strong></h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+      <form id="suspendUser">
+    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+    <input type="hidden" id="suspendSlug" name="slug"/>
+    <div class="form-group">
+      <label for="suspendExpire">How long?</label>
+      <select name="suspendExpire" id="suspendExpire" class="selectpicker" data-style="btn-primary">
+        <option value="1">24 Hours</option>
+        <option value="7">A Week</option>
+        <option value="30">A Month</option>
+        <option value="custom">Custom</option>
+      </select>
+    </div>
+        <div class="form-group conditional" data-condition="suspendExpire === 'custom'">
+      <label for="suspendExpireCustom">Custom Date</label>
+      <div class="input-group date" id="suspendExpireDatepicker" data-target-input="nearest">
+        <input type="text" class="form-control datetimepicker-input" id="suspendExpireCustom" name="suspendExpireCustom"data-target="#suspendExpireDatepicker"/>
+        <div class="input-group-append" data-target="#suspendExpireDatepicker" data-toggle="datetimepicker">
+          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        </div>
+      </div>
+      <small id="suspendExpireCustom-error" class="invalid-feedback"> </small>
+    </div>
+       <div class="form-group">
+        <label for="suspendReasonLabel">Reason</label>
+        <input name="label" type="text" class="form-control" id="suspendReason" value=""
+          required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary text-white" id="btn-suspend-user">Suspend</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="confirm-delete-user" tabindex="-1" role="dialog"
+  aria-labelledby="confirm-delete-user" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Account Deletion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete <strong id="deleteUsername"></strong>, this procedure is
+          irreversible. This will remove all the user uploads,keys and other profile data.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <form class="d-inline">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+          <input type="hidden" id="deleteSlug" name="slug"/>
+          <button type="submit" class="btn btn-danger btn-ok text-white" id="btn-delete-user">Delete
+            User Account</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-3 pl-0 pr-0">
+  <div
+    class="alert alert-danger collapse alert-timeout"
+    role="alert"
+    id="error"
+  ></div>
+  <div
+    class="alert alert-success collapse alert-timeout"
+    role="alert"
+    id="success"
+  ></div>
+  <%- include ('../streamerMode') %>
+</div>
+<div class="customTable">
+  <div class="table-wrapper mb-0">
+    <div class="table-title">
+      <div class="row">
+        <div class="col-xs-12 col-md-6">
+          <h2>Manage <strong>Users</strong></h2>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <a role="button" class="btn btn-light text-dark float-right" href="/admin/users/new">Create New User</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table
+    id="table"
+    data-toggle="table"
+    data-pagination="true"
+    data-id-field="id"
+    data-side-pagination="server"
+    data-search="true"
+    data-url="/admin/users-data"
+    data-sort-order="desc"
+    data-page-size="10"
+    data-page-list="[10, 25, 50, 100, all]"
+  >
+    <thead>
+      <tr>
+        <!-- <th data-field="name" scope="col">Name</th> -->
+        <th
+          data-field="username"
+          data-formatter="usernameFormatter"
+          data-searchable="false"
+          scope="col"
+        >
+          Username
+        </th>
+        <th data-field="role" data-formatter="roleFormatter" scope="col">
+          Role
+        </th>
+        <th
+          data-field="createdAt"
+          data-formatter="createdAtFormatter"
+          data-sortable="true"
+          scope="col"
+        >
+          Created
+        </th>
+        <th
+          data-field="actions"
+          data-formatter="actionsFormatter"
+          data-events="actionEvents"
+          scope="col"
+          data-width="250px"
+        >
+          Quick Actions
+        </th>
+      </tr>
+    </thead>
+  </table>
+  <script>
+    $(document).ready(() => {
+      $('#table').bootstrapTable({
+        formatNoMatches: function() {
+          return 'No users found.';
+        }
+      });
+    });
+    var $table = $('#table');
+
+    // Data formatters
+    function usernameFormatter(value, row) {
+      return `<a href="/admin/users/${row.slug}" target="_blank">${value}</a>`;
+    }
+    function createdAtFormatter(value, row) {
+      return moment(value).fromNow();
+    }
+    function roleFormatter(value, row) {
+      switch (value) {
+        case 'owner':
+          return 'Owner';
+        case 'admin':
+          return 'Admin';
+        default:
+          if (row.isVerified === true) {
+            return 'Verified User';
+          }
+          return 'User';
+      }
+    }
+    function actionsFormatter(value, row, index) {
+      return [
+        `<a class="${
+          row.isBanned ? 'unban' : 'ban'
+        }"  href="javascript:void(0)" title="${
+          row.isBanned ? 'Unban' : 'Ban'
+        }" data-toggle="tooltip">`,
+        '<i class="fas fa-gavel"></i>',
+        '</a> ',
+        `<a class="${
+          row.isSuspended ? 'unsuspend' : 'suspend'
+        }"  href="javascript:void(0)" title="${
+          row.isSuspended ? 'Unsuspend' : 'Suspend'
+        }" data-toggle="tooltip">`,
+        `<i class="fas fas ${row.isSuspended ? 'fa-pause' : 'fa-play'}"></i>`,
+        '</a> ',
+        `<a class="edit" href="/admin/users/edit/${row.slug}" title="Edit">`,
+        '<i class="fas fa-edit"></i>',
+        '</a> ',
+        '<a class="delete" href="javascript:void(0)" title="Delete">',
+        ' <i class="fas fa-times-circle"></i>',
+        '</a>'
+      ].join('');
+    }
+    //Data events
+    window.actionEvents = {
+      'click .ban': function(e, value, row, index) {
+        $.ajax({
+          url: `/admin/users/ban/${row.slug}?_method=PUT`,
+          type: 'POST',
+          data: { _csrf: '<%= _csrf %>' },
+          success: function(response) {
+            $('#success').show();
+            $('#success').html(response.message);
+            $table.bootstrapTable('refresh', { silent: true });
+          },
+          error: function(response) {
+            $('#error').show();
+            $('#error').html(response.responseJSON.message);
+          }
+        });
+      },
+      'click .unban': function(e, value, row, index) {
+        $.ajax({
+          url: `/admin/users/unban/${row.slug}?_method=PUT`,
+          type: 'POST',
+          data: { _csrf: '<%= _csrf %>' },
+          success: function(response) {
+            $('#success').show();
+            $('#success').html(response.message);
+            $table.bootstrapTable('refresh', { silent: true });
+          },
+          error: function(response) {
+            $('#error').show();
+            $('#error').html(response.responseJSON.message);
+          }
+        });
+      },
+      'click .suspend': function(e, value, row, index) {
+        $('#suspendExpireCustom').val(moment().add('24', 'hours').format('MM/DD/YYYY h:mm A'));
+        $('#suspendReason').val('For breaking the rules you have been issued a suspension from our site.');
+        $('#suspendSlug').val(row.slug);
+        $('#suspendUsername').html(row.username);
+        $('#suspend-user').modal('show');
+      },
+     'click .unsuspend': function(e, value, row, index) {
+        $.ajax({
+          url: `/admin/users/unsuspend/${row.slug}?_method=PUT`,
+          type: 'POST',
+          data: { _csrf: '<%= _csrf %>' },
+          success: function(response) {
+            $('#success').show();
+            $('#success').html(response.message);
+            $table.bootstrapTable('refresh', { silent: true });
+          },
+          error: function(response) {
+            $('#error').show();
+            $('#error').html(response.responseJSON.message);
+          }
+        });
+      },
+      'click .delete': function(e, value, row, index) {
+        $('#deleteSlug').val(row.slug);
+        $('#deleteUsername').html(row.username);
+        $('#confirm-delete-user').modal('show');
+      }
+    };
+    $('#suspend-user').on('hide.bs.modal', function() {
+      $('#suspendExpire').selectpicker('val', '1');
+      $('#suspendReason').val('For breaking the rules you have been issued a suspension from our site.');
+    });
+    $('#suspendUser').on('submit', function(e) {
+      e.preventDefault();
+    });
+
+    $('#btn-delete-user').on('click', function(e) {
+    e.preventDefault();
+    const deleteSlug = $('#deleteSlug').val()
+      $.ajax({
+        url: `/admin/users/${deleteSlug}?_method=DELETE`,
+        type: 'POST',
+        data: { _csrf: '<%= _csrf %>'},
+        success: function(response) {
+          $('#confirm-delete-user').modal('hide');
+          $('#success').show();
+          $('#success').html(response.message);
+          $table.bootstrapTable('refresh', { silent: true });
+        },
+        error: function(response) {
+          console.log(response);
+          $('#confirm-delete-user').modal('hide');
+          $('#error').show();
+          $('#error').html(response.responseJSON.message);
+        }
+      });
+    });
+    $('#btn-suspend-user').on('click', function(e) {
+      e.preventDefault();
+    let suspendErrors = false;
+    const suspendReason = $('#suspendReason')
+    .val()
+    .trim();
+    if ($('#suspendExpire').val() === 'custom'){
+          const suspendExpireCustom = $('#suspendExpireCustom')
+        .val()
+        .trim();
+        if(suspendExpireCustom === '') {
+          suspendErrors = true;
+          $('#suspendExpireCustom-error').addClass('d-block');
+          $('#suspendExpireCustom-error').html('You must enter a vaild date and time.');
+        }
+    }
+    if (suspendReason === ''){
+      suspendErrors = true;
+      $('#suspendExpireCustom-error').addClass('d-block');
+      $('#suspendExpireCustom-error').html('You must enter a vaild date and time.');
+    }
+    if(suspendErrors) {
+      return;
+    }
+    const suspendSlug = $('#suspendSlug').val()
+    const suspendExpireVal = $('#suspendExpire').val()
+    const suspendExpireCustomVal =$('#suspendExpireCustom').val()
+    const suspendReasonVal =$('#suspendReason').val()
+      $.ajax({
+        url: `/admin/users/suspend/${suspendSlug}?_method=PUT`,
+        type: 'POST',
+        data: { _csrf: '<%= _csrf %>', reason: suspendReasonVal, expire: suspendExpireVal,expireCustom: suspendExpireCustomVal},
+        success: function(response) {
+          $('#suspend-user').modal('hide');
+          $('#success').show();
+          $('#success').html(response.message);
+          $table.bootstrapTable('refresh', { silent: true });
+        },
+        error: function(response) {
+          console.log(response);
+          $('#suspend-user').modal('hide');
+          $('#error').show();
+          $('#error').html(response.responseJSON.message);
+        }
+      });
+    });
+    $('#suspend-user').on('shown.bs.modal', function(){
+        $('#suspendReason').focus();
+    })
+  </script>
+</div>

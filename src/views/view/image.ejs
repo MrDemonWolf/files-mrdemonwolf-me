@@ -1,0 +1,31 @@
+<%- include ('../partials/view/image/header') %> <%- include ('../partials/navbar') %>
+
+<div class="container w-75 pt-5 view_images text-center">
+  <img class="img-thumbnail" src="/u/<%= upload.fileName + upload.fileExtension %>">
+  <a href="/u/<%= upload.fileName + upload.fileExtension %>" target="_blank" class="btn position-absolute">
+    <i class="fas fa-external-link-alt"></i>
+  </a>
+</div>
+<div class="container w-75 fixed-bottom pb-5 mb-5">
+  <div class="row">
+    <div class="col-md-6">
+      File Extension: <strong><%= upload.fileExtension %></strong>
+    </div>
+    <div class="col-md-6">
+      Uploaded: <i><%=  moment(upload.createdAt).format('MMM Do YYYY hh:mm A') %></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      File Size: <strong><%= upload.size %></strong>
+    </div>
+    <div class="col-md-6">
+      <a class="btn btn-primary text-white"
+        href="/u/<%= upload.fileName + upload.fileExtension %>" download="<%= upload.name || upload.fileName %>"
+        role="button">Download File</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<%- include ('../partials/footer.ejs') %>

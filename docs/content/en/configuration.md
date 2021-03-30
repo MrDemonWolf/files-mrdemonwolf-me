@@ -7,19 +7,76 @@ category: Getting started
 
 All of Share configuration is saved in the .env and the database as well.
 
-View [.env.example](https://github.com/MrDemonWolf/share/blob/master/server/.env.example) file as an example for server.
+View [.env.example](https://github.com/MrDemonWolf/share/blob/master/.env.example) file as an example.
 
-View [.env.example](https://github.com/MrDemonWolf/share/blob/master/client/.env.example) file as an example for client.
+## Site Title
 
-## Server
+```yaml
+# Set the site/app title
+# This is used for title on html pages and also for sending of emails
+TITLE=Share
+```
 
-### Sendgrid API Key
+## Site Description
 
-<alert type="danger">
+```yaml
+# Set the description of the site/app for SEO
+DESC=Advanced uploader with web front-end for images,files,and text. Built with ShareX in mind. Licensed under MIT and is free to use.
+```
 
-This is required for this project to work. [Sendgrid Help](/sendgrid)
+## Email (First install ONLY)
 
-</alert>
+```yaml
+# Set a email to become the first owner/admin.
+# This is used to convert the owner to owner role for the first time install.
+EMAIL=example@example.com
+```
+
+## Footer
+
+```yaml
+# Set the footer text
+# This is the branding name of who is running the site/app.
+FOOTER_TEXT=Share
+```
+
+## Footer Link
+
+```yaml
+# Set the footer text link
+# This is the footer text URL which it should link to.
+FOOTER_LINK=Share
+```
+
+## Signups
+
+```yaml
+# Set if you want other users to be able to signup.
+# If you are setting this up just for yourself.  Then keep this false
+# But if you want to let anyone signup and use the site/app then set this to true.
+# Only supports true or false
+SIGNUPS=false
+```
+
+## Credit
+
+```yaml
+# Choose if you want to support the developer by adding a link back to the github repo.
+# Only supports true or false
+CREDIT=false
+```
+
+## Owner
+
+```yaml
+# Set to false to disable the /owner route for setting your self as owner.
+# Only supports true or false
+OWNER=true
+```
+
+## Sendgrid
+
+[Sendgrid Help]({{ site.baseurl }}{% link docs/configuration/sendgrid.md %})
 
 ```yaml
 # Set the API key for sendgrid
@@ -28,43 +85,58 @@ This is required for this project to work. [Sendgrid Help](/sendgrid)
 SENDGRID_API_KEY=sg......
 ```
 
-### Sendgrid Domain
+## Sendgrid Domain
 
-<alert type="danger">
-
-This is required for this project to work. [Sendgrid Help](/sendgrid)
-
-</alert>
+[Sendgrid Help]({{ site.baseurl }}{% link docs/configuration/sendgrid.md %})
 
 ```yaml
 # Set the domain sendgrid will send emails from.
 # This is the domain emails will be sent from (noreply@yourdomain.com)
-EMAIL_DOMAIN=m.example.com
+# This is required.
+EMAIL_DOMAIN=example.com
 ```
 
-### Email From
-
-<alert type="danger">
-
-This is required for this project to work. [Sendgrid Help](/sendgrid)
-
-</alert>
+## Logger
 
 ```yaml
-# What domain should emails be sent from
-EMAIL_FROM='Share'
+# Enable or disable the logger to file.
+LOGGER=true
 ```
 
-### JWT Secret
+## Filecheck
+
+```yaml
+# Set rather or not to check all files uploaded if they are on the safe whitelist.
+# Files will be checked for images and or text rather or not you disable this.  This is for the gallery
+FILE_CHECK=true
+```
+
+## Upload limit
+
+```yaml
+# Set this to a limit you feel to be the max for all users to upload.
+# This is by default to 100M
+UPLOAD_LIMIT=100M
+```
+
+## Session Secret
+
+```yaml
+# Set signing key cookie based sessions.
+# This is to ensure the cookies are created from this app.
+SESSION_SECRET=HKfUWFCeRdAaIhqHL6aQ6aX1
+```
+
+## JWT Secret
 
 ```yaml
 # Set signing key for JWT (jsonwebtokens)
 # Which is used for making sure the API tokens are created from this app it self and
 # they can't be modifyed.
-JWT_SECRET=example
+JWT_SECRET=HKfUWFCeRdAaIhqHL6aQ6aX1
 ```
 
-### Database URIs
+## Database URIs
 
 ```yaml
 # Set the database connection URI
@@ -72,112 +144,23 @@ JWT_SECRET=example
 DATABASE_URI=mongodb://localhost:27017/share
 ```
 
-### Site Title
-
-```yaml
-# Set the site title
-# This is used for title on pages and also for sending of emails
-SITE_TITLE=Share
-```
-
-### Website
-
-```yaml
-#This is whater the access to the front-end would be.  This is used on the back-end for sending the emails to users.
-WEBSITE=http://localhost:3000
-```
-
-### Registration
-
-```yaml
-# Enable/Disable registration
-REGISTRATION=true
-```
-
-### NodeJS Env
+## Env
 
 ```yaml
 # Set nodejs env.  Make sure to set this to production if your hosing it.   If your helping development then change to development
 NODE_ENV=production
 ```
 
-### IP
+## IP
 
 ```yaml
 # Sets the IP that the site/app will run on.
 IP=127.0.0.1
 ```
 
-### Port
+## Port
 
 ```yaml
 # Sets the PORT that the site/app will run on.
 PORT=8080
-```
-
-## Client
-
-### Site Title
-
-```yaml
-# Set the site title
-# This is used for title on pages and also for sending of emails
-SITE_TITLE=Share
-```
-
-### Site Description
-
-```yaml
-# Set the description of the site for SEO reasons
-SITE_DESCRIPTION=Simple yet advanced NodeJS, MongoDB and Express based uploader.
-```
-
-### Copyright
-
-```yaml
-# Set the footer text
-# This is the copuyright name of who is running the site.
-COPYRIGHT=Share
-```
-
-### Copyright Link
-
-```yaml
-# Set the footer text link
-# This is the copuyright text URL which it should link to.
-COPYRIGHT_LINK=http://localhost:3000
-```
-
-### Landing Description
-
-```yaml
-LANDING_DESCRIPTION=Simple yet advanced NodeJS, MongoDB and Express based uploader.
-```
-
-### Registration
-
-```yaml
-# Enable/Disable registration
-REGISTRATION=true
-```
-
-### NodeJS Env
-
-```yaml
-# Set nodejs env.  Make sure to set this to production if your hosing it.   If your helping development then change to development
-NODE_ENV=production
-```
-
-### IP
-
-```yaml
-# Sets the IP that the site/app will run on.
-IP=127.0.0.1
-```
-
-### Port
-
-```yaml
-# Sets the PORT that the site/app will run on.
-PORT=3000
 ```

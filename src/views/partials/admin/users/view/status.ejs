@@ -1,0 +1,4 @@
+<div class="info header">Status</div>
+<%- user.isBanned ? 'Banned' : user.isSuspended ? `Suspended <i>till</i>:
+${moment(user.suspendedExpire).format('M/D/YYYY h:mm A')} UTC <i>Reason</i>:
+${user.suspendedReason}` : user.emailVerified ? 'Activated' : 'Unactivated' %>

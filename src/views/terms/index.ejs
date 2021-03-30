@@ -1,0 +1,15 @@
+<%- include ('../partials/header') %> <%- include ('../partials/navbar') %>
+<div class="container mt-3 mb-5 pl-0 pr-0">
+  <% if(terms) { %>
+    <h1 class="">Terms of service and Privacy Policy</h1>
+    <strong>Last updated</strong>: <%- terms ? moment(terms.updatedAt).format('MMM D,YYYY hh:mm') + ' at ' + moment(terms.updatedAt).format('hh:mm A') : '' %>
+    <div class="pt-4 pb-4">
+      <%- terms ? terms.content : '' %>
+</div>
+  <% } else { %>
+    <% if(currentUser && currentUser.role === 'owner') { %>
+      <h1>Please go to admin/settings to setup your terms.
+    <% }%>
+ <% }%>
+</div>
+<%- include ('../partials/footer.ejs') %>

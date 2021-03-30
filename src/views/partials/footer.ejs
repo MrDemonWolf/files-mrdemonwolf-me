@@ -1,0 +1,58 @@
+<!-- Footer -->
+<footer>
+  <!-- Footer copyright with auto update year. -->
+  <div class="container">
+    <div class="row ml-5 mr-5">
+      <div class="col-md-12 col-lg-8 left">
+        <p>©
+          <%= currentYear %>
+          <strong>
+            <a href="<%- footerLink ? footerLink : siteURL %>"><%= footerText %></a>
+          </strong>
+           <% if(signupTerms) { %>
+          <span class="display-hidden">
+            - <a href="/terms">Terms of service & Privacy Policy</a>
+          <% } %>
+          <% if(credit) { %>
+          <span class="display-hidden">
+            - Github Repo <a href="https://github.com/MrDemonWolf/share/" target="_blank" rel="noopener"><i
+                class="fab fa-github"></i></a></span>
+          <% } %>
+        </p>
+      </div>
+      <div class="col-lg-4 display-hidden right">
+        <% if(showVersion) { %>
+          <p class="mt-0 pt-0"><span>Currently running Version <%= version %></span></p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Conditionize -->
+<script src="/bower_components/conditionize2.js/jquery.conditionize2.min.js"></script>
+<!-- Bootstrap Toggle -->
+<script src="/bower_components/bootstrap4-toggle/js/bootstrap4-toggle.min.js"></script>
+<!-- Bootstrap Select -->
+<script src="/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<!-- Bootstrap Table -->
+<script src="/bower_components/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<!-- Bootstrap File input -->
+<script src="/bower_components/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="/bower_components/bootstrap-fileinput/themes/fas/theme.min.js"></script>
+ <!-- Bootstrap Tags -->
+<script src="/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
+<!-- summernote -->
+<script src="/bower_components/summernote/dist/summernote-bs4.min.js"></script>
+<!-- bootstrap-tagsinput -->
+<link rel="stylesheet" type="text/css" href="/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
+<!-- Custom -->
+<script src="/assets/js/main.js"></script>
+<script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker
+  .register('/sw.js')
+  .then(function() { console.log("Service Worker Registered"); });
+}
+</script>
+</body>
+</html>

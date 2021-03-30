@@ -1,18 +1,18 @@
 ---
 title: Getting started
-description: Simple yet advanced NodeJS, MongoDB and Express based uploader.
+description: 'Simple yet advanced NodeJS, MongoDB and Express based uploader.'
 position: 2
 category: Getting started
 ---
 
 ### Download
 
-You can now download the release [here](https://github.com/MrDemonWolf/share/releases/)
+You can now download the release [here](https://github.com/MrDemonWolf/wolfpal/releases/)
 
 You can also fork,clone,download from github for pre release builds and development.
 
 - Clone the repo: `git clone https://github.com/MrDemonWolf/wolfpal.git`
-- [Fork, Clone, or Download on GitHub](https://github.com/MrDemonWolf/share)
+- [Fork, Clone, or Download on GitHub](https://github.com/MrDemonWolf/wolfpal)
 
 ### Installation
 

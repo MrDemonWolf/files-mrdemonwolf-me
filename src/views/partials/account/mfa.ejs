@@ -1,0 +1,78 @@
+<% if(currentUser.mfa) { %>
+<a id="btn-enable-mfa" class="btn btn-success disabled" style="color: #ffff;"
+  >MFA is enabled</a
+>
+
+<% } else { %>
+<a id="btn-enable-mfa" class="btn btn-danger" style="color: #ffff;"
+  >Enable Multi Factor Authentication</a
+>
+<% }%>
+<script>
+  $(document).ready(() => {
+    $('#btn-enable-mfa').on('click', function() {
+      $.ajax({
+        url: '/account/mfa/setup',
+        type: 'POST',
+        data: { _csrf: '<%= _csrf %>' },
+        success: function(response) {
+          $('#mfa-error').removeClass('d-block');
+          $('#mfa-secret').attr('value', response.mfaSecret);
+          $('#mfa-secret').val(response.mfaSecret);
+          $('#mfa-qr-code').attr('src', response.qrcode);
+        },
+        error: function(response) {
+          console.log(response);
+        }
+      });
+      $('#enable-mfa').modal('show');
+    });
+
+    $('#enable-mfa').on('shown.bs.modal', function() {
+      $('#verify-mfa-token').focus();
+    });
+
+    $('#enable-mfa').on('hidden.bs.modal', function() {
+      $('#mfa-secret').password('hide');
+      $(':input', this).val('');
+    });
+    $('#verify-mfa').on('submit', function(e) {
+      e.preventDefault();
+    });
+    $('#btn-verify-mfa').on('click', function(e) {
+      e.preventDefault();
+      const verifyMfa = $('#verify-mfa-token')
+        .val()
+        .trim();
+      if (!verifyMfa) {
+        $('#mfa-error').addClass('d-block');
+        $('#mfa-error').html(
+          'You must verify MFA code before you can enable it.'
+        );
+      }
+      const secretMfa = $('#mfa-secret').val();
+
+      $.ajax({
+        url: '/account/mfa/setup/verify',
+        type: 'POST',
+        data: { _csrf: '<%= _csrf %>', token: verifyMfa, secret: secretMfa },
+        success: function(response) {
+          $('#mfa-secret').password('hide');
+          $('#btn-enable-mfa').html('MFA is enabled');
+          $('#mfa').bootstrapToggle('enable');
+          $('#mfa').bootstrapToggle('on');
+          $('#btn-enable-mfa').removeClass('btn-danger');
+          $('#btn-enable-mfa').addClass('btn-success');
+          $(':input', this).val('');
+          $('#enable-mfa').modal('hide');
+          $('#btn-enable-mfa').addClass('disabled');
+        },
+        error: function(response) {
+          console.log(response);
+          $('#mfa-error').addClass('d-block');
+          $('#mfa-error').html(response.responseJSON.message);
+        }
+      });
+    });
+  });
+</script>

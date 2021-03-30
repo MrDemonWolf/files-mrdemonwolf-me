@@ -1,0 +1,120 @@
+<div class="info header mt-3 mb-2">Toggles</div>
+<div class="form-group d-inline">
+  <label for="streamerMode">Streamer Mode</label>
+  <input
+    id="streamerMode"
+    name="streamerMode"
+    value="true"
+    type="checkbox"
+    checked
+    data-toggle="toggle"
+    data-on="On"
+    data-off="Off"
+    data-onstyle="success"
+    data-offstyle="danger"
+  />
+
+  <label for="mfa">Multi Factor Authentication</label>
+  <input
+    id="mfa"
+    name="mfa"
+    value="true"
+    type="checkbox"
+    checked
+    data-toggle="toggle"
+    data-on="On"
+    data-off="Off"
+    data-onstyle="success"
+    data-offstyle="danger"
+  />
+</div>
+<script>
+    $(document).ready(function () {
+    $('#streamerMode').attr(
+      'checked',
+      '<%= currentUser.streamerMode %>' === 'true' ? true : false
+    );
+    $('#streamerMode').change(function () {
+        if ($(this).prop('checked') === true) {
+          $.ajax({
+              url: `/account/streamer-mode/true`,
+              type: 'PUT',
+              data: {
+                _csrf: '<%= _csrf %>'
+              },
+              success: function (response) {
+                $('#success').show();
+                $('#success').html(response.message);
+                $('#streamerModeBanner').show();
+
+                // Email
+                $('#email').attr(
+                  'value',
+                  '<%- currentUser.email.substring(0,3) %>' + '******'
+                );
+                $('#emailLabel').html(`Email (Can't be updated as streamer mode is enabled )`)
+                $('#email').attr('disabled', true);
+                <%if (currentUser.newEmail) {%>
+                  $('#newEmail').html(
+                    '<%- currentUser.newEmail.substring(0,3) %>' + '******'
+                  );
+               <%} %>
+            },
+            error: function (response) {
+              console.log(response)
+              $('#error').show();
+              $('#error').html(response);
+            }
+          });
+      } else {
+        $.ajax({
+            url: `/account/streamer-mode/false`,
+            type: 'PUT',
+            data: {
+              _csrf: '<%= _csrf %>'
+            },
+            success: function (response) {
+              $('#success').show();
+              $('#success').html(response.message);
+              $('#streamerModeBanner').hide();
+              // Email
+              $('#email').attr('value', '<%- currentUser.email %>');
+              $('#emailLabel').html("Email")
+              $('#email').attr('disabled', false);
+               <% if (currentUser.newEmail) {%>
+                $('#newEmail').html('<%- currentUser.newEmail %>');
+                <%} %>
+          },
+          error: function (response) {
+            console.log(response)
+            $('#error').show();
+            $('#error').html(response);
+          }
+        });
+    }
+    });
+      $('#mfa').attr(
+      'checked',
+      '<%= currentUser.mfa %>' === 'true' ? true : false
+    );
+        $('#mfa').bootstrapToggle('<%= currentUser.mfa %>' === 'true' ? 'enable' : 'disable');
+
+
+    $("#mfa").change(function() {
+    if ($(this).prop("checked") === false) {
+       $.ajax({
+      url: "/account/mfa?_method=delete",
+      type: "POST",
+      data: { _csrf: "<%= _csrf %>" },
+      success: function(response) {
+                  $("#btn-enable-mfa").html("Enable MFA");
+    $("#btn-enable-mfa").addClass("btn-danger");
+    $("#btn-enable-mfa").removeClass("btn-success");
+    $("#btn-enable-mfa").removeClass("disabled");
+        $('#mfa').bootstrapToggle('disable')
+      }
+    })
+    }
+  });
+    });
+</script>

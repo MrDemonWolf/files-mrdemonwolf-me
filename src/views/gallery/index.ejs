@@ -1,0 +1,31 @@
+<%- include ('../partials/header') %> <%- include ('../partials/navbar') %>
+
+<div class="container mt-3 mb-3">
+    <div class="mb-2">
+    <%- include ('../partials/alerts/error') %> <%- include ('../partials/alerts/success') %>
+  </div>
+</div>
+<div class="container-fluid">
+  <% if(images.length > 0) { %>
+  <% images.map((image, index) =>{ %>
+  <%- (index % 4 == 0) ? `<div class="row ml-2 mr-2 justify-content-center">`: "" %>
+  <div class="col-md-2 col-xs-12 gallery">
+    <a href="/view/<%= image.fileName %>">
+      <img class="img-thumbnail" src="/u/<%= image.fileName + image.fileExtension %>">
+    </a>
+    <form action="/gallery/<%= image.fileName + image.fileExtension %>?_method=DELETE" method="POST">
+      <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      <button class="btn btn-danger position-absolute" title="Delete" data-toggle="tooltip">
+        <i class="fas fa-trash"></i>
+      </button>
+    </form>
+  </div>
+  <%- index % 4 == 3 ? "</div>" : "" %>
+  <% }) %>
+  <% } else { %>
+  <h2 class="font-weight-bold text-center">No images found</h2>
+  <% } %>
+</div>
+</div>
+
+<%-include ('../partials/footer.ejs') %>

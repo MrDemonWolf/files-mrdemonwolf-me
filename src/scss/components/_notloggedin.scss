@@ -1,0 +1,15 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the _notloggedin component
+// -----------------------------------------------------------------------------
+.notloggedin {
+  h1 {
+    font-weight: 500;
+  }
+  p {
+    font-size: 1.5em;
+    font-weight: 400;
+  }
+  .jumbotron {
+    background-color: rgba(lighten($brand_color, 25%), 0.25);
+  }
+}

@@ -1,0 +1,19 @@
+<%- include ('../partials/header') %> <%- include ('../partials/navbar') %>
+
+<!-- Alerts -->
+<div class="container mt-3 pl-0 pr-0">
+  <%- include ('../partials/alerts/success') %> <%- include
+  ('../partials/streamerMode') %>
+</div>
+
+<!-- If signups are disabled and no user logged inn the  display -->
+<% if(currentUser && currentUser.isBanned) {%> <%- include
+('./partials/banned.ejs') %> <% } else if(currentUser &&
+currentUser.isSuspended) {%> <%- include ('./partials/suspended.ejs') %> <% }
+else {%> <% if (!signups && !currentUser) { %> <%- include
+('./partials/signupsDisabled.ejs') %>
+<!-- If signups are enaabled tell the user how to signup and why etc -->
+<% } else if(currentUser) { %> <%- include ('./partials/loggedin.ejs') %>
+<!-- If all fails this means not logged in and signups are enabled -->
+<% } else { %> <%- include ('./partials/notloggedin.ejs') %> <% } %> <%}%> <%-
+include ('../partials/footer.ejs') %>

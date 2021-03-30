@@ -1,0 +1,24 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the config page.
+// -----------------------------------------------------------------------------
+.config {
+  .header {
+    font-size: 1.5em;
+    font-style: $main-font;
+    font-weight: 700;
+    color: $brand-color;
+  }
+  form {
+    label {
+      font-size: 1em;
+      font-style: $second-font;
+    }
+  }
+  .info {
+    &.header {
+      font-style: $main-font;
+      font-weight: 500;
+      font-size: 1.5em;
+    }
+  }
+}

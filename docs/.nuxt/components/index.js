@@ -1,10 +1,10 @@
-export { default as AppColorSwitcher } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/app/AppColorSwitcher.vue'
 export { default as Alert } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/base/Alert.vue'
 export { default as Badge } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/base/Badge.vue'
 export { default as CodeBlock } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/base/CodeBlock.vue'
 export { default as CodeGroup } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/base/CodeGroup.vue'
 export { default as CodeSandbox } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/base/CodeSandbox.vue'
 export { default as List } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/base/List.vue'
+export { default as AppColorSwitcher } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/app/AppColorSwitcher.vue'
 export { default as BuiltWithNuxtDark } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/BuiltWithNuxtDark.vue'
 export { default as BuiltWithNuxtLight } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/BuiltWithNuxtLight.vue'
 export { default as IconArrowLeft } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconArrowLeft.vue'
@@ -38,13 +38,13 @@ export { default as AppSearch } from '../../node_modules/@nuxt/content-theme-doc
 export { default as AppSearchAlgolia } from '../../node_modules/@nuxt/content-theme-docs/src/components/app/AppSearchAlgolia.vue'
 export { default as AppToc } from '../../node_modules/@nuxt/content-theme-docs/src/components/app/AppToc.vue'
 
-export const LazyAppColorSwitcher = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/app/AppColorSwitcher.vue' /* webpackChunkName: "components/app-color-switcher" */).then(c => wrapFunctional(c.default || c))
 export const LazyAlert = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/Alert.vue' /* webpackChunkName: "components/alert" */).then(c => wrapFunctional(c.default || c))
 export const LazyBadge = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/Badge.vue' /* webpackChunkName: "components/badge" */).then(c => wrapFunctional(c.default || c))
 export const LazyCodeBlock = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/CodeBlock.vue' /* webpackChunkName: "components/code-block" */).then(c => wrapFunctional(c.default || c))
 export const LazyCodeGroup = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/CodeGroup.vue' /* webpackChunkName: "components/code-group" */).then(c => wrapFunctional(c.default || c))
 export const LazyCodeSandbox = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/CodeSandbox.vue' /* webpackChunkName: "components/code-sandbox" */).then(c => wrapFunctional(c.default || c))
 export const LazyList = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/List.vue' /* webpackChunkName: "components/list" */).then(c => wrapFunctional(c.default || c))
+export const LazyAppColorSwitcher = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/app/AppColorSwitcher.vue' /* webpackChunkName: "components/app-color-switcher" */).then(c => wrapFunctional(c.default || c))
 export const LazyBuiltWithNuxtDark = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/BuiltWithNuxtDark.vue' /* webpackChunkName: "components/built-with-nuxt-dark" */).then(c => wrapFunctional(c.default || c))
 export const LazyBuiltWithNuxtLight = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/BuiltWithNuxtLight.vue' /* webpackChunkName: "components/built-with-nuxt-light" */).then(c => wrapFunctional(c.default || c))
 export const LazyIconArrowLeft = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconArrowLeft.vue' /* webpackChunkName: "components/icon-arrow-left" */).then(c => wrapFunctional(c.default || c))

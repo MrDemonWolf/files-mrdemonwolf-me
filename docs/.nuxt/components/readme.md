@@ -6,13 +6,13 @@ You can directly use them in pages and other components without the need to impo
 
 **Tip:** If a component is conditionally rendered with `v-if` and is big, it is better to use `Lazy` or `lazy-` prefix to lazy load.
 
-- `<AppColorSwitcher>` | `<app-color-switcher>` (components/global/app/AppColorSwitcher.vue)
 - `<Alert>` | `<alert>` (components/global/base/Alert.vue)
 - `<Badge>` | `<badge>` (components/global/base/Badge.vue)
 - `<CodeBlock>` | `<code-block>` (components/global/base/CodeBlock.vue)
 - `<CodeGroup>` | `<code-group>` (components/global/base/CodeGroup.vue)
 - `<CodeSandbox>` | `<code-sandbox>` (components/global/base/CodeSandbox.vue)
 - `<List>` | `<list>` (components/global/base/List.vue)
+- `<AppColorSwitcher>` | `<app-color-switcher>` (components/global/app/AppColorSwitcher.vue)
 - `<BuiltWithNuxtDark>` | `<built-with-nuxt-dark>` (components/global/icons/BuiltWithNuxtDark.vue)
 - `<BuiltWithNuxtLight>` | `<built-with-nuxt-light>` (components/global/icons/BuiltWithNuxtLight.vue)
 - `<IconArrowLeft>` | `<icon-arrow-left>` (components/global/icons/IconArrowLeft.vue)

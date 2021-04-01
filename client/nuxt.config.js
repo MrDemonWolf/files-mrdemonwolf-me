@@ -71,7 +71,21 @@ export default {
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    proxy: true,
+    https: false,
+    credentials: true,
+  },
+  proxy: {
+    '/api/': {
+      target: process.env.API_URI || 'http://localhost:8080',
+      pathRewrite: {
+        '^/api/': '/',
+      },
+    },
+  },
+
+  /*
 
   /*
    ** Color mode configuration

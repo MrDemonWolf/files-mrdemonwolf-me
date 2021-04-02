@@ -134,12 +134,12 @@
             class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0"
           >
             <span class="inline-flex rounded-md shadow">
-              <a
-                href="#"
+              <nuxt-link
+                to="/login"
                 class="inline-flex items-center px-4 py-2 text-base font-medium bg-white border border-transparent rounded-md text-primary-600 hover:bg-gray-50"
               >
                 Log in
-              </a>
+              </nuxt-link>
             </span>
           </div>
         </nav>
@@ -207,13 +207,13 @@
                 >
               </div>
               <div role="none">
-                <a
-                  href="#"
+                <nuxt-link
+                  to="/login"
                   class="block w-full px-5 py-3 font-medium text-center text-primary-600 bg-gray-50 hover:bg-gray-100"
                   role="menuitem"
                 >
                   Log in
-                </a>
+                </nuxt-link>
               </div>
             </div>
           </div>

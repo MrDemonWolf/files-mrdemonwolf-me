@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@nuxtjs/auth-next": "5.0.0-1616003482.75c20e6"
+  }
+}

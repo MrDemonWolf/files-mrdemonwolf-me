@@ -86,6 +86,39 @@ export default {
   },
 
   /*
+   ** Auth configuration
+   */
+  auth: {
+    redirect: {
+      home: '/dashboard',
+    },
+    strategies: {
+      local: {
+        scheme: 'refresh',
+        token: {
+          property: 'access_token',
+          maxAge: 1000 * 60 * 5, //  5 mins
+          type: 'Bearer',
+        },
+        refreshToken: {
+          property: 'refresh_token',
+          data: 'refresh_token',
+          maxAge: 1000 * 60 * 60 * 24 * 14, // Two Weeks
+        },
+        user: {
+          property: 'user',
+          autoFetch: true,
+        },
+        endpoints: {
+          login: { url: '/api/auth/login', method: 'post' },
+          refresh: { url: '/api/auth/refresh', method: 'post' },
+          user: { url: '/api/account', method: 'get' },
+          logout: { url: '/api/auth/logout', method: 'post' },
+        },
+        autoLogout: false,
+      },
+    },
+  },
 
   /*
    ** Color mode configuration

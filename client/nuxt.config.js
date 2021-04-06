@@ -20,7 +20,12 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/filters' },
+    { src: '~/plugins/is-empty' },
+    { src: '~/plugins/js-sha512' },
+    { src: '~/plugins/vue-click-outside', srr: false },
+  ],
 
   loading: false,
 
@@ -41,7 +46,16 @@ export default {
         component: 'fa',
         icons: {
           regular: ['faMoon'],
-          solid: ['faSun', 'faCheck', 'faSkull', 'faCog', 'faCircle'],
+          solid: [
+            'faSun',
+            'faCaretDown',
+            'faCheck',
+            'faSkull',
+            'faCog',
+            'faCircle',
+            'faMapMarkerAlt',
+            'faCalendar',
+          ],
         },
       },
     ],
@@ -60,6 +74,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    // https://auth.nuxtjs.org/
+    '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/svg',

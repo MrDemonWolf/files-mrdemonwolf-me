@@ -34,20 +34,9 @@
           to="/account"
           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dakr:text-white"
           role="menuitem"
+          @click.native="hide"
           >My Profile</nuxt-link
         >
-        <!-- <nuxt-link
-          to="/account/settings"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dakr:text-white"
-          role="menuitem"
-          >My Settings</nuxt-link
-        >
-        <nuxt-link
-          to="/account/billing"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dakr:text-white"
-          role="menuitem"
-          >My Billing</nuxt-link
-        > -->
 
         <button
           role="menuitem"

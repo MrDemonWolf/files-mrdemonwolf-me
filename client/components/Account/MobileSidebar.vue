@@ -58,14 +58,14 @@
               </svg>
             </button>
           </div>
-          <div class="flex items-center flex-shrink-0 px-4">
+          <div
+            class="flex items-center flex-shrink-0 px-4 text-primary-500 dark:text-primary-300"
+          >
             <Logo
               class="inline-block w-auto h-8"
               :alt="`${$config.title} Logo`"
             />
-            <span
-              class="ml-3 text-xl font-bold align-middle text-primary-500 font-roboto dark:text-primary-300"
-            >
+            <span class="ml-3 text-xl font-bold align-middle font-roboto">
               {{ $config.title }}</span
             >
           </div>

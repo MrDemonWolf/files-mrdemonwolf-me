@@ -3,21 +3,18 @@
     <div class="flex flex-col w-64">
       <div class="flex flex-col flex-1 h-0">
         <div
-          class="flex items-center flex-shrink-0 h-16 px-4 bg-white dark:bg-gray-800"
+          class="flex items-center flex-shrink-0 h-16 px-4 bg-white dark:bg-gray-800 dark:text-primary-100 text-primary-500"
         >
           <Logo
             class="inline-block w-auto h-8"
             :alt="`${$config.title} Logo`"
           />
-          <span
-            class="ml-3 text-xl font-bold align-middle text-primary-500 font-roboto dark:text-primary-300"
-          >
+          <span class="ml-3 text-xl font-bold align-middle font-roboto">
             {{ $config.title }}</span
           >
         </div>
         <div class="flex flex-col flex-1 overflow-y-auto">
           <nav class="flex-1 px-2 py-4 space-y-1 bg-gray-200 dark:bg-gray-700">
-            <!-- Current: "bg-gray-100 text-gray-900", Default: "text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
             <nuxt-link
               v-for="(link, index) in links"
               :key="index"

@@ -47,14 +47,18 @@ export default {
         icons: {
           regular: ['faMoon'],
           solid: [
-            'faSun',
             'faCaretDown',
+            'faSun',
             'faCheck',
             'faSkull',
             'faCog',
-            'faCircle',
+            'faLock',
+            'faUnlock',
             'faMapMarkerAlt',
             'faCalendar',
+            'faArrowLeft',
+            'faCircle',
+            'faHome',
           ],
         },
       },
@@ -99,6 +103,13 @@ export default {
         '^/api/': '/',
       },
     },
+  },
+
+  /*
+   ** dayjs configuration
+   */
+  dayjs: {
+    plugins: ['localizedFormat'],
   },
 
   /*

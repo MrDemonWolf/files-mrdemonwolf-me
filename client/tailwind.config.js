@@ -8,6 +8,7 @@
 const tailwindcssForms = require('@tailwindcss/forms')
 const tailwindcssTypography = require('@tailwindcss/typography')
 const tailwindcssAspectRatio = require('@tailwindcss/aspect-ratio')
+const tailwindBorderStyles = require('tailwindcss-border-styles')
 
 module.exports = {
   purge: {
@@ -39,12 +40,36 @@ module.exports = {
           900: '#161d3d',
         },
       },
+      height: {
+        80: '80vh',
+        84: '84vh',
+        85: '85vh',
+        90: '90vh',
+        95: '95vh',
+      },
+      borderWidth: {
+        6: '6px',
+      },
+      fontSize: {
+        '7xl': '5rem',
+        '8xl': '6rem',
+        '9xl': '7rem',
+      },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
         montserrat: ['Montserrat', 'sans-serif'],
       },
+      borderStyles: {
+        styles: true, // defaults to false
+        colors: true, // defaults to false
+      },
     },
   },
   variants: {},
-  plugins: [tailwindcssForms, tailwindcssTypography, tailwindcssAspectRatio],
+  plugins: [
+    tailwindcssForms,
+    tailwindcssTypography,
+    tailwindcssAspectRatio,
+    tailwindBorderStyles(),
+  ],
 }

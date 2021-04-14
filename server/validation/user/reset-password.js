@@ -29,9 +29,8 @@ module.exports = data => {
 
   if (Validator.isEmpty(data.comfirmPassword)) {
     codes.comfirmPassword = 'MUST_CONFIRM';
-    errors.comfirmPassword = 'You must comfirm your new password.';
+    errors.comfirmPassword = 'You must comfirm your password.';
   }
-
   return {
     codes,
     errors,

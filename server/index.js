@@ -76,10 +76,12 @@ require('./config/passport')(passport);
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const accountRoutes = require('./routes/account');
+const uploadRoutes = require('./routes/upload');
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/account', accountRoutes);
+app.use('/upload', uploadRoutes);
 
 /**
  * Handle 404 errors

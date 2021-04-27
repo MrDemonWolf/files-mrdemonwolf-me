@@ -8,7 +8,7 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const flash = require('express-flash');
 const fileUpload = require('express-fileupload');
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo');
 const path = require('path');
 const compression = require('compression');
 const helmet = require('helmet');
@@ -115,7 +115,7 @@ let sess = {
     httpOnly: true
   }, // Two weeks in milliseconds
   name: 'sessionId',
-  store: new MongoStore({ mongooseConnection: mongoose.connection })
+  store: new MongoStore({ mongoUrl: mongoose.connection._connectionString })
 };
 app.use(session(sess));
 

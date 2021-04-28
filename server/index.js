@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const expressip = require('express-ip');
 const userAgent = require('express-useragent');
+const fileUpload = require('express-fileupload');
+const path = require('path');
 
 /**
  * Load environment variables from the .env file, where API keys and passwords are stored.
@@ -65,6 +67,18 @@ switch (process.env.NODE_ENV) {
 }
 
 /**
+ * Express Fileupload
+ */
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: path.join(__dirname, 'tmp'),
+    safeFileNames: true,
+    preserveExtension: true
+  })
+);
+
+/**
  * Passport middleware configuration.
  */
 app.use(passport.initialize());
@@ -77,11 +91,13 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const accountRoutes = require('./routes/account');
 const uploadRoutes = require('./routes/upload');
+const thirdPartyUploadRoutes = require('./routes/3rd-party/upload');
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/account', accountRoutes);
 app.use('/upload', uploadRoutes);
+app.use('/3rd-party/upload', thirdPartyUploadRoutes);
 
 /**
  * Handle 404 errors

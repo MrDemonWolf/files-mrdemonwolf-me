@@ -90,4 +90,5 @@ sw.*
 *.swp
 
 # Server-side uploads
-server/uploads/*
+server/public/uploads/**/*
+server/tmp/*

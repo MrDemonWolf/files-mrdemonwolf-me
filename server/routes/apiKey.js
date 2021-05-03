@@ -116,4 +116,35 @@ router.post('/', requireAuth, isSessionValid, async (req, res) => {
   }
 });
 
+/**
+ * @route /apikey
+ * @method DELETE
+ * @description Allows a logged in user to delete a API Key
+ */
+router.delete('/:apikey_id', requireAuth, isSessionValid, async (req, res) => {
+  try {
+    const apiKey = await APIKey.findOne({
+      _id: req.params.apikey_id,
+      user: req.user.id
+    });
+
+    if (!apiKey) {
+      return res.status(404).json({
+        code: 'NOT_FOUND',
+        message: 'APIKey not found.'
+      });
+    }
+
+    await apiKey.delete();
+    res.status(200).json({
+      code: 'REMOVED',
+      message: 'APIKey has been removed'
+    });
+  } catch (e) {
+    res.status(500).json({
+      code: 'INTERNAL_SERVER_ERROR',
+      error: 'Internal Server Error.'
+    });
+  }
+});
 module.exports = router;

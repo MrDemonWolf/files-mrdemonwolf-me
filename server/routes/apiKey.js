@@ -34,11 +34,42 @@ const requireAuth = passport.authenticate('jwt', {
  */
 router.get('/', requireAuth, isSessionValid, async (req, res) => {
   try {
-    const apikeys = await APIKey.find({ user: req.user.id });
+    const apiKeys = await APIKey.find({ user: req.user.id });
 
-    const totalAPIKeys = apikeys.length;
+    const totalAPIKeys = apiKeys.length;
 
-    res.status(200).json({ apikeys, total: totalAPIKeys });
+    res.status(200).json({ apiKeys, total: totalAPIKeys });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      code: 'INTERNAL_SERVER_ERROR',
+      error: 'Internal Server Error.'
+    });
+  }
+});
+
+/**
+ * @route /apikey/:apikey_id
+ * @method GET
+ * @description Allows a logged in user to get a single a API Key
+ */
+router.get('/:apikey_id', requireAuth, isSessionValid, async (req, res) => {
+  try {
+    const apiKey = await APIKey.findOne({
+      _id: req.params.apikey_id,
+      user: req.user.id
+    });
+
+    if (!apiKey) {
+      return res.status(404).json({
+        code: 'NOT_FOUND',
+        message: 'APIKey not found.'
+      });
+    }
+
+    res.status(200).json({
+      apiKey
+    });
   } catch (e) {
     console.log(e);
     res.status(500).json({

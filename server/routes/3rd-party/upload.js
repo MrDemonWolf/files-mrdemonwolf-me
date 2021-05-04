@@ -15,7 +15,7 @@ const Upload = require('../../models/Upload');
 /**
  * Load middlewares
  */
-const isSessionValid = require('../../middleware/auth/isSessionValid');
+const isAPIKeyValid = require('../../middleware/isAPIKeyValid');
 
 /**
  * Require authentication middleware.
@@ -36,9 +36,7 @@ const urlFriendyAlphabet =
  * @description Allows a logged in user to upload using a 3rd-party client.
  */
 
-// TODO Make sure to switch to using api keys and not just the nomral JWT auth.
-
-router.post('/', requireAuth, isSessionValid, async (req, res) => {
+router.post('/', requireAuth, isAPIKeyValid, async (req, res) => {
   try {
     const nanoid32 = customAlphabet(urlFriendyAlphabet, 64);
     // TODO add validation file check for mineTypes and fileLimit

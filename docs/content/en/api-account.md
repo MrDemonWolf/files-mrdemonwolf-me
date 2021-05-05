@@ -128,7 +128,6 @@ curl --location --request PUT 'https://www.example.com/api/account/two-factor' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZjdiMmMwYjMwNmI2NTE4MGQyYjAyZGYiLCJpYXQiOjE2MDE5MDg4NjAsImV4cCI6MTYwMTkwOTE2MH0.5fhqZJH_29mpFneOySnAmOQsZj0nI7Su9-zJ1fNQZuM' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'code=123456'
-
 ```
 
   </code-block>

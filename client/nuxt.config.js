@@ -101,7 +101,7 @@ export default {
   },
   proxy: {
     '/api/': {
-      target: process.env.API_URI || 'http://localhost:8080',
+      target: process.env.API_ENDPOINT_URL || 'http://localhost:8080',
       pathRewrite: {
         '^/api/': '/',
       },

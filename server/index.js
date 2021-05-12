@@ -92,6 +92,7 @@ const userRoutes = require('./routes/user');
 const accountRoutes = require('./routes/account');
 const APIKeyRoutes = require('./routes/apiKey');
 const uploadRoutes = require('./routes/upload');
+const statsRoutes = require('./routes/stats');
 const thirdPartyUploadRoutes = require('./routes/3rd-party/upload');
 
 app.use('/auth', authRoutes);
@@ -99,6 +100,7 @@ app.use('/user', userRoutes);
 app.use('/account', accountRoutes);
 app.use('/apikey', APIKeyRoutes);
 app.use('/upload', uploadRoutes);
+app.use('/stats', statsRoutes);
 app.use('/3rd-party/upload', thirdPartyUploadRoutes);
 
 /**

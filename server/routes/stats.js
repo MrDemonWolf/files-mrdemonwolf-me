@@ -32,12 +32,22 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
     const totalLinks = 0;
 
     const totalSpaceUsed = 0;
+    const totalSpaceLeft = 100;
+    const totalSpace = 0;
 
     res.status(200).json({
       stats: {
-        totalUploads,
-        totalLinks,
-        totalSpaceUsed
+        uploads: {
+          total: totalUploads
+        },
+        links: {
+          total: totalLinks
+        },
+        space: {
+          used: totalSpaceUsed,
+          left: totalSpaceLeft,
+          total: totalSpace
+        }
       }
     });
   } catch (err) {

@@ -94,88 +94,36 @@
           class="grid grid-cols-1 gap-5 mt-2 sm:grid-cols-2 lg:grid-cols-3"
           x-max="1"
         >
-          <div class="overflow-hidden bg-white rounded-lg shadow">
-            <div class="p-5">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <fa :icon="['fas', 'file']" class="w-6 h-6 text-gray-400" />
-                </div>
-                <div class="flex-1 w-0 ml-5">
-                  <dl>
-                    <dt class="text-sm font-medium text-gray-500 truncate">
-                      Total Shares
-                    </dt>
-                    <dd>
-                      <div class="text-lg font-medium text-gray-900">420</div>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-            <div class="px-5 py-3 bg-gray-50">
-              <div class="text-sm">
-                <a
-                  href="#"
-                  class="font-medium text-indigo-700 hover:text-indigo-900"
-                >
-                  View all
-                </a>
-              </div>
-            </div>
-          </div>
+          <SharedStatsCard
+            fa-icon-type="fas"
+            fa-icon-name="file"
+            title="Total Shares"
+            :count="stats.uploads.total"
+            :loading-count="loading.stats"
+            :view-all="true"
+            view-all-link="/uploads"
+            view-all-text=" View all"
+          />
 
-          <div class="overflow-hidden bg-white rounded-lg shadow">
-            <div class="p-5">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <fa :icon="['fas', 'link']" class="w-6 h-6 text-gray-400" />
-                </div>
-                <div class="flex-1 w-0 ml-5">
-                  <dl>
-                    <dt class="text-sm font-medium text-gray-500 truncate">
-                      Total Links
-                    </dt>
-                    <dd>
-                      <div class="text-lg font-medium text-gray-900">69</div>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-            <div class="px-5 py-3 bg-gray-50">
-              <div class="text-sm">
-                <a
-                  href="#"
-                  class="font-medium text-indigo-700 hover:text-indigo-900"
-                >
-                  View all
-                </a>
-              </div>
-            </div>
-          </div>
+          <SharedStatsCard
+            fa-icon-type="fas"
+            fa-icon-name="link"
+            title="Total Links"
+            :count="stats.links.total"
+            :loading-count="loading.stats"
+            :view-all="true"
+            view-all-link="/links"
+            view-all-text=" View all"
+          />
 
-          <div class="overflow-hidden bg-white rounded-lg shadow">
-            <div class="p-5">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <fa :icon="['fas', 'hdd']" class="w-6 h-6 text-gray-400" />
-                </div>
-                <div class="flex-1 w-0 ml-5">
-                  <dl>
-                    <dt class="text-sm font-medium text-gray-500 truncate">
-                      Total Space Used
-                    </dt>
-                    <dd>
-                      <div class="text-lg font-medium text-gray-900">
-                        100GB/1TB
-                      </div>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-            <div class="py-5 px-7 bg-gray-50"></div>
-          </div>
+          <SharedStatsCard
+            fa-icon-type="fas"
+            fa-icon-name="link"
+            title="Total Space"
+            :count="stats.space.used"
+            :loading-count="loading.stats"
+            :view-all="false"
+          />
         </div>
       </div>
 
@@ -416,5 +364,51 @@ export default {
   layout: 'dashboard',
 
   middleware: ['auth'],
+
+  data() {
+    return {
+      stats: {
+        uploads: {
+          total: 0,
+        },
+        links: {
+          total: 0,
+        },
+        space: {
+          used: 0,
+          left: 0,
+          total: 0,
+        },
+      },
+      loading: {
+        stats: true,
+      },
+    }
+  },
+
+  mounted() {
+    this.getStats()
+  },
+
+  methods: {
+    async getStats() {
+      try {
+        const res = await this.$axios.$get('/api/stats')
+        this.stats.uploads.total = res.data.stats.uploads.total
+        this.stats.links.total = res.data.stats.links.total
+        this.stats.space.used = res.data.stats.space.used
+        this.stats.space.left = res.data.stats.space.left
+        this.stats.space.total = res.data.stats.space.total
+        this.loading.stats = false
+      } catch (e) {
+        this.loading.stats = false
+      }
+    },
+  },
+  head() {
+    return {
+      title: 'Dashboard',
+    }
+  },
 }
 </script>

@@ -31,7 +31,8 @@
     "nuxt-user-agent": "^1.2.2",
     "portal-vue": "^2.1.7",
     "tailwindcss-border-styles": "^1.0.1",
-    "vue-click-outside": "^1.1.0"
+    "vue-click-outside": "^1.1.0",
+    "vue-content-loader": "^0.2.3"
   },
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.15.3",

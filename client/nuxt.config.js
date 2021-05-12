@@ -24,6 +24,7 @@ export default {
     { src: '~/plugins/filters' },
     { src: '~/plugins/is-empty' },
     { src: '~/plugins/js-sha512' },
+    { src: '~/plugins/vue-content-loader', srr: false },
     { src: '~/plugins/vue-click-outside', srr: false },
   ],
 

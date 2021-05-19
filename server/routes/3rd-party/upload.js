@@ -1,7 +1,6 @@
 const express = require('express');
 const passport = require('passport');
 const path = require('path');
-const moment = require('moment');
 
 const { customAlphabet } = require('nanoid');
 
@@ -79,7 +78,7 @@ router.post('/', requireAuth, isAPIKeyValid, async (req, res) => {
     });
 
     await upload.save();
-    res.status(200).json({
+    res.status(201).json({
       file: {
         name: fileName,
         size,

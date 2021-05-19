@@ -51,7 +51,7 @@ export const actions = {
   },
   async ENABLE_TWO_FACTOR({ commit, dispatch }, code) {
     try {
-      const res = await this.$axios.$put('/api/account/two-factor', {
+      const res = await this.$axios.$patch('/api/account/two-factor', {
         code,
       })
       commit('SET_SHOW_ENABLE_TWO_FACTOR_MODAL', false)

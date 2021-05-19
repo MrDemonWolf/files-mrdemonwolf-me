@@ -93,7 +93,7 @@ router.post('/', requireAuth, isAPIKeyValid, async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }

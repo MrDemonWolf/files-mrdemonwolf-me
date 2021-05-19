@@ -53,7 +53,7 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }

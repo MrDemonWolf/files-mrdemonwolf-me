@@ -105,7 +105,7 @@ router.post('/forgot-password', async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -200,7 +200,7 @@ router.post('/reset-password/:reset_token', async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -241,7 +241,7 @@ router.put('/activate-account/:activate_token', async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -291,7 +291,7 @@ router.post('/activate-account/resend', async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }

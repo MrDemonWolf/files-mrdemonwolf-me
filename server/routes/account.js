@@ -70,7 +70,7 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -94,7 +94,7 @@ router.get('/sessions', requireAuth, isSessionValid, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -126,7 +126,7 @@ router.delete(
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        code: 'INTERNAL_SERVER_ERROR',
+        code: 'SERVER_ERROR',
         error: 'Internal Server Error.'
       });
     }
@@ -149,7 +149,7 @@ router.delete('/sessions', requireAuth, isSessionValid, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -225,7 +225,7 @@ router.post('/change-email', requireAuth, isSessionValid, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -275,7 +275,7 @@ router.post(
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        code: 'INTERNAL_SERVER_ERROR',
+        code: 'SERVER_ERROR',
         error: 'Internal Server Error.'
       });
     }
@@ -323,7 +323,7 @@ router.put(
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        code: 'INTERNAL_SERVER_ERROR',
+        code: 'SERVER_ERROR',
         error: 'Internal Server Error.'
       });
     }
@@ -423,7 +423,7 @@ router.put(
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        code: 'INTERNAL_SERVER_ERROR',
+        code: 'SERVER_ERROR',
         error: 'Internal Server Error.'
       });
     }
@@ -471,7 +471,7 @@ router.put(
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        code: 'INTERNAL_SERVER_ERROR',
+        code: 'SERVER_ERROR',
         error: 'Internal Server Error.'
       });
     }
@@ -508,7 +508,7 @@ router.get(
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        code: 'INTERNAL_SERVER_ERROR',
+        code: 'SERVER_ERROR',
         error: 'Internal Server Error.'
       });
     }
@@ -564,7 +564,7 @@ router.post('/two-factor', requireAuth, isSessionValid, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -624,7 +624,7 @@ router.put('/two-factor', requireAuth, isSessionValid, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -687,7 +687,7 @@ router.delete('/two-factor', requireAuth, isSessionValid, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }

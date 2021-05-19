@@ -45,7 +45,7 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
 
   } catch (e) {
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -114,7 +114,7 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
     });
   } catch (e) {
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }

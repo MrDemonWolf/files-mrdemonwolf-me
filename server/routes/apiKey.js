@@ -42,7 +42,7 @@ router.get('/', requireAuth, isSessionValid, async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -73,7 +73,7 @@ router.get('/:apikey_id', requireAuth, isSessionValid, async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -143,7 +143,7 @@ router.post('/', requireAuth, isSessionValid, async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -178,7 +178,7 @@ router.patch('/:apikey_id', requireAuth, isSessionValid, async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }
@@ -211,7 +211,7 @@ router.delete('/:apikey_id', requireAuth, isSessionValid, async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).json({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'SERVER_ERROR',
       error: 'Internal Server Error.'
     });
   }

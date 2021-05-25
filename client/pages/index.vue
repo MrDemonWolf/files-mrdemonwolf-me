@@ -1,7 +1,6 @@
-,
 <template>
   <div
-    class="relative flex flex-col min-h-screen overflow-hidden bg-gray-200 dark:bg-gray-900"
+    class="relative flex flex-col min-h-screen overflow-hidden bg-gray-200 dark:bg-gray-900/50"
   >
     <div
       class="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full"
